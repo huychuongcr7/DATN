@@ -15,10 +15,17 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Auth::routes();
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/', function () {
+        return redirect()->route('login');
+    });
+    Auth::routes(['reset' => false, 'register' => false]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::group(['middleware' => 'auth', 'as' => 'admin.'], function () {
+        Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
 
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-})->name('dashboard');
+        Route::resource('customers', 'Admin\CustomerController');
+    });
+
+});
+

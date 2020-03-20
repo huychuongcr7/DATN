@@ -18,10 +18,10 @@ Circles.create({
 //Notify
 $.notify({
 	icon: 'flaticon-alarm-1',
-	title: 'Atlantis',
+	title: 'Azzara',
 	message: 'Premium Bootstrap 4 Admin Dashboard',
 },{
-	type: 'secondary',
+	type: 'info',
 	placement: {
 		from: "bottom",
 		align: "right"
@@ -48,7 +48,10 @@ $('#map-example').vectorMap(
 	onRegionClick: function(element, code, region)
 	{
 		return false;
-	}
+	},
+	onResize: function (element, width, height) {
+		console.log('Map Size: ' +  width + 'x' +  height);
+	},
 });
 
 //Chart
@@ -62,9 +65,9 @@ var statisticsChart = new Chart(ctx, {
 		datasets: [ {
 			label: "Subscribers",
 			borderColor: '#f3545d',
-			pointBackgroundColor: 'rgba(243, 84, 93, 0.6)',
+			pointBackgroundColor: 'rgba(243, 84, 93, 0.2)',
 			pointRadius: 0,
-			backgroundColor: 'rgba(243, 84, 93, 0.4)',
+			backgroundColor: 'rgba(243, 84, 93, 0.1)',
 			legendColor: '#f3545d',
 			fill: true,
 			borderWidth: 2,
@@ -72,9 +75,9 @@ var statisticsChart = new Chart(ctx, {
 		}, {
 			label: "New Visitors",
 			borderColor: '#fdaf4b',
-			pointBackgroundColor: 'rgba(253, 175, 75, 0.6)',
+			pointBackgroundColor: 'rgba(253, 175, 75, 0.2)',
 			pointRadius: 0,
-			backgroundColor: 'rgba(253, 175, 75, 0.4)',
+			backgroundColor: 'rgba(253, 175, 75, 0.1)',
 			legendColor: '#fdaf4b',
 			fill: true,
 			borderWidth: 2,
@@ -82,9 +85,9 @@ var statisticsChart = new Chart(ctx, {
 		}, {
 			label: "Active Users",
 			borderColor: '#177dff',
-			pointBackgroundColor: 'rgba(23, 125, 255, 0.6)',
+			pointBackgroundColor: 'rgba(23, 125, 255, 0.2)',
 			pointRadius: 0,
-			backgroundColor: 'rgba(23, 125, 255, 0.4)',
+			backgroundColor: 'rgba(23, 125, 255, 0.1)',
 			legendColor: '#177dff',
 			fill: true,
 			borderWidth: 2,
@@ -107,15 +110,16 @@ var statisticsChart = new Chart(ctx, {
 			caretPadding:10
 		},
 		layout:{
-			padding:{left:5,right:5,top:15,bottom:15}
+			padding:{left:15,right:15,top:15,bottom:15}
 		},
 		scales: {
 			yAxes: [{
 				ticks: {
+					fontColor: "rgba(0,0,0,0.5)",
 					fontStyle: "500",
 					beginAtZero: false,
 					maxTicksLimit: 5,
-					padding: 10
+					padding: 20
 				},
 				gridLines: {
 					drawTicks: false,
@@ -127,7 +131,8 @@ var statisticsChart = new Chart(ctx, {
 					zeroLineColor: "transparent"
 				},
 				ticks: {
-					padding: 10,
+					padding: 20,
+					fontColor: "rgba(0,0,0,0.5)",
 					fontStyle: "500"
 				}
 			}]
@@ -254,7 +259,7 @@ var myTopProductsChart = new Chart(topProductsChart, {
 		"March",
 		"April"],
 		datasets:[ {
-			label: "Sales Analytics", fill: !0, backgroundColor: "rgba(53, 205, 58, 0.2)", borderColor: "#35cd3a", borderCapStyle: "butt", borderDash: [], borderDashOffset: 0, pointBorderColor: "#35cd3a", pointBackgroundColor: "#35cd3a", pointBorderWidth: 1, pointHoverRadius: 5, pointHoverBackgroundColor: "#35cd3a", pointHoverBorderColor: "#35cd3a", pointHoverBorderWidth: 1, pointRadius: 1, pointHitRadius: 5, data: [20, 10, 18, 14, 32, 18, 15, 22, 8, 6, 17, 12, 17, 18, 14, 25, 18, 12, 19, 21, 16, 14, 24, 21, 13, 15, 27, 29, 21, 11, 14, 19, 21, 17]
+			label: "Sales Analytics", fill: !0, backgroundColor: "rgba(53, 205, 58, 0.2)", borderColor: "#35cd3a", borderCapStyle: "butt", borderDash: [], borderDashOffset: 0, pointBorderColor: "#35cd3a", pointBackgroundColor: "#35cd3a", pointBorderWidth: 1, pointHoverRadius: 5, pointHoverBackgroundColor: "#35cd3a", pointHoverBorderColor: "#35cd3a", pointHoverBorderWidth: 1, pointRadius: 1, pointHitRadius: 5, data: [20, 10, 18, 15, 32, 18, 15, 22, 8, 6, 12, 13, 10, 18, 14, 24, 16, 12, 19, 21, 16, 14, 24, 21, 13, 15, 27, 29, 21, 11, 14, 19, 21, 17]
 		}
 		]
 	},

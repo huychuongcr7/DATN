@@ -3,54 +3,18 @@
 // Setting Color
 
 $(window).resize(function() {
-	$(window).width();
+	$(window).width(); 
 });
 
-$('.changeBodyBackgroundFullColor').on('click', function(){
+
+$('.changeMainHeaderColor').on('click', function(){
 	if($(this).attr('data-color') == 'default'){
-		$('body').removeAttr('data-background-full');
+		$('.main-header').removeAttr('data-background-color');
 	} else {
-		$('body').attr('data-background-full', $(this).attr('data-color'));
+		$('.main-header').attr('data-background-color', $(this).attr('data-color'));
 	}
 
-	$(this).parent().find('.changeBodyBackgroundFullColor').removeClass("selected");
-	$(this).addClass("selected");
-	layoutsColors();
-});
-
-$('.changeLogoHeaderColor').on('click', function(){
-	if($(this).attr('data-color') == 'default'){
-		$('.logo-header').removeAttr('data-background-color');
-	} else {
-		$('.logo-header').attr('data-background-color', $(this).attr('data-color'));
-	}
-
-	$(this).parent().find('.changeLogoHeaderColor').removeClass("selected");
-	$(this).addClass("selected");
-	customCheckColor();
-	layoutsColors();
-});
-
-$('.changeTopBarColor').on('click', function(){
-	if($(this).attr('data-color') == 'default'){
-		$('.main-header .navbar-header').removeAttr('data-background-color');
-	} else {
-		$('.main-header .navbar-header').attr('data-background-color', $(this).attr('data-color'));
-	}
-
-	$(this).parent().find('.changeTopBarColor').removeClass("selected");
-	$(this).addClass("selected");
-	layoutsColors();
-});
-
-$('.changeSideBarColor').on('click', function(){
-	if($(this).attr('data-color') == 'default'){
-		$('.sidebar').removeAttr('data-background-color');
-	} else {
-		$('.sidebar').attr('data-background-color', $(this).attr('data-color'));
-	}
-
-	$(this).parent().find('.changeSideBarColor').removeClass("selected");
+	$(this).parent().find('.changeMainHeaderColor').removeClass("selected");
 	$(this).addClass("selected");
 	layoutsColors();
 });
@@ -61,16 +25,6 @@ $('.changeBackgroundColor').on('click', function(){
 	$(this).parent().find('.changeBackgroundColor').removeClass("selected");
 	$(this).addClass("selected");
 });
-
-function customCheckColor(){
-	var logoHeader = $('.logo-header').attr('data-background-color');
-	if (logoHeader !== "white") {
-		$('.logo-header .navbar-brand').attr('src', 'backend/img/logo.svg');
-	} else {
-		$('.logo-header .navbar-brand').attr('src', 'backend/img/logo2.svg');
-	}
-}
-
 
 var toggle_customSidebar = false,
 custom_open = 0;

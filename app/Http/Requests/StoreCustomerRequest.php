@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Http\Requests;
+
+use App\Models\Customer;
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreCustomerRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'name' => sprintf('required|unique:customers,name,%s,id|string|max:64', $this->id ?? NULL),
+            'email' => sprintf('required|unique:customers,email,%s,id|email|max:64', $this->id ?? NULL),
+            'password' => sprintf('%s|string|min:6|max:64', $this->id ? 'nullable' : 'required'),
+            'address' => 'nullable|string|max:255',
+            'date_of_birth' => 'nullable|date_format:Y-m-d',
+            'phone' => 'nullable|string|max:15',
+            'customer_type' => 'required|in:' . implode(',', array_keys(Customer::$types)),
+            'gender' => 'required|in:' . implode(',', array_keys(Customer::$genders)),
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:1024',
+            'facebook_url' => 'nullable|url|max:2048',
+            'note' => 'nullable|max:65535'
+        ];
+    }
+}

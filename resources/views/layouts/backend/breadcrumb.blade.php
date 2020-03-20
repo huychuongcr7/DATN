@@ -1,5 +1,5 @@
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb" style="margin-bottom: 0; margin-top: 63px">
+    <ol class="breadcrumb" style="margin-top: 58px; height: 50px">
         @foreach($items as $index => $item)
             <li class="breadcrumb-item {{ $index == count($items) - 1 ? 'active' : '' }}">
                 @if(isset($item['url']))

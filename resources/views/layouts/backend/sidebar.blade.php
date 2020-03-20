@@ -1,15 +1,14 @@
-<!-- Sidebar -->
-<div class="sidebar sidebar-style-2" data-background-color="dark2">
-    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+<div class="sidebar" data-background-color="dark">
+    <div class="sidebar-wrapper scrollbar-inner">
         <div class="sidebar-content">
             <div class="user">
-                <div class="avatar float-left mr-2 avatar-online">
+                <div class="avatar-sm float-left mr-2">
                     <img src="{{ asset('backend/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle">
                 </div>
                 <div class="info">
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span>
-                            Huy Chương
+                            {{ Auth::user()->name }}
                             <span class="user-level">Quản trị viên</span>
                             <span class="caret"></span>
                         </span>
@@ -37,9 +36,9 @@
                     </div>
                 </div>
             </div>
-            <ul class="nav nav-primary">
+            <ul class="nav">
                 <li class="nav-item">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('admin.dashboard') }}">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>
@@ -110,7 +109,7 @@
                     <div class="collapse" id="forms">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="#">
+                                <a href="{{ route('admin.customers.index') }}">
                                     <span class="sub-item">Khách hàng</span>
                                 </a>
                             </li>
@@ -214,4 +213,3 @@
         </div>
     </div>
 </div>
-<!-- End Sidebar -->
