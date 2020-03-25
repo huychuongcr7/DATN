@@ -7,10 +7,6 @@
         'items' => [
             [
                 'text' => 'Trang chủ',
-                'url' => route('admin.dashboard')
-            ],
-            [
-                'text' => 'Dashboard',
             ],
         ]
     ])

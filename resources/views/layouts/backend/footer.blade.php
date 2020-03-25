@@ -1,7 +1,7 @@
 <footer class="footer">
     <div class="container-fluid">
         <div>
-            <a href="">POS Admin</a>
+            <a href="">CR7 STORE Admin</a>
             <span>© 2020 HuyChuongCR7</span>
         </div>
         <div class="copyright ml-auto">

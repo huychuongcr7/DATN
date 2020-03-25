@@ -23,14 +23,21 @@
 @section('content')
     <div class="content">
         <div class="page-inner">
-            <form id="validation" method="POST" action="{{ route('admin.customers.update', $customer->id) }}" enctype="multipart/form-data">
-                <div class="card-body">
-                    <input type="hidden" value="{{ $customer->id }}" name="id">
-                    @csrf
-                    @method('PUT')
-                    @include('admin.customers.form')
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><b>@yield('title')</b></div>
+                        </div>
+                        <form id="validation" method="POST" action="{{ route('admin.customers.update', $customer->id) }}" enctype="multipart/form-data">
+                            <input type="hidden" value="{{ $customer->id }}" name="id">
+                            @csrf
+                            @method('PUT')
+                            @include('admin.customers.form')
+                        </form>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -56,28 +63,6 @@
             fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New'],
             tabsize: 2,
             height: 300
-        });
-
-        $("#validation").validate({
-            validClass: "success",
-            rules: {
-                // gender: {required: true},
-                // confirmpassword: {
-                //     equalTo: "#password"
-                // },
-                // date_of_birth: {
-                //     date: true
-                // },
-                // uploadImg: {
-                //     required: true,
-                // },
-            },
-            highlight: function (element) {
-                $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-            },
-            success: function (element) {
-                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-            },
         });
     </script>
 @endsection

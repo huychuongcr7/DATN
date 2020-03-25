@@ -67,40 +67,4 @@ class Customer extends Authenticatable
         self::MALE => 'Nam',
         self::FEMALE => 'Nữ'
     ];
-
-    public function createCustomer($request)
-    {
-        $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
-
-        if (isset($input['avatar'])) {
-            $image = $input['avatar'];
-            $name = uniqid();
-            $folder = self::FOLDER;
-            $filePath = $folder . $name . '.' . $image->getClientOriginalExtension();
-            $this->uploadOne($image, $folder, 'public', $name);
-            $input['avatar'] = $filePath;
-        }
-        return $this->create($input);
-
-    }
-
-    public function updateCustomer($request)
-    {
-        $input = $request->all();
-        if (isset($input['password'])) {
-            $input['password'] = bcrypt($input['password']);
-        } else {
-            unset($input['password']);
-        }
-        if (isset($input['avatar'])) {
-            $image = $input['avatar'];
-            $name = uniqid();
-            $folder = self::FOLDER;
-            $filePath = $folder . $name . '.' . $image->getClientOriginalExtension();
-            $this->uploadOne($image, $folder, 'public', $name);
-            $input['avatar'] = $filePath;
-        }
-        return $this->find($request->id)->update($input);
-    }
 }

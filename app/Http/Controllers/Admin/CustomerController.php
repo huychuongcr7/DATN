@@ -4,15 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreCustomerRequest;
 use App\Models\Customer;
+use App\Services\CustomerServiceInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CustomerController extends Controller
 {
-    protected $customer;
-    public function __construct(Customer $customer)
+    protected $customerService;
+    public function __construct(CustomerServiceInterface $customerService)
     {
-        $this->customer = $customer;
+        $this->customerService = $customerService;
     }
 
     /**
@@ -46,7 +47,7 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request)
     {
-        $this->customer->createCustomer($request);
+        $this->customerService->createCustomer($request->all());
         flash('Thêm mới khách hàng thành công!')->success();
         return redirect()->route('admin.customers.index');
     }
@@ -59,7 +60,8 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        //
+        $customer = Customer::findOrFail($id);
+        return view('admin.customers.show', compact('customer'));
     }
 
     /**
@@ -83,9 +85,9 @@ class CustomerController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreCustomerRequest $request)
+    public function update(StoreCustomerRequest $request, int $id)
     {
-        $this->customer->updateCustomer($request);
+        $this->customerService->updateCustomer($request->all(), $id);
         flash('Cập nhật khách hàng thành công!')->success();
         return redirect()->route('admin.customers.index');
     }
