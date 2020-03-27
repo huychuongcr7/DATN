@@ -33,16 +33,11 @@
                     <li>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Thông tin</a>
-                        <a class="dropdown-item" href="#">Inbox</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Cài đặt tài khoản</a>
-                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                             {{ __('Đăng xuất') }}
-                        </a>
-
+                        </a>                        <div class="dropdown-divider"></div>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>

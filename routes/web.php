@@ -25,6 +25,12 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
 
         Route::resource('customers', 'Admin\CustomerController');
+
+        Route::resource('products', 'Admin\ProductController');
+        Route::get('export', 'Admin\ProductController@export')->name('products.export');
+        Route::post('import', 'Admin\ProductController@import')->name('products.import');
+        Route::post('products/{id}/stop_products', 'Admin\ProductController@stop')->name('products.stop');
+        Route::post('products/{id}/active_products', 'Admin\ProductController@active')->name('products.active');
     });
 
 });
