@@ -22,7 +22,7 @@
 
     </div> <!-- .site-wrap -->
 
-    <a href="#" class="gototop"><span class="icon-angle-double-up"></span></a>
+    <a href="javascript:void(0);" class="gototop"><span class="icon-angle-double-up"></span></a>
 
     <script src="{{ asset('frontend/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery-ui.js') }}"></script>

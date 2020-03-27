@@ -52,7 +52,7 @@
                     <div class="collapse" id="base">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="#">
+                                <a href="{{ route('admin.products.index') }}">
                                     <span class="sub-item">Danh mục</span>
                                 </a>
                             </li>

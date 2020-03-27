@@ -54,6 +54,7 @@
 
     <div class="main-panel">
         @yield('breadcrumb')
+        @yield('alert')
         <div>
             @include('flash::message')
         </div>

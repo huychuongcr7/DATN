@@ -17,6 +17,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\CustomerServiceInterface::class,
             \App\Services\CustomerService::class
         );
+        $this->app->singleton(
+            \App\Services\ProductServiceInterface::class,
+            \App\Services\ProductService::class
+        );
     }
 
     /**
