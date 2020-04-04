@@ -31,6 +31,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('import', 'Admin\ProductController@import')->name('products.import');
         Route::post('products/{id}/stop_products', 'Admin\ProductController@stop')->name('products.stop');
         Route::post('products/{id}/active_products', 'Admin\ProductController@active')->name('products.active');
+
+        Route::resource('suppliers', 'Admin\SupplierController');
+        Route::post('suppliers/{id}/stop_suppliers', 'Admin\SupplierController@stop')->name('suppliers.stop_suppliers');
+        Route::post('suppliers/{id}/active_suppliers', 'Admin\SupplierController@active')->name('suppliers.active_suppliers');
     });
 
 });

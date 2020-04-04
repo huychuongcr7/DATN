@@ -7,7 +7,7 @@ use App\Models\Product;
 use App\Models\Trademark;
 use Faker\Generator as Faker;
 
-$autoIncrement = autoIncrement();
+$autoIncrement = autoIncrementProduct();
 $factory->define(Product::class, function (Faker $faker) use ($autoIncrement) {
     $autoIncrement->next();
     $sale_price = $faker->numberBetween($min = 1000, $max = 10000000);
@@ -28,7 +28,7 @@ $factory->define(Product::class, function (Faker $faker) use ($autoIncrement) {
     ];
 });
 
-function autoIncrement()
+function autoIncrementProduct()
 {
     for ($i = 'SP00000'; $i < 1000; $i++) {
         yield $i;
