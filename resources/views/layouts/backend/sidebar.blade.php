@@ -114,7 +114,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="{{ route('admin.suppliers.index') }}">
                                     <span class="sub-item">Nhà cung cấp</span>
                                 </a>
                             </li>
