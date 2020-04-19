@@ -33,7 +33,7 @@ class StoreSupplierRequest extends FormRequest
             'phone' => 'nullable|string|max:15',
             'company' => 'nullable|string|max:255',
             'tax_code' => 'nullable|digits_between:0,10',
-            'note' => 'nullable|max:65535',
+            'note' => 'nullable|max:65535'
         ];
     }
 

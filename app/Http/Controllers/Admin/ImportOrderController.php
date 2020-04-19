@@ -4,13 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreImportOrderRequest;
 use App\Models\ImportOrder;
-use App\Models\ImportOrderProduct;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Services\ImportOrderServiceInterface;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
 
 class ImportOrderController extends Controller
 {
