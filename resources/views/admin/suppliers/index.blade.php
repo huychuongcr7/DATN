@@ -39,9 +39,9 @@
                                         <th>Mã NCC</th>
                                         <th>Tên NCC</th>
                                         <th>Email</th>
-                                        <th>Địa chỉ</th>
+                                        <th>Nợ cần trả</th>
                                         <th>Trạng thái</th>
-                                        <th>Hành động</th>
+                                        <th width="20%">Hành động</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -50,7 +50,7 @@
                                             <td>{{ $supplier->supplier_code }}</td>
                                             <td><a href="{{ route('admin.suppliers.show', $supplier->id) }}">{{ $supplier->name }}</a></td>
                                             <td>{{ $supplier->email }}</td>
-                                            <td>{{ $supplier->address }}</td>
+                                            <td>{{ App\Helper\Helper::formatMoney($supplier->supplier_debt) }} VNĐ</td>
                                             <td>{{ \App\Models\Supplier::$statuses[$supplier->status] }}</td>
                                             <td>
                                                 <div class="form-button-action">
@@ -63,6 +63,9 @@
                                                     <button type="button" data-toggle="modal" data-target="{{ '#stopModal' . $key }}" class="btn btn-link @if ($supplier->status == 1)btn-danger @else btn-primary @endif">
                                                         <i class="fas @if ($supplier->status == 1)fa-lock @else fa-lock-open @endif"></i>
                                                     </button>
+                                                    <a href="{{ route('admin.suppliers.payment', $supplier->id) }}" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Thanh toán">
+                                                        <i class="fa fa-credit-card"></i>
+                                                    </a>
                                                     <!-- Modal sale -->
                                                     <div class="modal fade" id="{{ 'stopModal' . $key }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
@@ -88,7 +91,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <!-- Modal -->
+                                                    <!-- Modal delete -->
                                                     <div class="modal fade" id="{{ 'deleteModal' . $key }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">

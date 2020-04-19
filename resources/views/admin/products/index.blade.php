@@ -72,8 +72,8 @@
                                                     <img src="{{ asset('storage'.$product->image_url) }}" class="img-upload-preview" width="100" height="100" alt="preview">
                                                 @endif
                                             </td>
-                                            <td>{{ $product->sale_price }}</td>
-                                            <td>{{ $product->entry_price }}</td>
+                                            <td>{{ App\Helper\Helper::formatMoney($product->sale_price) }} VNĐ</td>
+                                            <td>{{ App\Helper\Helper::formatMoney($product->entry_price) }} VNĐ</td>
                                             <td>{{ $product->inventory }}</td>
                                             <td>
                                                 <div class="form-button-action">

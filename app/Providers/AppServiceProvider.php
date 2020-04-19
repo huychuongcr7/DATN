@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,14 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\ProductServiceInterface::class,
             \App\Services\ProductService::class
         );
+        $this->app->singleton(
+            \App\Services\ImportOrderServiceInterface::class,
+            \App\Services\ImportOrderService::class
+        );
+        $this->app->singleton(
+            \App\Services\SupplierServiceInterface::class,
+            \App\Services\SupplierService::class
+        );
     }
 
     /**
@@ -30,6 +39,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        App::bind('Helper', function() {
+            return new \App\Helper\Helper;
+        });
     }
 }

@@ -83,7 +83,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="{{ route('admin.import_orders.index') }}">
                                     <span class="sub-item">Nhập hàng</span>
                                 </a>
                             </li>

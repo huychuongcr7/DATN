@@ -20,6 +20,7 @@ class CreateSuppliersTable extends Migration
             $table->string('email', 64)->unique()->nullable();
             $table->string('address')->nullable();
             $table->string('phone', 15)->nullable();
+            $table->integer('supplier_debt')->default(0);
             $table->unsignedTinyInteger('status');
             $table->string('company')->nullable();
             $table->bigInteger('tax_code')->nullable();

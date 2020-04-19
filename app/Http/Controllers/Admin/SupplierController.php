@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\PaymentSupplierRequest;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Models\Supplier;
+use App\Services\SupplierServiceInterface;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\View\View;
 
 class SupplierController extends Controller
 {
     protected $supplier;
-    public function __construct(Supplier $supplier)
+    protected $supplierService;
+    public function __construct(Supplier $supplier, SupplierServiceInterface $supplierService)
     {
         $this->supplier = $supplier;
+        $this->supplierService = $supplierService;
     }
     /**
      * Display a listing of the resource.
@@ -126,5 +131,30 @@ class SupplierController extends Controller
         $supplier->status = 1;
         $supplier->save();
         return redirect()->back();
+    }
+
+    /**
+     * get view payment
+     *
+     * @param $id
+     * @return Factory|View
+     */
+    public function getPayment($id) {
+        $supplier = Supplier::findOrFail($id);
+        $importOrders = $supplier->importOrders()->get();
+        return view('admin.suppliers.payment', compact('supplier', 'importOrders'));
+    }
+
+    /**
+     * payment supplier
+     *
+     * @param PaymentSupplierRequest $request
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function putPayment(PaymentSupplierRequest $request, int $id) {
+        $this->supplierService->paymentSupplier($request->all(), $id);
+        flash('Thanh toán cho nhà cung cấp thành công!')->success();
+        return redirect()->route('admin.suppliers.index');
     }
 }

@@ -82,7 +82,7 @@
     <div class="form-group row">
         <label class="col-lg-3"></label>
         <div class="col-lg-6">
-            <a class="btn btn-default" href="{{ route('admin.customers.index') }}">
+            <a class="btn btn-default" href="{{ route('admin.suppliers.index') }}">
                 <span class="btn-label">
                     <i class="fas fa-times"></i>
                 </span>Hủy
