@@ -66,11 +66,11 @@
                                 </tr>
                                 <tr>
                                     <th>Giá bán</th>
-                                    <td>{{ $product->sale_price }}</td>
+                                    <td>{{ App\Helper\Helper::formatMoney($product->sale_price) }} VNĐ</td>
                                 </tr>
                                 <tr>
                                     <th>Giá gốc</th>
-                                    <td>{{ $product->entry_price }}</td>
+                                    <td>{{ App\Helper\Helper::formatMoney($product->entry_price) }} VNĐ</td>
                                 </tr>
                                 <tr>
                                     <th>Tồn kho</th>

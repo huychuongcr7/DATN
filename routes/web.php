@@ -35,6 +35,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('suppliers', 'Admin\SupplierController');
         Route::post('suppliers/{id}/stop_suppliers', 'Admin\SupplierController@stop')->name('suppliers.stop_suppliers');
         Route::post('suppliers/{id}/active_suppliers', 'Admin\SupplierController@active')->name('suppliers.active_suppliers');
+        Route::get('suppliers/{id}/payment', 'Admin\SupplierController@getPayment')->name('suppliers.payment');
+        Route::put('suppliers/{id}/put_payment', 'Admin\SupplierController@putPayment')->name('suppliers.put_payment');
+
+        Route::resource('import_orders', 'Admin\ImportOrderController');
     });
 
 });
