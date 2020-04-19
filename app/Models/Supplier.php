@@ -25,6 +25,7 @@ class Supplier extends Model
         'email',
         'address',
         'phone',
+        'supplier_debt',
         'status',
         'company',
         'tax_code',
@@ -58,5 +59,12 @@ class Supplier extends Model
     {
         $supplier = Supplier::findOrFail($id);
         $supplier->update($params);
+    }
+
+    /**
+     * Get the import order
+     */
+    public function importOrders() {
+        return $this->hasMany('App\Models\ImportOrder');
     }
 }

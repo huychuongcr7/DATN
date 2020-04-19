@@ -57,6 +57,10 @@
                                     <td>{{ $supplier->phone }}</td>
                                 </tr>
                                 <tr>
+                                    <th>Nợ cần trả</th>
+                                    <td>{{ App\Helper\Helper::formatMoney($supplier->supplier_debt) }} VNĐ</td>
+                                </tr>
+                                <tr>
                                     <th>Trạng thái</th>
                                     <td>{{ \App\Models\Supplier::$statuses[$supplier->status] }}</td>
                                 </tr>
@@ -102,6 +106,13 @@
                                             <i class="fas @if ($supplier->status == 1)fa-lock @else fa-lock-open @endif"></i>
                                         </span>@if ($supplier->status == 1)Ngừng hoạt động @else Hoạt động @endif
                                     </button>
+                                    <a class="btn btn-primary" href="{{ route('admin.suppliers.payment', $supplier->id) }}">
+                                        <span class="btn-label">
+                                            <i class="far fa-credit-card"></i>
+                                        </span>Thanh toán
+                                    </a>
+
+
                                     <!-- Modal sale -->
                                     <div class="modal fade" id="saleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -112,13 +123,13 @@
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <div class="modal-body">
-                                                    Bạn có chắc muốn @if ($supplier->status == 1)ngừng hoạt đông @else hoạt động trở lại @endif với nhà cung cấp này không?
+                                                <div class="modal-body">Bạn có chắc muốn @if ($supplier->status == 1)ngừng hoạt đông @else hoạt động trở lại @endif với nhà cung cấp này không?
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng
-                                                    </button>
-                                                    <form method="POST" @if ($supplier->status == 1)action="{{ route('admin.suppliers.stop_suppliers', $supplier->id) }}" @else action="{{ route('admin.suppliers.active_suppliers', $supplier->id) }}" @endif>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                                    <form method="POST"
+                                                          @if ($supplier->status == 1)action="{{ route('admin.suppliers.stop_suppliers', $supplier->id) }}"
+                                                          @else action="{{ route('admin.suppliers.active_suppliers', $supplier->id) }}" @endif>
                                                         @csrf
                                                         <button class="btn btn-danger" type="submit">Xác nhận</button>
                                                     </form>
