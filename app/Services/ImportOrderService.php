@@ -22,7 +22,7 @@ class ImportOrderService implements ImportOrderServiceInterface
         \DB::beginTransaction();
 
         if (!isset($params['import_order_code'])) {
-            $last = ImportOrder::orderBy('import_order_code', 'desc')->first();
+            $last = ImportOrder::orderBy('import_order_code', 'desc')->withTrashed()->first();
             $import_order_code = isset($last->import_order_code) ? $last->import_order_code : 'NH000000';
             $import_order_code++;
             $params['import_order_code'] = $import_order_code;

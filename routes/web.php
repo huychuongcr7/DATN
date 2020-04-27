@@ -25,6 +25,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
 
         Route::resource('customers', 'Admin\CustomerController');
+        Route::post('customers/{id}/stop_customers', 'Admin\CustomerController@stop')->name('customers.stop_customers');
+        Route::post('customers/{id}/active_customers', 'Admin\CustomerController@active')->name('customers.active_customers');
+        Route::get('customers/{id}/payment', 'Admin\CustomerController@getPayment')->name('customers.payment');
+        Route::put('customers/{id}/put_payment', 'Admin\CustomerController@putPayment')->name('customers.put_payment');
 
         Route::resource('products', 'Admin\ProductController');
         Route::get('export', 'Admin\ProductController@export')->name('products.export');
@@ -39,6 +43,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::put('suppliers/{id}/put_payment', 'Admin\SupplierController@putPayment')->name('suppliers.put_payment');
 
         Route::resource('import_orders', 'Admin\ImportOrderController');
+
+        Route::resource('bills', 'Admin\BillController');
     });
 
 });

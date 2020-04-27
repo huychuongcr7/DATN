@@ -65,6 +65,14 @@
                                     <td>{{ $customer->phone }}</td>
                                 </tr>
                                 <tr>
+                                    <th>Nợ cần thu</th>
+                                    <td>{{ App\Helper\Helper::formatMoney($customer->customer_debt) }} VNĐ</td>
+                                </tr>
+                                <tr>
+                                    <th>Trạng thái</th>
+                                    <td>{{ \App\Models\Customer::$statuses[$customer->status] }}</td>
+                                </tr>
+                                <tr>
                                     <th>Loại khách hàng</th>
                                     <td>{{ \App\Models\Customer::$types[$customer->customer_type] }}</td>
                                 </tr>
@@ -105,6 +113,42 @@
                                             <i class="fas fa-edit"></i>
                                         </span>Cập nhật
                                     </a>
+                                    <button type="button" data-toggle="modal" data-target="#saleModal" class="btn @if ($customer->status == 1)btn-danger @else btn-primary @endif">
+                                        <span class="btn-label">
+                                            <i class="fas @if ($customer->status == 1)fa-lock @else fa-lock-open @endif"></i>
+                                        </span>@if ($customer->status == 1)Ngừng hoạt động @else Hoạt động @endif
+                                    </button>
+                                    <a class="btn btn-primary" href="{{ route('admin.customers.payment', $customer->id) }}">
+                                        <span class="btn-label">
+                                            <i class="far fa-credit-card"></i>
+                                        </span>Thanh toán
+                                    </a>
+
+                                    <!-- Modal sale -->
+                                    <div class="modal fade" id="saleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Xác nhận</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">Bạn có chắc muốn @if ($customer->status == 1)ngừng hoạt đông @else hoạt động trở lại @endif với khách hàng này không?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                                    <form method="POST"
+                                                          @if ($customer->status == 1)action="{{ route('admin.customers.stop_customers', $customer->id) }}"
+                                                          @else action="{{ route('admin.customers.active_customers', $customer->id) }}" @endif>
+                                                        @csrf
+                                                        <button class="btn btn-danger" type="submit">Xác nhận</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

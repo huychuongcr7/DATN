@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ImportOrder extends Model
+class Bill extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'import_orders';
+    protected $table = 'bills';
 
     /**
      * The attributes that are mass assignable.
@@ -17,17 +17,17 @@ class ImportOrder extends Model
      * @var array
      */
     protected $fillable = [
-        'import_order_code',
-        'supplier_id',
+        'bill_code',
+        'customer_id',
         'user_id',
         'total_money',
-        'paid_to_supplier',
-        'time_of_import',
+        'paid_by_customer',
+        'time_of_sale',
         'note',
     ];
 
     protected $dates = [
-        'time_of_import',
+        'time_of_sale',
         'created_at',
         'updated_at',
         'deleted_at'
@@ -38,24 +38,24 @@ class ImportOrder extends Model
      */
     public function products()
     {
-        return $this->belongsToMany('App\Models\Product', 'import_order_product', 'import_order_id', 'product_id')
-            ->withPivot('quantity', 'unit_price');
+        return $this->belongsToMany('App\Models\Product', 'bill_product', 'bill_id', 'product_id')
+            ->withPivot('quantity');
     }
 
     /**
-     * Get the import order products
+     * Get the bill products
      */
-    public function importOrderProducts()
+    public function billProducts()
     {
-        return $this->hasMany('App\Models\ImportOrderProduct');
+        return $this->hasMany('App\Models\BillProduct');
     }
 
     /**
-     * Get the supplier
+     * Get the customer
      */
-    public function supplier()
+    public function customer()
     {
-        return $this->belongsTo('App\Models\Supplier');
+        return $this->belongsTo('App\Models\Customer');
     }
 
     /**

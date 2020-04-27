@@ -40,7 +40,7 @@
                                         <th>Tên</th>
                                         <th>Avatar</th>
                                         <th>Email</th>
-                                        <th>Ngày sinh</th>
+                                        <th>Nợ cần thu</th>
                                         <th>Loại khách hàng</th>
                                         <th>Hành động</th>
                                     </tr>
@@ -56,7 +56,7 @@
                                                 @endif
                                             </td>
                                             <td>{{ $customer->email }}</td>
-                                            <td>{{ $customer->date_of_birth }}</td>
+                                            <td>{{ App\Helper\Helper::formatMoney($customer->customer_debt) }} VNĐ</td>
                                             <td>{{ \App\Models\Customer::$types[$customer->customer_type] }}</td>
                                             <td>
                                                 <div class="form-button-action">
@@ -66,6 +66,37 @@
                                                     <button type="button" data-toggle="modal" data-target="{{ '#deleteModal' . $key }}" class="btn btn-link btn-danger" data-original-title="Xóa">
                                                         <i class="fa fa-times"></i>
                                                     </button>
+                                                    <button type="button" data-toggle="modal" data-target="{{ '#stopModal' . $key }}" class="btn btn-link @if ($customer->status == 1)btn-danger @else btn-primary @endif">
+                                                        <i class="fas @if ($customer->status == 1)fa-lock @else fa-lock-open @endif"></i>
+                                                    </button>
+                                                    <a href="{{ route('admin.customers.payment', $customer->id) }}" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Thanh toán">
+                                                        <i class="fa fa-credit-card"></i>
+                                                    </a>
+
+                                                    <!-- Modal sale -->
+                                                    <div class="modal fade" id="{{ 'stopModal' . $key }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Xác nhận</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Bạn có chắc muốn @if ($customer->status == 1)ngừng hoạt động @else hoạt động trở lại @endif với khách hàng này không?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng
+                                                                    </button>
+                                                                    <form method="POST" @if ($customer->status == 1)action="{{ route('admin.customers.stop_customers', $customer->id) }}" @else action="{{ route('admin.customers.active_customers', $customer->id) }}" @endif>
+                                                                        @csrf
+                                                                        <button class="btn @if ($customer->status == 1)btn-danger @else btn-success @endif" type="submit">Xác nhận</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="{{ 'deleteModal' . $key }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

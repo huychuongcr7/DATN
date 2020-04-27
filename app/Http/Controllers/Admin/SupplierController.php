@@ -114,8 +114,9 @@ class SupplierController extends Controller
     public function stop($id)
     {
         $supplier = Supplier::find($id);
-        $supplier->status = 2;
-        $supplier->save();
+        $supplier->update([
+            'status' => 2
+        ]);
         return redirect()->back();
     }
 
@@ -128,8 +129,9 @@ class SupplierController extends Controller
     public function active($id)
     {
         $supplier = Supplier::find($id);
-        $supplier->status = 1;
-        $supplier->save();
+        $supplier->update([
+            'status' => 1
+        ]);
         return redirect()->back();
     }
 

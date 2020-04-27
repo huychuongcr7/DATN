@@ -30,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\SupplierServiceInterface::class,
             \App\Services\SupplierService::class
         );
+        $this->app->singleton(
+            \App\Services\BillServiceInterface::class,
+            \App\Services\BillService::class
+        );
     }
 
     /**
