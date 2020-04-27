@@ -63,4 +63,29 @@ class CustomerService implements CustomerServiceInterface
 
         \DB::commit();
     }
+
+    /**
+     * payment customer
+     *
+     * @param array $params
+     * @param int $id
+     */
+    public function paymentCustomer(array $params, int $id)
+    {
+        \DB::beginTransaction();
+
+        $customer = Customer::findOrFail($id);
+        $customer->update([
+            'customer_debt' => $customer->customer_debt - $params['total_payment']
+        ]);
+
+        foreach ($params['bills'] as $value) {
+            $bill = $customer->bills()->findOrFail($value['id']);
+            $bill->update([
+                'paid_by_customer' => $bill->paid_by_customer + $value['paid_by_customer']
+            ]);
+        }
+
+        \DB::commit();
+    }
 }

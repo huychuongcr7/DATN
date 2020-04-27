@@ -78,7 +78,7 @@
                     <div class="collapse" id="sidebarLayouts">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="#">
+                                <a href="{{ route('admin.bills.index') }}">
                                     <span class="sub-item">Hóa đơn</span>
                                 </a>
                             </li>

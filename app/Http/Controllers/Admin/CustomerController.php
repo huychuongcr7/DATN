@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\PaymentCustomerRequest;
+use App\Http\Requests\PaymentSupplierRequest;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Models\Customer;
+use App\Models\Supplier;
 use App\Services\CustomerServiceInterface;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\View\View;
 
 class CustomerController extends Controller
 {
@@ -102,6 +108,61 @@ class CustomerController extends Controller
     {
         Customer::find($id)->delete();
         flash('Xóa khách hàng thành công!')->success();
+        return redirect()->route('admin.customers.index');
+    }
+
+    /**
+     * stop customer
+     *
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function stop($id)
+    {
+        $customer = Customer::find($id);
+        $customer->update([
+            'status' => 2
+        ]);
+        return redirect()->back();
+    }
+
+    /**
+     * active supplier
+     *
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function active($id)
+    {
+        $customer = Customer::find($id);
+        $customer->update([
+            'status' => 1
+        ]);
+        return redirect()->back();
+    }
+
+    /**
+     * get view payment
+     *
+     * @param $id
+     * @return Factory|View
+     */
+    public function getPayment($id) {
+        $customer = Customer::findOrFail($id);
+        $bills = $customer->bills()->get();
+        return view('admin.customers.payment', compact('customer', 'bills'));
+    }
+
+    /**
+     * payment supplier
+     *
+     * @param PaymentCustomerRequest $request
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function putPayment(PaymentCustomerRequest $request, int $id) {
+        $this->customerService->paymentCustomer($request->all(), $id);
+        flash('Thanh toán cho khách hàng cấp thành công!')->success();
         return redirect()->route('admin.customers.index');
     }
 }

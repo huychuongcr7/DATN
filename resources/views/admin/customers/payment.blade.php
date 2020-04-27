@@ -1,6 +1,6 @@
 @extends('layouts.backend.admin')
 
-@section('title', 'Thanh toán Nhà cung cấp')
+@section('title', 'Thanh toán Khách hàng')
 
 @section('breadcrumb')
     @include('layouts.backend.breadcrumb', [
@@ -10,11 +10,11 @@
                 'url' => route('admin.dashboard')
             ],
             [
-            'text' => 'Quản lý Nhà cung cấp',
-            'url' => route('admin.suppliers.index')
+            'text' => 'Quản lý Khách hàng',
+            'url' => route('admin.customers.index')
             ],
             [
-                'text' => 'Thanh toán Nhà cung cấp',
+                'text' => 'Thanh toán Khách hàng',
             ],
         ]
     ])
@@ -30,19 +30,19 @@
                             <div class="card-title"><b>@yield('title')</b></div>
                         </div>
                         <form id="validation" method="post"
-                              action="{{ route('admin.suppliers.put_payment', $supplier->id) }}"
+                              action="{{ route('admin.customers.put_payment', $customer->id) }}"
                               enctype="multipart/form-data">
-                            <input type="hidden" value="{{ $supplier->id }}" name="id">
+                            <input type="hidden" value="{{ $customer->id }}" name="id">
                             @csrf
                             @method('PUT')
                             <div class="card-body">
                                 <div id="app">
-                                    <payment-supplier-component
-                                        all-import-orders="{{ json_encode($importOrders) }}"
-                                        suppliers="{{ json_encode($supplier) }}"
+                                    <payment-customer-component
+                                        all-bills="{{ json_encode($bills) }}"
+                                        customers="{{ json_encode($customer) }}"
                                         sv-errors="{{ json_encode($errors->messages()) }}"
                                         old-total-payment="{{ json_encode(old('total_payment')) }}"
-                                    ></payment-supplier-component>
+                                    ></payment-customer-component>
                                 </div>
                                 <script src="/js/app.js"></script>
                             </div>
@@ -51,7 +51,7 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3"></label>
                                     <div class="col-lg-6">
-                                        <a class="btn btn-default" href="{{ route('admin.suppliers.index') }}">
+                                        <a class="btn btn-default" href="{{ route('admin.customers.index') }}">
                                             <span class="btn-label">
                                                 <i class="fas fa-times"></i>
                                             </span>Hủy

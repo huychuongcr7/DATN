@@ -21,6 +21,9 @@ class Customer extends Authenticatable
     const MALE = 1;
     const FEMALE = 2;
 
+    const STATUS_ACTIVE = 1;
+    const STATUS_STOP = 2;
+
     const FOLDER = '/images/customers/';
 
     /**
@@ -35,6 +38,8 @@ class Customer extends Authenticatable
         'address',
         'date_of_birth',
         'phone',
+        'customer_debt',
+        'status',
         'customer_type',
         'gender',
         'avatar',
@@ -67,4 +72,16 @@ class Customer extends Authenticatable
         self::MALE => 'Nam',
         self::FEMALE => 'Nữ'
     ];
+
+    public static $statuses = [
+        self::STATUS_ACTIVE => 'Hoạt động',
+        self::STATUS_STOP => 'Ngừng hoạt động'
+    ];
+
+    /**
+     * Get the bill
+     */
+    public function bills() {
+        return $this->hasMany('App\Models\Bill');
+    }
 }
