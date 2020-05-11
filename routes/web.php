@@ -11,41 +11,51 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::namespace('Admin')->group(function () {
+    Route::group(['prefix' => 'admin'], function () {
+        Route::get('/', function () {
+            return redirect()->route('login');
+        });
+        Auth::routes(['reset' => false, 'register' => false]);
 
-Route::group(['prefix' => 'admin'], function () {
-    Route::get('/', function () {
-        return redirect()->route('login');
+        Route::group(['middleware' => 'auth', 'as' => 'admin.'], function () {
+            Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+
+            Route::resource('customers', 'CustomerController');
+            Route::post('customers/{id}/stop_customers', 'CustomerController@stop')->name('customers.stop_customers');
+            Route::post('customers/{id}/active_customers', 'CustomerController@active')->name('customers.active_customers');
+            Route::get('customers/{id}/payment', 'CustomerController@getPayment')->name('customers.payment');
+            Route::put('customers/{id}/put_payment', 'CustomerController@putPayment')->name('customers.put_payment');
+
+            Route::resource('products', 'ProductController');
+            Route::get('export', 'ProductController@export')->name('products.export');
+            Route::post('import', 'ProductController@import')->name('products.import');
+            Route::post('products/{id}/stop_products', 'ProductController@stop')->name('products.stop');
+            Route::post('products/{id}/active_products', 'ProductController@active')->name('products.active');
+
+            Route::resource('suppliers', 'SupplierController');
+            Route::post('suppliers/{id}/stop_suppliers', 'SupplierController@stop')->name('suppliers.stop_suppliers');
+            Route::post('suppliers/{id}/active_suppliers', 'SupplierController@active')->name('suppliers.active_suppliers');
+            Route::get('suppliers/{id}/payment', 'SupplierController@getPayment')->name('suppliers.payment');
+            Route::put('suppliers/{id}/put_payment', 'SupplierController@putPayment')->name('suppliers.put_payment');
+
+            Route::resource('import_orders', 'ImportOrderController');
+
+            Route::resource('bills', 'BillController');
+        });
+
     });
-    Auth::routes(['reset' => false, 'register' => false]);
-
-    Route::group(['middleware' => 'auth', 'as' => 'admin.'], function () {
-        Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
-
-        Route::resource('customers', 'Admin\CustomerController');
-        Route::post('customers/{id}/stop_customers', 'Admin\CustomerController@stop')->name('customers.stop_customers');
-        Route::post('customers/{id}/active_customers', 'Admin\CustomerController@active')->name('customers.active_customers');
-        Route::get('customers/{id}/payment', 'Admin\CustomerController@getPayment')->name('customers.payment');
-        Route::put('customers/{id}/put_payment', 'Admin\CustomerController@putPayment')->name('customers.put_payment');
-
-        Route::resource('products', 'Admin\ProductController');
-        Route::get('export', 'Admin\ProductController@export')->name('products.export');
-        Route::post('import', 'Admin\ProductController@import')->name('products.import');
-        Route::post('products/{id}/stop_products', 'Admin\ProductController@stop')->name('products.stop');
-        Route::post('products/{id}/active_products', 'Admin\ProductController@active')->name('products.active');
-
-        Route::resource('suppliers', 'Admin\SupplierController');
-        Route::post('suppliers/{id}/stop_suppliers', 'Admin\SupplierController@stop')->name('suppliers.stop_suppliers');
-        Route::post('suppliers/{id}/active_suppliers', 'Admin\SupplierController@active')->name('suppliers.active_suppliers');
-        Route::get('suppliers/{id}/payment', 'Admin\SupplierController@getPayment')->name('suppliers.payment');
-        Route::put('suppliers/{id}/put_payment', 'Admin\SupplierController@putPayment')->name('suppliers.put_payment');
-
-        Route::resource('import_orders', 'Admin\ImportOrderController');
-
-        Route::resource('bills', 'Admin\BillController');
-    });
-
 });
 
+Route::namespace('Customer')->group(function () {
+    Route::group(['prefix' => '/customer'], function() {
+        Route::get('/login', 'LoginController@showLoginForm');
+        Route::post('/login', 'LoginController@login')->name('customer.login');
+        Route::post('/logout','LoginController@logout')->name('customer.logout');
+        Route::group(['middleware' => ['auth:customer']], function () {
+            Route::get('/', 'CustomerController@index')->name('customer.dashboard');
+        });
+    });
+});
+
+Route::get('/', 'Customer\HomeController@index')->name('welcome');
