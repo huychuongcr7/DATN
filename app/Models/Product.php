@@ -10,6 +10,7 @@ class Product extends Model
     use SoftDeletes;
 
     protected $table = 'products';
+    protected $perPage = 6;
 
     const STATUS_ACTIVE = 1;
     const STATUS_STOP = 2;
@@ -17,7 +18,7 @@ class Product extends Model
     const TYPE_SALE = 1;
     const TYPE_NO_SALE = 2;
 
-    const FOLDER = '/images/customers/';
+    const FOLDER = '/images/products/';
 
     /**
      * The attributes that are mass assignable.
@@ -67,5 +68,18 @@ class Product extends Model
     public function trademark()
     {
         return $this->belongsTo('App\Models\Trademark');
+    }
+
+    public function getProducts(array $request)
+    {
+        $builder = $this->query();
+        if (isset($request['order_by_price'])) {
+            if ($request['order_by_price'] == 'asc') {
+                $builder->orderBy('sale_price');
+            } elseif ($request['order_by_price'] == 'desc') {
+                $builder->orderByDesc('sale_price');
+            }
+        }
+        return $builder->paginate();
     }
 }

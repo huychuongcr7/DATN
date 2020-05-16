@@ -36,6 +36,8 @@
     <script src="{{ asset('frontend/js/jquery.fancybox.min.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery.sticky.js') }}"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
+    <script src="{{ asset('backend/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
 
+    @yield('inline_scripts')
 </body>
 </html>

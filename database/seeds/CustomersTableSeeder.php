@@ -16,6 +16,13 @@ class CustomersTableSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
 
         Customer::truncate();
+        Customer::create([
+            'name' => 'Customer',
+            'email' => 'customer@gmail.com',
+            'password' => bcrypt('123456'),
+            'status' => array_rand(Customer::$statuses),
+            'gender' => array_rand(Customer::$genders),
+        ]);
         factory(Customer::class, 50)->create();
 
         Schema::enableForeignKeyConstraints();

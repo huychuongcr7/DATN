@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBillsTable extends Migration
+class CreateCartsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,14 @@ class CreateBillsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bills', function (Blueprint $table) {
+        Schema::create('carts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('bill_code', 10)->unique();
             $table->unsignedInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-            $table->unsignedInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('total_money');
-            $table->integer('paid_by_customer');
-            $table->dateTime('time_of_sale');
-            $table->text('note')->nullable();
+            $table->unsignedInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->integer('quantity');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -36,6 +31,6 @@ class CreateBillsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bills');
+        Schema::dropIfExists('carts');
     }
 }
