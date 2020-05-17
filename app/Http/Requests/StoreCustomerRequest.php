@@ -24,6 +24,7 @@ class StoreCustomerRequest extends FormRequest
      */
     public function rules()
     {
+//        dd($this->request);
         return [
             'name' => sprintf('required|unique:customers,name,%s,id|string|max:64', $this->id ?? NULL),
             'email' => sprintf('required|unique:customers,email,%s,id|unique:users,email|email|max:64', $this->id ?? NULL),
@@ -32,8 +33,8 @@ class StoreCustomerRequest extends FormRequest
             'address' => 'nullable|string|max:255',
             'date_of_birth' => 'nullable|date_format:Y-m-d',
             'phone' => 'nullable|string|max:15',
-            'customer_type' => 'required|in:' . implode(',', array_keys(Customer::$types)),
-            'gender' => 'required|in:' . implode(',', array_keys(Customer::$genders)),
+            'customer_type' => 'nullable|in:' . implode(',', array_keys(Customer::$types)),
+            'gender' => 'nullable|in:' . implode(',', array_keys(Customer::$genders)),
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:1024',
             'facebook_url' => 'nullable|url|max:2048',
             'note' => 'nullable|max:65535'

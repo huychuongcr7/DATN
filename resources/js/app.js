@@ -24,6 +24,7 @@ Vue.component('import-order-form', require('./components/ImportOrderForm.vue').d
 Vue.component('payment-supplier-component', require('./components/PaymentSupplierComponent.vue').default);
 Vue.component('bill-form', require('./components/BillForm.vue').default);
 Vue.component('payment-customer-component', require('./components/PaymentCustomerComponent.vue').default);
+Vue.component('cart-form', require('./components/CartForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

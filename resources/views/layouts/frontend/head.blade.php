@@ -28,4 +28,7 @@
 
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
 
+    <!-- Start of  Zendesk Widget script -->
+    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=b0d9d1b8-0118-4d38-90cb-204250f79638"> </script>
+    <!-- End of  Zendesk Widget script -->
 </head>

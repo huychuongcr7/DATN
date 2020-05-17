@@ -6,7 +6,7 @@ Author URL: http://free-template.co.
 License: https://creativecommons.org/licenses/by/3.0/
 License URL: https://creativecommons.org/licenses/by/3.0/
 Site License URL: https://free-template.co/template-license/
-  
+
 Website:  https://free-template.co
 Facebook: https://www.facebook.com/FreeDashTemplate.co
 Twitter:  https://twitter.com/Free_Templateco
@@ -569,7 +569,7 @@ h1, h2, h3, h4, h5,
     .sticky-wrapper .site-navbar .site-logo a {
       color: #fff; }
     .sticky-wrapper .site-navbar ul li a {
-      color: rgba(255, 255, 255, 0.7); }
+      color: #000; }
       .sticky-wrapper .site-navbar ul li a:hover {
         color: #fff; }
       .sticky-wrapper .site-navbar ul li a.active {

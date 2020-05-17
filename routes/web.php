@@ -48,14 +48,19 @@ Route::namespace('Admin')->group(function () {
 });
 
 Route::namespace('Customer')->group(function () {
-    Route::group(['prefix' => '/customer'], function() {
+    Route::get('', 'HomeController@index')->name('welcome');
+    Route::resource('products', 'ProductController');
+    Route::group(['prefix' => '/customer'], function () {
         Route::get('/login', 'LoginController@showLoginForm');
         Route::post('/login', 'LoginController@login')->name('customer.login');
-        Route::post('/logout','LoginController@logout')->name('customer.logout');
+        Route::post('/logout', 'LoginController@logout')->name('customer.logout');
         Route::group(['middleware' => ['auth:customer']], function () {
-            Route::get('/', 'CustomerController@index')->name('customer.dashboard');
+            Route::resource('customers', 'CustomerController')->only(['index', 'update']);
+            Route::get('customers/{id}/get_reset', 'CustomerController@getReset')->name('customers.get_reset');
+            Route::put('customers/{id}/put_reset', 'CustomerController@putReset')->name('customers.put_reset');
+            Route::get('customers/bill', 'CustomerController@getBill')->name('customers.get_bill');
+            Route::post('customers/bill/create', 'CustomerController@storeBill')->name('customers.store_bill');
+            Route::resource('customers/carts', 'CartController')->only(['index', 'store', 'destroy']);
         });
     });
 });
-
-Route::get('/', 'Customer\HomeController@index')->name('welcome');

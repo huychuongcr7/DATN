@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Bill;
 use App\Models\BillProduct;
+use App\Models\Cart;
 use App\Models\Customer;
 use App\Models\Product;
 use Carbon\Carbon;
@@ -148,6 +149,39 @@ class BillService implements BillServiceInterface
                 'inventory' => $product->inventory + $quantityOld,
             ]);
         }
+
+        \DB::commit();
+    }
+
+    public function createBillCustomer(array $params)
+    {
+        \DB::beginTransaction();
+
+
+        $last = Bill::orderBy('bill_code', 'desc')->withTrashed()->first();
+        $bill_code = isset($last->bill_code) ? $last->bill_code : 'HD000000';
+        $bill_code++;
+        $params['bill_code'] = $bill_code;
+
+        $params['time_of_sale'] = now()->format('Y-m-d H:i:s');
+        $params['customer_id'] = Auth::user()->id;
+        $params['paid_by_customer'] = $params['total_money'];
+
+        $bill = Bill::create($params);
+
+        foreach ($params['carts'] as $value) {
+            $bill->billProducts()->create([
+                'bill_id' => $bill['id'],
+                'product_id' => $value['product_id'],
+                'quantity' => $value['quantity'],
+            ]);
+            $product = Product::findOrFail($value['product_id']);
+            $product->update([
+                'inventory' => $product->inventory - $value['quantity'],
+            ]);
+        }
+
+        Cart::where('customer_id', $params['customer_id'])->delete();
 
         \DB::commit();
     }

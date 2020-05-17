@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('product_code', 10)->unique();
             $table->string('qr_code', 64)->nullable();
             $table->string('name', 64)->unique();
-            $table->string('image_url')->nullable();
+            $table->string('image_url')->default('/images/products/product1.jpg');
             $table->unsignedInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->unsignedInteger('trademark_id')->nullable();
