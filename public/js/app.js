@@ -2156,6 +2156,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["allProducts", "indexUrl", "deleteUrl", "href"],
   created: function created() {
@@ -38815,6 +38817,20 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
+            product.image_url
+              ? _c("td", [
+                  _c("img", {
+                    staticClass: "img-upload-preview",
+                    attrs: {
+                      src: "/storage" + product.image_url,
+                      width: "100",
+                      height: "100",
+                      alt: "preview"
+                    }
+                  })
+                ])
+              : _vm._e(),
+            _vm._v(" "),
             _c("td", [
               _vm._v(_vm._s(_vm.formatMoney(product.sale_price)) + " VNĐ")
             ]),
@@ -38898,10 +38914,14 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [
+          _c("label", { staticClass: "text-black" }, [_vm._v("Hình ảnh")])
+        ]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [
           _c("label", { staticClass: "text-black" }, [_vm._v("Đơn giá")])
         ]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col", width: "20%" } }, [
+        _c("th", { attrs: { scope: "col", width: "15%" } }, [
           _c("label", { staticClass: "text-black" }, [_vm._v("Số lượng")])
         ]),
         _vm._v(" "),
