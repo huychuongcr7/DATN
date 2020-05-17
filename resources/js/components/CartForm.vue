@@ -5,8 +5,9 @@
             <tr>
                 <th scope="col"><label class="text-black">STT</label></th>
                 <th scope="col"><label class="text-black">Tên sản phẩm</label></th>
+                <th scope="col"><label class="text-black">Hình ảnh</label></th>
                 <th scope="col"><label class="text-black">Đơn giá</label></th>
-                <th scope="col" width="20%"><label class="text-black">Số lượng</label></th>
+                <th scope="col" width="15%"><label class="text-black">Số lượng</label></th>
                 <th scope="col"><label class="text-black">Số tiền</label></th>
                 <th scope="col"><a><label class="text-black">Thao tác</label></a></th>
             </tr>
@@ -19,6 +20,7 @@
                 <td>
                     <a :href="href.replace('%id%', product.id)" class="text-center my-3">{{ product.name }}</a>
                 </td>
+                <td v-if="product.image_url"><img :src="`/storage${product.image_url}`" class="img-upload-preview" width="100" height="100" alt="preview"></td>
                 <td>{{ formatMoney(product.sale_price) }} VNĐ</td>
                 <td>
                     <input type="number" class="form-control" :name="`carts[${index}][quantity]`" v-model="product.quantity">

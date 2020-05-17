@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <a href="#property-details" class="smoothscroll arrow-down"><span class="icon-arrow_downward"></span></a>
+        <a href="#properties-section" class="smoothscroll arrow-down"><span class="icon-arrow_downward"></span></a>
     </div>
 
     <div class="site-section" id="properties-section">
@@ -25,13 +25,13 @@
         </div>
         <div class="container">
             @if($products)
-                <form method="post" action="{{ route('bill.store') }}">
+                <form method="post" action="{{ route('customers.store_bill') }}">
                     @csrf
                     <div id="app">
                         <cart-form
                             all-products="{{ json_encode($products) }}"
-                            index-url="{{ route('cart.index') }}"
-                            delete-url="{{ route('cart.destroy', '%productId') }}"
+                            index-url="{{ route('carts.index') }}"
+                            delete-url="{{ route('carts.destroy', '%productId') }}"
                             href="{{ route('products.show', ['id' => '%id%']) }}"
                         ></cart-form>
                     </div>

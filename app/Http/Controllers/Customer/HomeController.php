@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Customer;
 
-use App\Models\Cart;
 use App\Models\Post;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller

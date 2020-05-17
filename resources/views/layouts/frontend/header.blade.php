@@ -11,7 +11,7 @@
                 <nav class="site-navigation position-relative text-left" role="navigation">
 
                     <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                        <li><a href="{{ route('welcome') }}" class="nav-link active">Trang chủ</a></li>
+                        <li><a href="{{ route('welcome') }}" class="nav-link">Trang chủ</a></li>
                         <li><a href="{{ route('products.index') }}" class="nav-link">Sản phẩm</a></li>
                         <li><a href="#" class="nav-link">Dịch vụ</a></li>
                         <li><a href="#" class="nav-link">Tin tức</a></li>
@@ -29,8 +29,8 @@
                                     <i class="icon icon-user"></i> {{ Auth::guard('customer')->user()->name }}
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="{{ route('customer.dashboard') }}">Tài khoản</a>
-                                    <a class="dropdown-item" href="#">Đơn hàng</a>
+                                    <a class="dropdown-item" href="{{ route('customers.index') }}">Tài khoản</a>
+                                    <a class="dropdown-item" href="{{ route('customers.get_bill') }}">Đơn hàng</a>
                                     <a class="dropdown-item" href="{{ route('customer.logout') }}"
                                        onclick="event.preventDefault();
                                        document.getElementById('logout-form').submit();">Đăng xuất <i class="icon icon-sign-out"></i></a>
@@ -41,7 +41,7 @@
                             </div>
                         </li>
                         <li>
-                            <a class="btn btn-default" href="{{ route('cart.index') }}">
+                            <a class="btn btn-default" href="{{ route('carts.index') }}">
                                 <i class="icon-shopping-cart"></i> Giỏ hàng
                                 @php($countCart = App\Models\Cart::where('customer_id', '=', Auth::guard('customer')->user()->id)->get()->count())
                                 <span class="badge badge-light">{{ $countCart }}</span>
@@ -50,7 +50,7 @@
                         @else
                             <li><a href="{{ route('customer.login') }}" class="nav-link"><i class="icon icon-sign-out"></i> Đăng nhập</a></li>
                             <li>
-                                <a class="btn btn-default" href="{{ route('cart.index') }}">
+                                <a class="btn btn-default" href="{{ route('carts.index') }}">
                                     <i class="icon-shopping-cart"></i> Giỏ hàng
                                 </a>
                             </li>

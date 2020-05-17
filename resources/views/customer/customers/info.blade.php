@@ -15,50 +15,87 @@
 
     <div class="site-section" id="info">
         <div class="container">
-            <div class="form-group row">
-                <label for="name" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right text-black">Tên</label>
-                <div class="col-lg-6 col-md-9 col-sm-8">
-                    <input type="text" class="form-control" id="name" name="name" value="{{ $customer->name }}">
+            @include('flash::message')
+
+            <div class="row">
+                <div class="col-md-3 sidebar">
+                    <div class="sidebar-box">
+                        <div class="categories">
+                            <h3>Tài khoản</h3>
+                            <li><a href="{{ route('customers.index') }}">Thông tin</a></li>
+                            <li><a href="{{ route('customers.get_bill') }}">Đơn hàng</a></li>
+                            <li><a href="{{ route('customers.get_reset', $customer->id) }}">Đổi mật khẩu</a></li>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label for="email" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right text-black">Email</label>
-                <div class="col-lg-6 col-md-9 col-sm-8">
-                    <input type="text" class="form-control" id="email" name="email" value="{{ $customer->email }}">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="date_of_birth" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right text-black">Ngày sinh</label>
-                <div class="col-lg-6 col-md-9 col-sm-8">
-                    <input type="text" data-provide="datepicker" class="form-control" id="date_of_birth" name="date_of_birth" value="{{ $customer->date_of_birth }}">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="address" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right text-black">Địa chỉ</label>
-                <div class="col-lg-6 col-md-9 col-sm-8">
-                    <input type="text" class="form-control" id="address" name="address" value="{{ $customer->address }}">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="phone" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right text-black">Điện thoại</label>
-                <div class="col-lg-6 col-md-9 col-sm-8">
-                    <input type="text" class="form-control" id="phone" name="phone" value="{{ $customer->phone }}">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right text-black">Avatar</label>
-                <div class="col-lg-6 col-md-9 col-sm-8">
-                    <div class="input-file input-file-image">
-                        <img id="preview" class="img-upload-preview" width="150" height="150" src="{{ isset($customer->avatar) ? asset('storage'.$customer->avatar) : 'http://placehold.it/150x150' }}" alt="preview">
-                        <input type="file" class="form-control form-control-file" id="avatar" name="avatar" accept="image/*" style="display: none">
-                        <label for="avatar" class="label-input-file btn btn-primary btn-round">
-                            <span class="btn-label">
-                                <i class="icon-image"></i>
-                            </span>Chọn ảnh
-                        </label>
+
+                <div class="col-md-8 blog-content">
+                    <div class="comment-form-wrap">
+                        <h3 class="mb-5">Thông tin tài khoản</h3>
+                        <form method="POST" action="{{ route('customers.update', $customer->id) }}" enctype="multipart/form-data" class="p-5 bg-light">
+                            <input type="hidden" value="{{ $customer->id }}" name="id">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-group">
+                                <label for="name" @error('name') class="text-danger" @enderror>Tên</label>
+                                <input type="text" class="form-control @error('name')ui-state-error @enderror" id="name" name="name" value="{{ old('name', isset($customer->name) ? $customer->name : null) }}">
+                                @error('name')
+                                <label class="text-danger">{{ $message }}</label>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="email" @error('email') class="text-danger" @enderror>Email</label>
+                                <input type="text" class="form-control @error('email')ui-state-error @enderror" id="email" name="email" value="{{ old('email', isset($customer->email) ? $customer->email : null) }}">
+                                @error('email')
+                                <label class="text-danger">{{ $message }}</label>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="date_of_birth" @error('date_of_birth') class="text-danger" @enderror>Ngày sinh</label>
+                                <input type="text" data-provide="datepicker" class="form-control @error('date_of_birth')ui-state-error @enderror" id="date_of_birth" name="date_of_birth" value="{{ old('date_of_birth', isset($customer->date_of_birth) ? $customer->date_of_birth : null) }}">
+                                @error('date_of_birth')
+                                <label class="text-danger">{{ $message }}</label>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address" @error('address') class="text-danger" @enderror>Địa chỉ</label>
+                                <input type="text" class="form-control @error('address')ui-state-error @enderror" id="address" name="address" value="{{ old('address', isset($customer->address) ? $customer->address : null) }}">
+                                @error('address')
+                                <label class="text-danger">{{ $message }}</label>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" @error('phone') class="text-danger" @enderror>Điện thoại</label>
+                                <input type="text" class="form-control @error('phone')ui-state-error @enderror" id="phone" name="phone" value="{{ old('phone', isset($customer->phone) ? $customer->phone : null) }}">
+                                @error('phone')
+                                <label class="text-danger">{{ $message }}</label>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="avatar" @error('avatar') class="text-danger" @enderror>Avatar</label>
+                                <div class="input-file input-file-image">
+                                    <img id="preview" class="img-upload-preview" width="150" height="150" src="{{ isset($customer->avatar) ? asset('storage'.$customer->avatar) : 'http://placehold.it/150x150' }}" alt="preview">
+                                    <input type="file" class="form-control form-control-file" id="avatar" name="avatar" accept="image/*" style="display: none">
+                                    @error('avatar')
+                                    <label class="error">{{ $message }}</label>
+                                    @enderror
+                                    <label for="avatar" class="label-input-file btn btn-danger">
+                                        <span class="btn-label">
+                                            <i class="icon-image"></i>
+                                        </span>Chọn ảnh
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 50px">
+                                <input type="submit" value="Lưu" class="btn btn-primary">
+                            </div>
+
+                        </form>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 

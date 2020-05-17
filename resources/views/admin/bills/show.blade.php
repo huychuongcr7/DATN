@@ -46,7 +46,7 @@
                                 </tr>
                                 <tr>
                                     <th>Người bán hàng</th>
-                                    <td>{{ $bill->user->name }}</td>
+                                    <td>@if (isset($bill->user_id)){{ $bill->user->name }} @endif</td>
                                 </tr>
                                 <tr>
                                     <th>Tổng tiền hang</th>

@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-lg-7 pl-lg-5 ml-auto">
                     <div class="mb-5">
-                        <form method="post" action="{{ route('cart.store') }}">
+                        <form method="post" action="{{ route('carts.store') }}">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <h3 class="text-black mb-4">{{ $product->name }}</h3>

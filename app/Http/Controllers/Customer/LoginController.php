@@ -26,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/customer';
+    protected $redirectTo = '/customer/customers';
 
     /**
      * Create a new controller instance.
@@ -65,7 +65,7 @@ class LoginController extends Controller
         }
 
         if (Auth::guard('customer')->attempt($input, $request->remember)) {
-            return redirect()->intended(Route('customer.dashboard'));
+            return redirect()->intended(Route('customers.index'));
         }
 
         return redirect()->back()->withInput($request->only('email','remember'))
