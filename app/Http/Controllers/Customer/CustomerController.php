@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Requests\StoreBillCustomerRequest;
+use App\Http\Requests\StoreBillRequest;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Models\Bill;
 use App\Models\BillProduct;
+use App\Models\Cart;
 use App\Models\Customer;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
@@ -14,6 +17,7 @@ use App\Services\CustomerServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CustomerController extends Controller
 {
@@ -46,7 +50,7 @@ class CustomerController extends Controller
     public function update(StoreCustomerRequest $request, int $id)
     {
         $this->customerService->updateCustomer($request->all(), $id);
-        flash('Cập nhật tài khoản thành công!')->success();
+        Alert::success('Thành công', 'Cập nhật tài khoản thành công!');
         return redirect()->route('customers.index');
     }
 
@@ -67,7 +71,7 @@ class CustomerController extends Controller
         $customer->update([
             'password' => Hash::make($request['password_new'])
         ]);
-        flash('Thay đổi mật khẩu thành công!')->success();
+        Alert::success('Thành công', 'Thay đổi mật khẩu thành công!');
         return redirect()->route('customers.index');
     }
 
@@ -88,14 +92,36 @@ class CustomerController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createBill()
+    {
+        $carts = Cart::where('customer_id', '=', Auth::user()->id)->pluck('quantity', 'product_id')->toArray();
+        $products = Product::whereIn('id', array_keys($carts))->get()->toArray();
+        $products = array_map(function ($product) use ($carts){
+            $product['quantity'] = $carts[$product['id']];
+            return $product;
+        }, $products);
+        $customer = Customer::findOrFail(Auth::id());
+        $totalMoney = 0;
+        foreach ($products as $product) {
+            $totalMoney = $totalMoney + $product['quantity']*$product['sale_price'];
+        }
+        return view('customer.customers.order_product', compact('products', 'customer', 'totalMoney'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function storeBill(Request $request)
+    public function storeBill(StoreBillCustomerRequest $request)
     {
         $this->billService->createBillCustomer($request->all());
+        Alert::success('Thành công', 'Thanh toán thành công!');
         return redirect()->route('welcome');
     }
 }

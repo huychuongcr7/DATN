@@ -2156,8 +2156,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["allProducts", "indexUrl", "deleteUrl", "href"],
+  props: ["allProducts", "deleteUrl", "href", "updateUrl", "createBill", "welcome"],
   created: function created() {
     this.products = JSON.parse(this.allProducts) || [];
   },
@@ -2177,17 +2198,30 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     deleteProduct: function deleteProduct(product, index) {
-      var _this = this;
-
-      axios["delete"](this.deleteUrl.replace('%productId', product.id)).then(function (response) {
-        window.location.href = _this.indexUrl;
-      })["catch"](function (err) {
+      this.products.splice(index, 1);
+      axios["delete"](this.deleteUrl.replace('%productId', product.id)).then(function (response) {})["catch"](function (err) {
         console.log(err);
       });
     },
     formatMoney: function formatMoney(value) {
       var val = (value / 1).toFixed(0).replace('.', ',');
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
+    minusProduct: function minusProduct(product) {
+      product.quantity--;
+      axios.put(this.updateUrl.replace('%productId', product.id), {
+        quantity: product.quantity
+      }).then(function (response) {})["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    plusProduct: function plusProduct(product) {
+      product.quantity++;
+      axios.put(this.updateUrl.replace('%productId', product.id), {
+        quantity: product.quantity
+      }).then(function (response) {})["catch"](function (err) {
+        console.log(err);
+      });
     }
   }
 });
@@ -38766,120 +38800,199 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("table", { staticClass: "table table-bordered" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.products, function(product, index) {
-          return _c("tr", { key: index }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: product.id,
-                  expression: "product.id"
-                }
-              ],
-              attrs: {
-                type: "hidden",
-                name: "carts[" + index + "][product_id]"
-              },
-              domProps: { value: product.id },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(product, "id", $event.target.value)
-                }
-              }
-            }),
+    _vm.products.length > 0
+      ? _c("div", [
+          _c("table", { staticClass: "table table-bordered" }, [
+            _vm._m(0),
             _vm._v(" "),
-            _c("input", {
-              attrs: { type: "hidden", name: "total_money" },
-              domProps: { value: _vm.totalMoney }
-            }),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(index + 1))]),
-            _vm._v(" "),
-            _c("td", [
-              _c(
-                "a",
-                {
-                  staticClass: "text-center my-3",
-                  attrs: { href: _vm.href.replace("%id%", product.id) }
-                },
-                [_vm._v(_vm._s(product.name))]
-              )
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _vm._v(_vm._s(_vm.formatMoney(product.sale_price)) + " VNĐ")
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: product.quantity,
-                    expression: "product.quantity"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "number",
-                  name: "carts[" + index + "][quantity]"
-                },
-                domProps: { value: product.quantity },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+            _c(
+              "tbody",
+              _vm._l(_vm.products, function(product, index) {
+                return _c("tr", { key: index }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: product.id,
+                        expression: "product.id"
+                      }
+                    ],
+                    attrs: {
+                      type: "hidden",
+                      name: "carts[" + index + "][product_id]"
+                    },
+                    domProps: { value: product.id },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(product, "id", $event.target.value)
+                      }
                     }
-                    _vm.$set(product, "quantity", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _vm._v(
-                _vm._s(_vm.formatMoney(product.sale_price * product.quantity)) +
-                  " VNĐ"
-              )
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-danger",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      return _vm.deleteProduct(product, index)
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "icon-trash" })]
-              )
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: { type: "hidden", name: "total_money" },
+                    domProps: { value: _vm.totalMoney }
+                  }),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(index + 1))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "text-center my-3",
+                        attrs: { href: _vm.href.replace("%id%", product.id) }
+                      },
+                      [_vm._v(_vm._s(product.name))]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  product.image_url
+                    ? _c("td", [
+                        _c("img", {
+                          staticClass: "img-upload-preview",
+                          attrs: {
+                            src: "/storage" + product.image_url,
+                            width: "100",
+                            height: "100",
+                            alt: "preview"
+                          }
+                        })
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(_vm._s(_vm.formatMoney(product.sale_price)) + " VNĐ")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("div", { staticClass: "input-group" }, [
+                      _c("span", { staticClass: "input-group-btn" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-outline-dark",
+                            staticStyle: {
+                              "padding-left": "20px",
+                              "padding-right": "20px",
+                              "padding-bottom": "8px"
+                            },
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.minusProduct(product)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "icon-minus" })]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: product.quantity,
+                            expression: "product.quantity"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "number",
+                          name: "carts[" + index + "][quantity]"
+                        },
+                        domProps: { value: product.quantity },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(product, "quantity", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "input-group-btn" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-outline-dark",
+                            staticStyle: {
+                              "padding-left": "20px",
+                              "padding-right": "20px",
+                              "padding-bottom": "8px"
+                            },
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.plusProduct(product)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "icon-plus" })]
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(
+                        _vm.formatMoney(product.sale_price * product.quantity)
+                      ) + " VNĐ"
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteProduct(product, index)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "icon-trash" })]
+                    )
+                  ])
+                ])
+              }),
+              0
+            )
+          ]),
+          _vm._v(" "),
+          _c("h3", { staticClass: "text-black" }, [
+            _vm._v("Tổng tiền: "),
+            _c("span", { staticClass: "text-danger" }, [
+              _vm._v(_vm._s(_vm.formatMoney(_vm.totalMoney)) + " VNĐ")
             ])
-          ])
-        }),
-        0
-      )
-    ]),
-    _vm._v(" "),
-    _c("h3", { staticClass: "text-black" }, [
-      _vm._v("Tổng tiền: "),
-      _c("span", { staticClass: "text-danger" }, [
-        _vm._v(_vm._s(_vm.formatMoney(_vm.totalMoney)) + " VNĐ")
-      ])
-    ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "a",
+            { staticClass: "btn btn-primary", attrs: { href: _vm.createBill } },
+            [_vm._v("Thanh toán")]
+          )
+        ])
+      : _c("div", { staticClass: "text-center" }, [
+          _c("h3", { staticClass: "text-black" }, [
+            _vm._v("Không có sản phẩm nào trong giỏ hàng")
+          ]),
+          _vm._v(" "),
+          _c(
+            "a",
+            { staticClass: "btn btn-primary", attrs: { href: _vm.welcome } },
+            [_vm._v(" Mua ngay")]
+          )
+        ])
   ])
 }
 var staticRenderFns = [
@@ -38895,6 +39008,10 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [
           _c("label", { staticClass: "text-black" }, [_vm._v("Tên sản phẩm")])
+        ]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [
+          _c("label", { staticClass: "text-black" }, [_vm._v("Hình ảnh")])
         ]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [

@@ -2,7 +2,7 @@
 @section('title', 'Thông tin tài khoản')
 
 @section('content')
-    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(/frontend/images/hero_1.jpg);" data-aos="fade">
+    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(/frontend/images/slider-1.jpg);" data-aos="fade">
         <div class="container">
             <div class="row align-items-center justify-content-center">
                 <div class="col-md-5 mx-auto mt-lg-5 text-center">
@@ -15,8 +15,6 @@
 
     <div class="site-section" id="info">
         <div class="container">
-            @include('flash::message')
-
             <div class="row">
                 <div class="col-md-3 sidebar">
                     <div class="sidebar-box">

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BillProduct extends Model
 {
@@ -19,4 +20,14 @@ class BillProduct extends Model
         'product_id',
         'quantity',
     ];
+
+    /**
+     * relation to product
+     *
+     * @return BelongsTo
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

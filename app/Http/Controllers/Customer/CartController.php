@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Customer;
 
 use App\Models\Cart;
 use App\Models\Product;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CartController extends Controller
 {
@@ -43,8 +45,27 @@ class CartController extends Controller
                 'quantity' => $cart->quantity + $request['quantity']
             ]);
         }
+        Alert::success('Thành công', 'Sản phẩm đã được thêm vào giỏ hàng!');
 
         return redirect()->back();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        if ($request['quantity'] == 0) {
+            Cart::where('product_id', '=', $id)->where('customer_id', '=', Auth::id())->delete();
+        }
+        Cart::where('product_id', '=', $id)->where('customer_id', '=', Auth::id())->update([
+            'quantity' => $request['quantity']
+        ]);
+        return response([], 204);
     }
 
     /**

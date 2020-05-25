@@ -23,6 +23,8 @@ class CreateBillsTable extends Migration
             $table->integer('total_money');
             $table->integer('paid_by_customer');
             $table->dateTime('time_of_sale');
+            $table->unsignedTinyInteger('status');
+            $table->string('address_receive');
             $table->text('note')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -14,8 +14,8 @@
                         <li><a href="{{ route('welcome') }}" class="nav-link">Trang chủ</a></li>
                         <li><a href="{{ route('products.index') }}" class="nav-link">Sản phẩm</a></li>
                         <li><a href="#" class="nav-link">Dịch vụ</a></li>
-                        <li><a href="#" class="nav-link">Tin tức</a></li>
-                        <li><a href="#" class="nav-link">Liên hệ</a></li>
+                        <li><a href="{{ route('posts.index') }}" class="nav-link">Tin tức</a></li>
+                        <li><a href="{{ route('contacts.create') }}" class="nav-link">Liên hệ</a></li>
                     </ul>
                 </nav>
             </div>
@@ -43,7 +43,7 @@
                         <li>
                             <a class="btn btn-default" href="{{ route('carts.index') }}">
                                 <i class="icon-shopping-cart"></i> Giỏ hàng
-                                @php($countCart = App\Models\Cart::where('customer_id', '=', Auth::guard('customer')->user()->id)->get()->count())
+                                @php($countCart = App\Models\Cart::where('customer_id', '=', Auth::guard('customer')->user()->id)->get()->sum('quantity'))
                                 <span class="badge badge-light">{{ $countCart }}</span>
                             </a>
                         </li>

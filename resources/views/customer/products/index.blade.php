@@ -2,7 +2,7 @@
 @section('title', 'Danh sách sản phẩm')
 
 @section('content')
-    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(/frontend/images/hero_1.jpg);" data-aos="fade">
+    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(/frontend/images/slider-1.jpg);" data-aos="fade">
         <div class="container">
             <div class="row align-items-center justify-content-center">
                 <div class="col-md-5 mx-auto mt-lg-5 text-center">
@@ -27,8 +27,8 @@
                                     <span class="icon icon-keyboard_arrow_down"></span>
                                     <select class="form-control px-3" name="order_by_price">
                                         <option value="">Giá</option>
-                                        <option value="asc">Giá: từ thấp đến cao</option>
-                                        <option value="desc">Giá: từ cao đến thấp</option>
+                                        <option value="asc" @if ('asc' == request('order_by_price'))selected="selected"@endif>Giá: từ thấp đến cao</option>
+                                        <option value="desc" @if ('desc' == request('order_by_price'))selected="selected"@endif>Giá: từ cao đến thấp</option>
                                     </select>
                                 </div>
                             </div>
@@ -51,11 +51,6 @@
                                         <option value="">For Lease</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="mb-5">
-                                <h3 class="text-black mb-4 h5 font-family-2">Filter by Price</h3>
-                                <div id="slider-range" class="border-primary"></div>
-                                <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary btn-block">Lọc</button>
@@ -86,7 +81,7 @@
             </div>
             <div class="row mt-4">
                 <div class="col-md-9">
-                    <div class="pagination-lg">{{ $products->appends(request()->input())->links() }}</div>
+                    <div>{{ $products->appends(request()->input())->links() }}</div>
                 </div>
             </div>
         </div>

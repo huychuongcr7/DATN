@@ -20,6 +20,7 @@ class CustomerService implements CustomerServiceInterface
         \DB::beginTransaction();
 
         $params['password'] = bcrypt($params['password']);
+        $params['status'] = 1;
 
         if (isset($params['avatar'])) {
             $image = $params['avatar'];
