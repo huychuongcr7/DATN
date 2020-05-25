@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\SendOrderMail;
 use App\Models\Bill;
 use App\Models\BillProduct;
 use App\Models\Cart;
@@ -32,6 +33,8 @@ class BillService implements BillServiceInterface
             ? Carbon::createFromFormat('Y-m-d H:i', $params['time_of_sale'])->format('Y-m-d H:i:s')
             : now()->format('Y-m-d H:i:s');
         $params['user_id'] = Auth::user()->id;
+        $params['status'] = Bill::STATUS_COMPLETE;
+        $params['address_receive'] = 'Tại cửa hàng';
 
         $bill = Bill::create($params);
 
@@ -157,7 +160,6 @@ class BillService implements BillServiceInterface
     {
         \DB::beginTransaction();
 
-
         $last = Bill::orderBy('bill_code', 'desc')->withTrashed()->first();
         $bill_code = isset($last->bill_code) ? $last->bill_code : 'HD000000';
         $bill_code++;
@@ -165,23 +167,46 @@ class BillService implements BillServiceInterface
 
         $params['time_of_sale'] = now()->format('Y-m-d H:i:s');
         $params['customer_id'] = Auth::user()->id;
-        $params['paid_by_customer'] = $params['total_money'];
+        $params['paid_by_customer'] = 0;
+        $params['status'] = Bill::STATUS_WAIT_CONFIRM;
+        $customer = Customer::findOrFail($params['customer_id']);
+        $params['address_receive'] = isset($params['select_address'])
+            ? ($params['select_address'] == 0 ? $customer->address : $params['address_other'])
+            : $params['address'];
 
         $bill = Bill::create($params);
+        dispatch(new SendOrderMail($bill));
 
-        foreach ($params['carts'] as $value) {
+        $carts = Cart::where('customer_id', $params['customer_id'])->get();
+        foreach ($carts as $cart) {
             $bill->billProducts()->create([
                 'bill_id' => $bill['id'],
-                'product_id' => $value['product_id'],
-                'quantity' => $value['quantity'],
+                'product_id' => $cart->product_id,
+                'quantity' => $cart->quantity,
             ]);
-            $product = Product::findOrFail($value['product_id']);
-            $product->update([
-                'inventory' => $product->inventory - $value['quantity'],
-            ]);
+            $cart->delete();
         }
 
-        Cart::where('customer_id', $params['customer_id'])->delete();
+        \DB::commit();
+    }
+
+    public function completeBill(int $id)
+    {
+        \DB::beginTransaction();
+
+        $bill = Bill::findOrFail($id);
+        $bill->update([
+            'status' => Bill::STATUS_COMPLETE
+        ]);
+        dispatch(new SendOrderMail($bill));
+
+        $billProducts = $bill->billProducts()->get();
+        foreach ($billProducts as $billProduct) {
+            $product = Product::findOrFail($billProduct->product_id);
+            $product->update([
+                'inventory' => $product->inventory - $billProduct->quantity,
+            ]);
+        }
 
         \DB::commit();
     }

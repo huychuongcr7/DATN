@@ -24,7 +24,6 @@ class StoreBillRequest extends FormRequest
      */
     public function rules()
     {
-//        dd($this->request);
         return [
             'bill_products' => 'required',
             'bill_products.*.quantity' => 'required|digits_between:1,5',

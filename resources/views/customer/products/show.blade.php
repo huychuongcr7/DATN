@@ -2,13 +2,11 @@
 @section('title', 'Chi tiết sản phẩm')
 
 @section('content')
-    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(/frontend/images/hero_1.jpg);" data-aos="fade">
+    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(/frontend/images/slider-1.jpg);" data-aos="fade">
         <div class="container">
             <div class="row align-items-center justify-content-center">
                 <div class="col-md-5 mx-auto mt-lg-5 text-center">
-                    <h1>HD17 19 Utica Ave, New York, USA</h1>
-                    <p class="mb-5"><strong class="text-white">$2,000,000</strong></p>
-
+                    <h1>Chi tiết sản phẩm</h1>
                 </div>
             </div>
         </div>
@@ -36,13 +34,13 @@
                                 <div class="input-group">
                                     <p>Số lượng: </p>
                                     <span class="input-group-btn" style="margin-left: 20px">
-                                        <button type="button" class="quantity-left-minus btn btn-default btn-number"  data-type="minus" data-field="" style="padding-left: 20px; padding-right: 20px; padding-bottom:8px">
+                                        <button type="button" class="quantity-left-minus btn btn-outline-dark btn-number"  data-type="minus" data-field="" style="padding-left: 20px; padding-right: 20px; padding-bottom:8px">
                                             <i class="icon-minus"></i>
                                         </button>
                                     </span>
                                     <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
                                     <span class="input-group-btn">
-                                        <button type="button" class="quantity-right-plus btn btn-default btn-number" data-type="plus" data-field="" style="padding-left: 20px; padding-right: 20px; padding-bottom:8px">
+                                        <button type="button" class="quantity-right-plus btn btn-outline-dark btn-number" data-type="plus" data-field="" style="padding-left: 20px; padding-right: 20px; padding-bottom:8px">
                                             <i class="icon-plus"></i>
                                         </button>
                                     </span>
@@ -101,16 +99,6 @@
                 if(quantity>1){
                     $('#quantity').val(quantity - 1);
                 }
-            });
-            $('#add-to-cart').click(function(e) {
-                swal("Sản phẩm đã được thêm vào giỏ hàng!", {
-                    icon : "success",
-                    buttons: {
-                        confirm: {
-                            className : 'btn btn-success'
-                        }
-                    },
-                });
             });
         });
     </script>

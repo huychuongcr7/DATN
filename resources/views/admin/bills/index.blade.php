@@ -42,6 +42,7 @@
                                         <th>Khách hàng</th>
                                         <th>Tổng tiền hàng</th>
                                         <th>Khách đã trả</th>
+                                        <th>Trạng thái</th>
                                         <th>Hành động</th>
                                     </tr>
                                     </thead>
@@ -54,6 +55,7 @@
                                             <td>{{ $bill->customer->name }}</td>
                                             <td>{{ App\Helper\Helper::formatMoney($bill->total_money) }} VNĐ</td>
                                             <td>{{ App\Helper\Helper::formatMoney($bill->paid_by_customer) }} VNĐ</td>
+                                            <td>{{ \App\Models\Bill::$statuses[$bill->status] }}</td>
                                             <td>
                                                 <div class="form-button-action">
                                                     <a href="{{ route('admin.bills.edit', $bill->id) }}" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Cập nhật">

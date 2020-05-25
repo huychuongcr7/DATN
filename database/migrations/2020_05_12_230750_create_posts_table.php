@@ -22,7 +22,9 @@ class CreatePostsTable extends Migration
             $table->tinyInteger('status');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('img_url',255)->default('/images/posts/img_2.jpg');
+            $table->unsignedInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('category_posts')->onDelete('cascade');
+            $table->string('img_url',255)->default('/images/posts/blog-01.jpg');
             $table->integer('view')->default(0);
             $table->timestamps();
             $table->softDeletes();

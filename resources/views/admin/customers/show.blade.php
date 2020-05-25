@@ -142,6 +142,7 @@
                                                           @if ($customer->status == 1)action="{{ route('admin.customers.stop_customers', $customer->id) }}"
                                                           @else action="{{ route('admin.customers.active_customers', $customer->id) }}" @endif>
                                                         @csrf
+                                                        @method('PUT')
                                                         <button class="btn btn-danger" type="submit">Xác nhận</button>
                                                     </form>
                                                 </div>

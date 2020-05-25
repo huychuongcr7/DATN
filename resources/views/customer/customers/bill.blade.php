@@ -2,7 +2,7 @@
 @section('title', 'Đơn hàng')
 
 @section('content')
-    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(/frontend/images/hero_1.jpg);"
+    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(/frontend/images/slider-1.jpg);"
          data-aos="fade">
         <div class="container">
             <div class="row align-items-center justify-content-center">
@@ -31,6 +31,8 @@
                 <div class="col-md-8 blog-content">
                     <div class="comment-form-wrap">
                         <h3 class="mb-5">Đơn hàng</h3>
+                        @php($check = $bills->first())
+                        @if(isset($check))
                         @foreach($bills as $key => $bill)
                             <table class="table table-bordered">
                                 <thead>
@@ -48,8 +50,7 @@
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>
-                                            <a class="text-center my-3"
-                                               href="{{ route('products.show', $allProduct['id']) }}">{{ $allProduct['name'] }}</a>
+                                            <a class="text-center my-3" href="{{ route('products.show', $allProduct['id']) }}">{{ $allProduct['name'] }}</a>
                                         </td>
                                         <td>
                                             @if(isset($allProduct['image_url']))
@@ -59,24 +60,29 @@
                                         </td>
                                         <td>{{ App\Helper\Helper::formatMoney($allProduct['sale_price']) }} VNĐ</td>
                                         <td>{{ $allProduct['quantity'] }}</td>
-                                        <td>{{ App\Helper\Helper::formatMoney($allProduct['sale_price']*$allProduct['quantity']) }}
-                                            VNĐ
-                                        </td>
+                                        <td>{{ App\Helper\Helper::formatMoney($allProduct['sale_price']*$allProduct['quantity']) }} VNĐ</td>
                                     </tr>
                                     </tbody>
                                 @endforeach
                             </table>
-                            <h4 class="text-black">Tổng tiền: <span class="text-danger">{{ App\Helper\Helper::formatMoney($bill->total_money) }} VNĐ</span>
-                            </h4>
-                            <h5 class="text-black"> Thời gian mua: {{ $bill->time_of_sale }}</h5>
-                            <br>
+                                <h5 class="text-black">Tổng tiền: <span class="text-danger">{{ App\Helper\Helper::formatMoney($bill->total_money) }} VNĐ</span></h5>
+                                <label class="text-black" style="font-size: 1.1rem"> Thời gian mua: {{ $bill->time_of_sale }}</label>
+                                <br>
+                                <label class="text-black" style="font-size: 1.1rem"> Trạng thái: <span class="text-danger">{{ \App\Models\Bill::$statuses[$bill->status] }}</span></label>
+                                <br>
                             <hr>
                         @endforeach
                         <div class="row mt-4">
                             <div class="col-md-9">
-                                <div class="pagination-lg">{{ $bills->appends(request()->input())->links() }}</div>
+                                <div>{{ $bills->appends(request()->input())->links() }}</div>
                             </div>
                         </div>
+                        @else
+                            <div class="text-center">
+                                <h3 class="text-black">Bạn chưa có đơn hàng nào</h3>
+                                <a class="btn btn-primary" href ="{{ route('welcome') }}"> Mua ngay</a>
+                            </div>
+                        @endif
                     </div>
                 </div>
 

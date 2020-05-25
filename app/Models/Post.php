@@ -10,6 +10,7 @@ class Post extends Model
     use SoftDeletes;
 
     protected $table = 'posts';
+    protected $perPage = 4;
 
     const STATUS_ACTIVE = 1;
     const STATUS_STOP = 2;
@@ -28,6 +29,7 @@ class Post extends Model
         'description',
         'status',
         'user_id',
+        'category_id',
         'img_url',
         'view',
     ];
@@ -46,5 +48,22 @@ class Post extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo('App\Models\CategoryPost');
+    }
+
+    public function getPosts(array $request)
+    {
+        $builder = $this->query();
+        if (isset($request['keyword'])) {
+            $builder->where('title', 'like', '%' . $request['keyword'] . '%');
+        }
+        if (isset($request['category_id'])) {
+            $builder->where('category_id', $request['category_id']);
+        }
+        return $builder->paginate();
     }
 }

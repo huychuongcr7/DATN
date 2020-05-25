@@ -2,12 +2,11 @@
 @section('title', 'Giỏ hàng')
 
 @section('content')
-    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(/frontend/images/hero_1.jpg);" data-aos="fade">
+    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(/frontend/images/slider-1.jpg);" data-aos="fade">
         <div class="container">
             <div class="row align-items-center justify-content-center">
                 <div class="col-md-5 mx-auto mt-lg-5 text-center">
-                    <h1>HD17 19 Utica Ave, New York, USA</h1>
-                    <p class="mb-5"><strong class="text-white">$2,000,000</strong></p>
+                    <h1>giỏ hàng</h1>
                 </div>
             </div>
         </div>
@@ -25,19 +24,17 @@
         </div>
         <div class="container">
             @if($products)
-                <form method="post" action="{{ route('customers.store_bill') }}">
-                    @csrf
-                    <div id="app">
-                        <cart-form
-                            all-products="{{ json_encode($products) }}"
-                            index-url="{{ route('carts.index') }}"
-                            delete-url="{{ route('carts.destroy', '%productId') }}"
-                            href="{{ route('products.show', ['id' => '%id%']) }}"
-                        ></cart-form>
-                    </div>
-                    <script src="/js/app.js"></script>
-                    <button type="submit" class="btn btn-primary">Thanh toán</button>
-                </form>
+                <div id="app">
+                    <cart-form
+                        all-products="{{ json_encode($products) }}"
+                        delete-url="{{ route('carts.destroy', '%productId') }}"
+                        href="{{ route('products.show', ['id' => '%id%']) }}"
+                        update-url="{{ route('carts.update', '%productId') }}"
+                        create-bill="{{ route('customers.create_bill') }}"
+                        welcome="{{ route('welcome') }}"
+                    ></cart-form>
+                </div>
+                <script src="/js/app.js"></script>
             @else
                 <div class="text-center">
                     <h3 class="text-black">Không có sản phẩm nào trong giỏ hàng</h3>

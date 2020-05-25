@@ -16,6 +16,8 @@
 
         @include('layouts.frontend.header')
 
+        @include('sweetalert::alert')
+
         @yield('content')
 
         @include('layouts.frontend.footer')

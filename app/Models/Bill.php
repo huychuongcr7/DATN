@@ -11,6 +11,11 @@ class Bill extends Model
 
     protected $table = 'bills';
 
+    const STATUS_WAIT_CONFIRM = 1;
+    const STATUS_DELIVERY = 2;
+    const STATUS_COMPLETE = 3;
+    const STATUS_CANCEL = 4;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -23,6 +28,8 @@ class Bill extends Model
         'total_money',
         'paid_by_customer',
         'time_of_sale',
+        'status',
+        'address_receive',
         'note',
     ];
 
@@ -31,6 +38,13 @@ class Bill extends Model
         'created_at',
         'updated_at',
         'deleted_at'
+    ];
+
+    public static $statuses = [
+        self::STATUS_WAIT_CONFIRM => 'Chờ xác nhận',
+        self::STATUS_DELIVERY => 'Đang giao hàng',
+        self::STATUS_COMPLETE => 'Hoàn tất',
+        self::STATUS_CANCEL => 'Hủy bỏ'
     ];
 
     /**
