@@ -153,9 +153,9 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="#">
-                        <i class="fas fa-hand-holding-usd"></i>
-                        <p>Sổ quỹ</p>
+                    <a href="{{ route('admin.posts.index') }}">
+                        <i class="fas fa-file-alt"></i>
+                        <p>Quản lý bài đăng</p>
                     </a>
                 </li>
                 <li class="nav-item">

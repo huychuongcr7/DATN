@@ -2,7 +2,6 @@
 namespace App\Services;
 
 use App\Models\Product;
-use App\Services\CustomerServiceInterface;
 use App\Traits\UploadTrait;
 
 class ProductService implements ProductServiceInterface
