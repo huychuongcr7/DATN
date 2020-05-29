@@ -24,7 +24,6 @@ class StoreCustomerRequest extends FormRequest
      */
     public function rules()
     {
-//        dd($this->request);
         return [
             'name' => sprintf('required|unique:customers,name,%s,id|string|max:64', $this->id ?? NULL),
             'email' => sprintf('required|unique:customers,email,%s,id|unique:users,email|email|max:64', $this->id ?? NULL),

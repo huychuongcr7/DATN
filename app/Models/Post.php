@@ -57,7 +57,7 @@ class Post extends Model
 
     public function getPosts(array $request)
     {
-        $builder = $this->query();
+        $builder = $this->where('status', Post::STATUS_ACTIVE);
         if (isset($request['keyword'])) {
             $builder->where('title', 'like', '%' . $request['keyword'] . '%');
         }

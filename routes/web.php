@@ -45,6 +45,9 @@ Route::namespace('Admin')->group(function () {
             Route::put('bills/{id}/delivery', 'BillController@delivery')->name('bills.delivery');
             Route::put('bills/{id}/complete', 'BillController@complete')->name('bills.complete');
             Route::put('bills/{id}/cancel', 'BillController@cancel')->name('bills.cancel');
+
+            Route::resource('posts', 'PostController');
+            Route::post('posts/change_status', 'PostController@changeStatus');
         });
 
     });

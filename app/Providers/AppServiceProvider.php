@@ -34,6 +34,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\BillServiceInterface::class,
             \App\Services\BillService::class
         );
+        $this->app->singleton(
+            \App\Services\PostServiceInterface::class,
+            \App\Services\PostService::class
+        );
     }
 
     /**
