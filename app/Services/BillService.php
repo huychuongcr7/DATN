@@ -7,6 +7,7 @@ use App\Models\Bill;
 use App\Models\BillProduct;
 use App\Models\Cart;
 use App\Models\Customer;
+use App\Models\Notification;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -206,6 +207,14 @@ class BillService implements BillServiceInterface
             $product->update([
                 'inventory' => $product->inventory - $billProduct->quantity,
             ]);
+            if ($product->inventory < $product->inventory_level_min) {
+                Notification::create([
+                    'user_id' => Auth::id(),
+                    'title' => 'Cảnh báo hết hàng',
+                    'content' => 'Tồn kho của sản phẩm ' . $product->name . ' nhỏ hơn định mức tồn kho bé nhất. Vui lòng nhập thêm hàng!',
+                    'status' => Notification::STATUS_UNREAD,
+                ]);
+            }
         }
 
         \DB::commit();

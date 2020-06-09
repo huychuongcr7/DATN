@@ -138,7 +138,6 @@
 
 <!-- Azzara DEMO methods, don't include it in your project! -->
 <script src="{{ asset('backend/js/setting-demo.js') }}"></script>
-{{--<script src="{{ asset('backend/js/demo.js') }}"></script>--}}
 
 @yield('inline_scripts')
 </body>

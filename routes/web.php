@@ -48,6 +48,11 @@ Route::namespace('Admin')->group(function () {
 
             Route::resource('posts', 'PostController');
             Route::post('posts/change_status', 'PostController@changeStatus');
+
+            Route::resource('contacts', 'ContactController');
+            Route::put('contacts/{id}/feedback', 'ContactController@feedback')->name('contacts.feedback');
+
+            Route::resource('notifications', 'NotificationController')->only(['index', 'show']);
         });
 
     });
