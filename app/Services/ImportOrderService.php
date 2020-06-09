@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\ImportOrder;
 use App\Models\ImportOrderProduct;
+use App\Models\Notification;
 use App\Models\Product;
 use App\Models\Supplier;
 use Carbon\Carbon;
@@ -46,6 +47,13 @@ class ImportOrderService implements ImportOrderServiceInterface
                 'entry_price' => (($product->entry_price * $product->inventory) + ($value['quantity'] * $value['unit_price'])) / ($product->inventory + $value['quantity']),
                 'inventory' => $product->inventory + $value['quantity'],
             ]);
+            if ($product->inventory > $product->inventory_level_min) {
+                Notification::create([
+                    'title' => 'Cảnh báo vượt tồn kho',
+                    'content' => 'Tồn kho của sản phẩm ' . $product->name . ' lớn hơn định mức tồn kho lớn nhất!',
+                    'status' => Notification::STATUS_UNREAD,
+                ]);
+            }
         }
 
         $supplier = Supplier::findOrFail($params['supplier_id']);

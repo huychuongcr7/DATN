@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateContactsTable extends Migration
+class CreateNotificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateContactsTable extends Migration
      */
     public function up()
     {
-        Schema::create('contacts', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 64);
-            $table->string('email', 64);
-            $table->string('subject');
-            $table->text('message');
-            $table->unsignedTinyInteger('status')->default(\App\Models\Contact::STATUS_NO_RESPONSE);
-            $table->string('feedback')->nullable();
+            $table->string('title');
+            $table->string('content');
+            $table->unsignedTinyInteger('status')->default(\App\Models\Notification::STATUS_UNREAD);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,6 +30,6 @@ class CreateContactsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contacts');
+        Schema::dropIfExists('notifications');
     }
 }

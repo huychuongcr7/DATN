@@ -159,6 +159,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('admin.contacts.index') }}">
+                        <i class="fas fa-phone-square"></i>
+                        <p>Quản lý liên hệ</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a data-toggle="collapse" href="#charts">
                         <i class="far fa-chart-bar"></i>
                         <p>Báo cáo</p>
