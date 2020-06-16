@@ -11,6 +11,7 @@ use App\Models\BillProduct;
 use App\Models\Cart;
 use App\Models\Customer;
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\Product;
 use App\Services\BillServiceInterface;
 use App\Services\CustomerServiceInterface;
@@ -123,5 +124,20 @@ class CustomerController extends Controller
         $this->billService->createBillCustomer($request->all());
         Alert::success('Thành công', 'Thanh toán thành công!');
         return redirect()->route('welcome');
+    }
+
+    public function cancelBill(Request $request)
+    {
+        $bill = Bill::findOrFail($request['bill_id']);
+        $bill->update([
+            'status' => Bill::STATUS_CANCEL
+        ]);
+        $url = route('admin.bills.show', $bill->id);
+        Notification::create([
+            'title' => 'Hủy đơn hàng',
+            'content' => 'Đơn hàng ' . '<a href="'.$url.'">'.$bill->bill_code.'</a>' . ' đã bị hủy. Vui lòng kiểm tra để xử lý!',
+            'status' => Notification::STATUS_UNREAD,
+        ]);
+        return response([], 200);
     }
 }

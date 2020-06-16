@@ -16,6 +16,9 @@ class Bill extends Model
     const STATUS_COMPLETE = 3;
     const STATUS_CANCEL = 4;
 
+    const METHOD_TRANSFER = 1;
+    const METHOD_CASH = 2;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -30,6 +33,8 @@ class Bill extends Model
         'time_of_sale',
         'status',
         'address_receive',
+        'phone_receive',
+        'payment_method',
         'note',
     ];
 
@@ -45,6 +50,11 @@ class Bill extends Model
         self::STATUS_DELIVERY => 'Đang giao hàng',
         self::STATUS_COMPLETE => 'Hoàn tất',
         self::STATUS_CANCEL => 'Hủy bỏ'
+    ];
+
+    public static $payMethods = [
+        self::METHOD_TRANSFER => 'Chuyển khoản',
+        self::METHOD_CASH => 'Tiền mặt'
     ];
 
     /**

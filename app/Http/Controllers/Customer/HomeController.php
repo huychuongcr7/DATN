@@ -23,7 +23,7 @@ class HomeController extends Controller
             ->select(DB::raw('product_id, SUM(quantity) as sum'))
             ->groupBy('product_id')->orderByDesc('sum')->take(4)->pluck('sum', 'product_id')->toArray();
 
-        $productBestSales = Product::whereIn('id', array_keys($billProducts))->get()->toArray();
+        $productBestSales = Product::where('status', Product::STATUS_ACTIVE)->whereIn('id', array_keys($billProducts))->get()->toArray();
         $productBestSales = array_map(function ($product) use ($billProducts) {
             $product['sum'] = $billProducts[$product['id']];
             return $product;
@@ -32,7 +32,7 @@ class HomeController extends Controller
             return $a['sum'] < $b['sum'];
         });
 
-        $productNews = Product::where('type', '=', Product::TYPE_SALE)->orderByDesc('created_at')->take(4)->get();
+        $productNews = Product::where('status', '=', Product::STATUS_ACTIVE)->orderByDesc('created_at')->take(4)->get();
 
         $posts = Post::where('status', '=', Post::STATUS_ACTIVE)->orderByDesc('view')->take(6)->get();
 

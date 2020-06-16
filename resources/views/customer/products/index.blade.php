@@ -1,4 +1,18 @@
 @extends('layouts.frontend.client')
+@section('inline_css')
+    <style>
+        a {
+            color: #333;
+        }
+
+        .header-title {
+            padding: 5px 10px;
+            background: #dadada;
+            font-weight: bold;
+            width: 255px;
+        }
+    </style>
+    @endsection
 @section('title', 'Danh sách sản phẩm')
 
 @section('content')
@@ -18,7 +32,7 @@
         <div class="container">
 
             <div class="row">
-                <div class="col-md-3 order-1 order-md-2">
+                <div class="col-md-3 order-1 order-md-1">
                     <div class="mb-5">
                         <h3 class="text-black mb-4 h5 font-family-2"><i class="icon icon-filter"></i>Bộ lọc tìm kiếm</h3>
                         <form action="{{ route('products.index') }}" method="get">
@@ -35,20 +49,15 @@
                             <div class="form-group">
                                 <div class="select-wrap">
                                     <span class="icon icon-keyboard_arrow_down"></span>
-                                    <select class="form-control px-3">
-                                        <option value="">1 Bath, 1 Bedroom</option>
-                                        <option value="">2 Bath, 2 Bedroom</option>
-                                        <option value="">3+ Bath, 3+ Bedroom</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="select-wrap">
-                                    <span class="icon icon-keyboard_arrow_down"></span>
-                                    <select class="form-control px-3">
-                                        <option value="">For Sale</option>
-                                        <option value="">For Rent</option>
-                                        <option value="">For Lease</option>
+                                    <select class="form-control px-3" name="category_id">
+                                        <option value="">Danh mục sản phẩm</option>
+                                        @foreach($categories as $key => $category)
+                                            <option value="{{ $key }}"
+                                                    @if ($key == request('category_id'))
+                                                    selected="selected"
+                                                @endif
+                                            >{{ $category }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -56,19 +65,27 @@
                                 <button type="submit" class="btn btn-primary btn-block">Lọc</button>
                             </div>
                         </form>
+                        <form class="typeahead" role="search" style="position: sticky">
+                            <input style="width: 255px" type="search" name="q" class="form-control search-input" placeholder="Tìm kiếm..." autocomplete="off">
+                        </form>
                     </div>
 
                 </div>
-                <div class="col-md-9 order-2 order-md-1">
-                    <div class="row large-gutters">
-                        @foreach($products as $product)
-                        <div class="col-md-6 col-lg-4 mb-5 mb-lg-5 ">
+
+                <div class="col-md-9 order-2 order-md-2">
+                    <div class="row large-gutters" id="app">
+                        @foreach($products->sortByDesc('rating') as $product)
+                            @php($rates = App\Models\Rate::where('product_id', $product->id)->get())
+                            @php($avg = $rates->avg('rating'))
+                        <div class="col-md-6 col-lg-4 mb-5 mb-lg-5 " style="position: relative">
                             <div class="ftco-media-1">
                                 <div class="ftco-media-1-inner">
                                     <a href="{{ route('products.show', $product->id) }}" class="d-inline-block mb-4"><img src="{{ asset('storage'.$product->image_url) }}" alt="Image" class="img-fluid"></a>
                                     <div class="ftco-media-details">
                                         <h3>{{ $product->name }}</h3>
-                                        <p>New York - USA</p>
+                                        <rate-avg
+                                            avg="{{ json_encode($avg) }}"
+                                        ></rate-avg>
                                         <strong>{{ App\Helper\Helper::formatMoney($product->sale_price) }} VNĐ</strong>
                                     </div>
 
@@ -77,6 +94,8 @@
                         </div>
                         @endforeach
                     </div>
+                    <script src="/js/app.js"></script>
+
                 </div>
             </div>
             <div class="row mt-4">
@@ -87,4 +106,72 @@
         </div>
     </div>
 
+@endsection
+
+@section('inline_scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function($) {
+            var engine1 = new Bloodhound({
+                remote: {
+                    url: '/products/search/name?value=%QUERY%',
+                    wildcard: '%QUERY%'
+                },
+                datumTokenizer: Bloodhound.tokenizers.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace
+            });
+
+            var engine2 = new Bloodhound({
+                remote: {
+                    url: '/products/search/product_code?value=%QUERY%',
+                    wildcard: '%QUERY%'
+                },
+                datumTokenizer: Bloodhound.tokenizers.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace
+            });
+
+            $(".search-input").typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            }, [
+                {
+                    source: engine1.ttAdapter(),
+                    name: 'students-name',
+                    display: function(data) {
+                        return data.name;
+                    },
+                    templates: {
+                        empty: [
+                            '<div class="header-title">Tên sản phẩm</div><div class="list-group search-results-dropdown"><div class="list-group-item">Không tìm thấy.</div></div>'
+                        ],
+                        header: [
+                            '<div class="header-title">Tên sản phẩm</div><div class="list-group search-results-dropdown"></div>'
+                        ],
+                        suggestion: function (data) {
+                            return '<a href="/products/' + data.id + '" class="list-group-item" style="">' + data.name + '</a>';
+                        }
+                    }
+                },
+                {
+                    source: engine2.ttAdapter(),
+                    name: 'students-email',
+                    display: function(data) {
+                        return data.email;
+                    },
+                    templates: {
+                        empty: [
+                            '<div class="header-title">Mã sản phẩm</div><div class="list-group search-results-dropdown"><div class="list-group-item">Không tìm thấy.</div></div>'
+                        ],
+                        header: [
+                            '<div class="header-title">Mã sản phẩm</div><div class="list-group search-results-dropdown"></div>'
+                        ],
+                        suggestion: function (data) {
+                            return '<a href="/products/' + data.id + '" class="list-group-item">' + data.product_code + '</a>';
+                        }
+                    }
+                }
+            ]);
+        });
+    </script>
 @endsection

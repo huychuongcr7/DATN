@@ -1,4 +1,12 @@
 @extends('layouts.frontend.client')
+@section('inline_css')
+    <style>
+        .swal-footer {
+            text-align: center;
+        }
+    </style>
+@endsection
+
 @section('title', 'Đơn hàng')
 
 @section('content')
@@ -69,6 +77,11 @@
                                 <label class="text-black" style="font-size: 1.1rem"> Thời gian mua: {{ $bill->time_of_sale }}</label>
                                 <br>
                                 <label class="text-black" style="font-size: 1.1rem"> Trạng thái: <span class="text-danger">{{ \App\Models\Bill::$statuses[$bill->status] }}</span></label>
+                                @if ($bill->status == 1)
+                                    <br>
+                                    <input type="hidden" value="{{ $bill->id }}" id="post_id">
+                                    <button class="btn btn-danger" id="alert_demo">Hủy đơn</button>
+                                @endif
                                 <br>
                             <hr>
                         @endforeach
@@ -90,4 +103,53 @@
         </div>
     </div>
 
+@endsection
+
+@section('inline_scripts')
+    <script type="text/javascript">
+        $('#alert_demo').click(function(e) {
+            swal({
+                title: 'Hủy đơn hàng',
+                text: "Bạn có chắc muốn hủy đơn hàng?",
+                type: 'warning',
+                buttons:{
+                    confirm: {
+                        text : 'Có',
+                        className : 'btn btn-primary'
+                    },
+                    cancel: {
+                        text : 'Không',
+                        visible: true,
+                        className: 'btn btn-danger'
+                    }
+                }
+            }).then((Delete) => {
+                if (Delete) {
+                    var bill_id = $(this).parent().parent().find('#post_id').val();
+                    $.ajax({
+                        url: '/customer/customers/bills',
+                        type: 'DELETE',
+                        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                        data: { "bill_id" : bill_id },
+                        success: function(result) {
+                            console.log(result);
+                        }
+                    });
+                    swal({
+                        title: 'Đã hủy!',
+                        text: 'Đơn hàng của bạn đã được hủy',
+                        type: 'success',
+                        buttons : {
+                            confirm: {
+                                className : 'btn btn-primary'
+                            }
+                        }
+                    });
+                    location.reload();
+                } else {
+                    swal.close();
+                }
+            });
+        });
+    </script>
 @endsection

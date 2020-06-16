@@ -5,7 +5,6 @@ namespace App\Imports;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Trademark;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +13,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class ProductsImport implements ToModel, ShouldQueue, WithChunkReading, WithStartRow
+class ProductsImport implements ToModel, WithChunkReading, WithStartRow
 {
     use Importable;
 
@@ -50,21 +49,19 @@ class ProductsImport implements ToModel, ShouldQueue, WithChunkReading, WithStar
 
         $validator = Validator::make($row, [
             '0' => 'required|unique:products,product_code|string|max:10',
-            '1' => 'nullable|string|max:64',
-            '2' => 'required|unique:products,name|string|max:64',
-            '3' => 'nullable|max:1024',
-            '4' => 'required|in:' . Category::pluck('id')->implode(','),
-            '5' => 'nullable|in:' . Trademark::pluck('id')->implode(','),
+            '1' => 'required|unique:products,name|string|max:64',
+            '2' => 'nullable|max:1024',
+            '3' => 'required|in:' . Category::pluck('id')->implode(','),
+            '4' => 'nullable|in:' . Trademark::pluck('id')->implode(','),
+            '5' => 'required|digits_between:4,10',
             '6' => 'required|digits_between:4,10',
-            '7' => 'required|digits_between:4,10',
-            '8' => 'required|integer|max:999',
-            '9' => 'nullable|string|max:64',
+            '7' => 'required|integer|max:999',
+            '8' => 'nullable|string|max:64',
+            '9' => 'required|integer|between:0,999',
             '10' => 'required|integer|between:0,999',
-            '11' => 'required|integer|between:0,999',
-            '12' => 'required|in:' . implode(',', array_keys(Product::$statuses)),
-            '13' => 'required|in:' . implode(',', array_keys(Product::$types)),
-            '14' => 'nullable|string|max:255',
-            '15' => 'nullable|string|max:65535'
+            '11' => 'required|in:' . implode(',', array_keys(Product::$statuses)),
+            '12' => 'nullable|string|max:255',
+            '13' => 'nullable|string|max:65535'
         ]);
 
         if ($validator->fails()) {
@@ -75,21 +72,19 @@ class ProductsImport implements ToModel, ShouldQueue, WithChunkReading, WithStar
         try {
             Product::create([
                 'product_code' => $row[0],
-                'qr_code' => $row[1],
-                'name' => $row[2],
-                'image_url' => $row[3],
-                'category_id' => $row[4],
-                'trademark_id' => $row[5],
-                'sale_price' => $row[6],
-                'entry_price' => $row[7],
-                'inventory' => $row[8],
-                'location' => $row[9],
-                'inventory_level_min' => $row[10],
-                'inventory_level_max' => $row[11],
-                'status' => $row[12],
-                'type' => $row[13],
-                'description' => $row[14],
-                'note' => $row[15],
+                'name' => $row[1],
+                'image_url' => $row[2],
+                'category_id' => $row[3],
+                'trademark_id' => $row[4],
+                'sale_price' => $row[5],
+                'entry_price' => $row[6],
+                'inventory' => $row[7],
+                'location' => $row[8],
+                'inventory_level_min' => $row[9],
+                'inventory_level_max' => $row[10],
+                'status' => $row[11],
+                'description' => $row[12],
+                'note' => $row[13],
             ]);
             DB::commit();
         } catch (Exceptions $e) {

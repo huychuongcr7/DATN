@@ -15,7 +15,7 @@
                         </h3>
                     </div>
                     <div class="email-body">
-                        <p>{{ $notification->content }}</p>
+                        <p>{!! $notification->content !!}</p>
                     </div>
                 </div>
             </div>

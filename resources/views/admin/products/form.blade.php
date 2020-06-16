@@ -10,15 +10,6 @@
             @enderror
         </div>
     </div>
-    <div class="form-group form-show-validation row @error('qr_code') has-error @enderror">
-        <label for="qr_code" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right">Mã QR</label>
-        <div class="col-lg-6 col-md-9 col-sm-8">
-            <input type="text" class="form-control" id="qr_code" name="qr_code" placeholder="Nhập mã QR" value="{{ old('qr_code', isset($product->qr_code) ? $product->qr_code : null) }}">
-            @error('qr_code')
-            <label class="error">{{ $message }}</label>
-            @enderror
-        </div>
-    </div>
     <div class="form-group form-show-validation row @error('name') has-error @enderror">
         <label for="name" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right">Tên sản phẩm
             <span class="required-label">*</span>
@@ -155,31 +146,6 @@
         <div class="col-lg-6 col-md-9 col-sm-8">
             <input type="number" class="form-control" id="inventory_level_max" name="inventory_level_max" placeholder="Nhập định mức tồn" value="{{ old('inventory_level_max', isset($product->inventory_level_max) ? $product->inventory_level_max : 10) }}">
             @error('inventory_level_max')
-            <label class="error">{{ $message }}</label>
-            @enderror
-        </div>
-    </div>
-    <div class="form-group form-show-validation row @error('type') has-error @enderror">
-        <label for="type" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right">Loại sản phẩm
-            <span class="required-label">*</span>
-        </label>
-        <div class="col-lg-6 col-md-9 col-sm-8">
-            <div class="select2-input">
-                @php
-                    $selectTypes = old('type') ?? $product->type ?? null;
-                @endphp
-                <select id="type" name="type" class="form-control">
-                    <option value="">Vui lòng chọn</option>
-                    @foreach($types as $key => $type)
-                        <option value="{{ $key }}"
-                                @if ($key == $selectTypes)
-                                selected="selected"
-                            @endif
-                        >{{ $type }}</option>
-                    @endforeach
-                </select>
-            </div>
-            @error('type')
             <label class="error">{{ $message }}</label>
             @enderror
         </div>

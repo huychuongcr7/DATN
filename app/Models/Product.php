@@ -15,9 +15,6 @@ class Product extends Model
     const STATUS_ACTIVE = 1;
     const STATUS_STOP = 2;
 
-    const TYPE_SALE = 1;
-    const TYPE_NO_SALE = 2;
-
     const FOLDER = '/images/products/';
 
     /**
@@ -27,7 +24,6 @@ class Product extends Model
      */
     protected $fillable = [
         'product_code',
-        'qr_code',
         'name',
         'image_url',
         'category_id',
@@ -39,7 +35,6 @@ class Product extends Model
         'inventory_level_min',
         'inventory_level_max',
         'status',
-        'type',
         'description',
         'note',
     ];
@@ -50,14 +45,12 @@ class Product extends Model
         'deleted_at'
     ];
 
+    public $appends = ['rating'];
+    public $hidden = ['rates'];
+
     public static $statuses = [
         self::STATUS_ACTIVE => 'Kinh doanh',
         self::STATUS_STOP => 'Ngừng kinh doanh'
-    ];
-
-    public static $types = [
-        self::TYPE_SALE => 'Bán trực tiếp',
-        self::TYPE_NO_SALE => 'Không bán trực tiếp'
     ];
 
     public function category()
@@ -70,15 +63,28 @@ class Product extends Model
         return $this->belongsTo('App\Models\Trademark');
     }
 
+    public function rates()
+    {
+        return $this->hasMany('\App\Models\Rate');
+    }
+
+    public function getRatingAttribute()
+    {
+        return $this->rates->avg('rating') ?? null;
+    }
+
     public function getProducts(array $request)
     {
-        $builder = $this->query();
+        $builder = $this->where('status', self::STATUS_ACTIVE);
         if (isset($request['order_by_price'])) {
             if ($request['order_by_price'] == 'asc') {
                 $builder->orderBy('sale_price');
             } elseif ($request['order_by_price'] == 'desc') {
                 $builder->orderByDesc('sale_price');
             }
+        }
+        if (isset($request['category_id'])) {
+            $builder->where('category_id', $request['category_id']);
         }
         return $builder->paginate();
     }

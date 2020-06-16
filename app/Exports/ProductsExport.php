@@ -41,21 +41,19 @@ class ProductsExport implements FromCollection, WithHeadings, Responsable, Shoul
         foreach ($products as $row) {
             $product[] = array(
                 '0' => $row->product_code,
-                '1' => $row->qr_code,
-                '2' => $row->name,
-                '3' => $row->image_url,
-                '4' => $row->category_id,
-                '5' => $row->trademark_id,
-                '6' => $row->sale_price,
-                '7' => $row->entry_price,
-                '8' => $row->inventory,
-                '9' => $row->location,
-                '10' => $row->inventory_level_min,
-                '11' => $row->inventory_level_max,
-                '12' => $row->status,
-                '13' => $row->type,
-                '14' => $row->description,
-                '15' => $row->note,
+                '1' => $row->name,
+                '2' => $row->image_url,
+                '3' => $row->category_id,
+                '4' => $row->trademark_id,
+                '5' => $row->sale_price,
+                '6' => $row->entry_price,
+                '7' => $row->inventory,
+                '8' => $row->location,
+                '9' => $row->inventory_level_min,
+                '10' => $row->inventory_level_max,
+                '11' => $row->status,
+                '12' => $row->description,
+                '13' => $row->note,
             );
         }
 
@@ -66,7 +64,6 @@ class ProductsExport implements FromCollection, WithHeadings, Responsable, Shoul
     {
         return [
             'Mã sản phẩm',
-            'Mã QR',
             'Tên sản phẩm',
             'Hình ảnh',
             'Danh mục',
@@ -78,7 +75,6 @@ class ProductsExport implements FromCollection, WithHeadings, Responsable, Shoul
             'Tồn nhỏ nhất',
             'Tồn lớn nhất',
             'Trạng thái',
-            'Loại sản phẩm',
             'Mô tả',
             'Ghi chú',
         ];

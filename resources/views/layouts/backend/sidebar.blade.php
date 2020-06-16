@@ -27,11 +27,6 @@
                                     <span class="link-collapse">Cập nhật thông tin</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#settings">
-                                    <span class="link-collapse">Cài đặt</span>
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -165,55 +160,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a data-toggle="collapse" href="#charts">
+                    <a href="{{ route('admin.charts.product') }}">
                         <i class="far fa-chart-bar"></i>
-                        <p>Báo cáo</p>
-                        <span class="caret"></span>
+                        <p>Thống kê</p>
                     </a>
-                    <div class="collapse" id="charts">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Cuối ngày</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Bán hàng</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Đặt hàng</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Hàng hóa</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Khách hàng</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Nhà cung cấp</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Nhân viên</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Tài chình</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
             </ul>
         </div>

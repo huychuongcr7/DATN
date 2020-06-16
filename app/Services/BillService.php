@@ -44,6 +44,7 @@ class BillService implements BillServiceInterface
                 'bill_id' => $bill['id'],
                 'product_id' => $value['product_id'],
                 'quantity' => $value['quantity'],
+                'created_at' => now()
             ]);
             $product = Product::findOrFail($value['product_id']);
             $product->update([
@@ -91,10 +92,12 @@ class BillService implements BillServiceInterface
                 $bill->billProducts()->findOrFail($value['id'])->update([
                     'quantity' => $value['quantity'],
                 ]);
-                $product = Product::findOrFail($value['product_id']);
-                $product->update([
-                    'inventory' => $product->inventory - $value['quantity'] + $quantityOld,
-                ]);
+                if ($bill->status == Bill::STATUS_COMPLETE) {
+                    $product = Product::findOrFail($value['product_id']);
+                    $product->update([
+                        'inventory' => $product->inventory - $value['quantity'] + $quantityOld,
+                    ]);
+                }
                 array_push($billProductIds, $value['id']);
                 continue;
             }
@@ -103,23 +106,28 @@ class BillService implements BillServiceInterface
                 'bill_id' => $bill['id'],
                 'product_id' => $value['product_id'],
                 'quantity' => $value['quantity'],
+                'created_at' => now()
             ]);
-            $product = Product::findOrFail($value['product_id']);
-            $product->update([
-                'inventory' => $product->inventory - $value['quantity'],
-            ]);
+            if ($bill->status == Bill::STATUS_COMPLETE) {
+                $product = Product::findOrFail($value['product_id']);
+                $product->update([
+                    'inventory' => $product->inventory - $value['quantity'],
+                ]);
+            }
             array_push($billProductIds, $billProduct->id);
         }
         // Delete
         $billProductDeleteds = $bill->billProducts()->whereNotIn('id', $billProductIds)->get();
         foreach ($billProductDeleteds as $billProductDeleted) {
-            if (isset($billDeleted->product_id)) {
+            if (isset($billProductDeleted->product_id)) {
                 $quantityOld = $billProductDeleted->quantity;
                 $bill->billProducts()->whereNotIn('id', $billProductIds)->delete();
-                $product = Product::findOrFail($billProductDeleted->product_id);
-                $product->update([
-                    'inventory' => $product->inventory + $quantityOld,
-                ]);
+                if ($bill->status == Bill::STATUS_COMPLETE) {
+                    $product = Product::findOrFail($billProductDeleted->product_id);
+                    $product->update([
+                        'inventory' => $product->inventory + $quantityOld,
+                    ]);
+                }
             }
         }
 
@@ -174,9 +182,16 @@ class BillService implements BillServiceInterface
         $params['address_receive'] = isset($params['select_address'])
             ? ($params['select_address'] == 0 ? $customer->address : $params['address_other'])
             : $params['address'];
+        $params['phone_receive'] = $customer->phone ?? 1;
 
         $bill = Bill::create($params);
         dispatch(new SendOrderMail($bill));
+        $url = route('admin.bills.show', $bill->id);
+        Notification::create([
+            'title' => 'Đơn hàng mới',
+            'content' => 'Đơn hàng ' . '<a href="'.$url.'">'.$bill->bill_code.'</a>' . ' vừa được tạo. Vui lòng kiểm tra để xử lý!',
+            'status' => Notification::STATUS_UNREAD,
+        ]);
 
         $carts = Cart::where('customer_id', $params['customer_id'])->get();
         foreach ($carts as $cart) {
@@ -184,6 +199,7 @@ class BillService implements BillServiceInterface
                 'bill_id' => $bill['id'],
                 'product_id' => $cart->product_id,
                 'quantity' => $cart->quantity,
+                'created_at' => now()
             ]);
             $cart->delete();
         }
@@ -207,11 +223,11 @@ class BillService implements BillServiceInterface
             $product->update([
                 'inventory' => $product->inventory - $billProduct->quantity,
             ]);
+            $url = route('admin.products.show', $product->id);
             if ($product->inventory < $product->inventory_level_min) {
                 Notification::create([
-                    'user_id' => Auth::id(),
                     'title' => 'Cảnh báo hết hàng',
-                    'content' => 'Tồn kho của sản phẩm ' . $product->name . ' nhỏ hơn định mức tồn kho bé nhất. Vui lòng nhập thêm hàng!',
+                    'content' => 'Tồn kho của sản phẩm ' . '<a href="'.$url.'">'.$product->name.'</a>' . ' nhỏ hơn định mức tồn kho bé nhất. Vui lòng nhập thêm hàng!',
                     'status' => Notification::STATUS_UNREAD,
                 ]);
             }

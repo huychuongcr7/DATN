@@ -45,8 +45,7 @@ class ProductController extends Controller
         $trademarks = Trademark::pluck('name', 'id');
         $categories = Category::pluck('name', 'id');
         $statuses = Product::$statuses;
-        $types = Product::$types;
-        return view('admin.products.create', compact('trademarks', 'categories', 'statuses', 'types'));
+        return view('admin.products.create', compact('trademarks', 'categories', 'statuses'));
     }
 
     /**
@@ -85,9 +84,8 @@ class ProductController extends Controller
         $trademarks = Trademark::pluck('name', 'id');
         $categories = Category::pluck('name', 'id');
         $statuses = Product::$statuses;
-        $types = Product::$types;
         $product = Product::findOrFail($id);
-        return view('admin.products.edit', compact('product', 'trademarks', 'categories', 'statuses', 'types'));
+        return view('admin.products.edit', compact('product', 'trademarks', 'categories', 'statuses'));
     }
 
     /**
@@ -145,7 +143,7 @@ class ProductController extends Controller
             return redirect()->back();
         }
 
-        (new ProductsImport())->queue($request->file('excel_file'));
+        Excel::import(new ProductsImport(), $request->file('excel_file'));
         flash('Import sản phẩm thành công!')->success();
         return redirect()->back();
     }

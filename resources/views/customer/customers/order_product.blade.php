@@ -25,10 +25,16 @@
         <div class="container">
             <form method="post" action="{{ route('customers.store_bill') }}">
                 @csrf
+                <h5 class="text-black">Thông tin khách hàng</h5>
+                <div>
+                    <label class="text-black" style="font-size: 1.1rem">Họ tên: {{ $customer->name }}</label>
+                    <label class="text-black" style="font-size: 1.1rem; padding-left: 150px">Email: {{ $customer->email }}</label>
+                    <label class="text-black" style="font-size: 1.1rem; padding-left: 150px">Số điện thoại: {{ $customer->phone }}</label>
+                </div>
                 @if (isset($customer->address))
-                    <h5 class="text-black">Địa chỉ nhận hàng: </h5>
+                    <label class="text-black" style="font-size: 1.2rem;">Địa chỉ nhận hàng: </label>
                     <div>
-                        <input class="select-address" type="radio" name="select_address" value="0"@if (old('select_address') == 0) checked="checked" @endif>
+                        <input class="select-address" type="radio" name="select_address" value="0" @if (old('select_address') == 0) checked="checked" @endif>
                         <label class="text-black" style="font-size: 1.1rem; padding-left: 15px">Mặc định: <span class="text-danger">{{ $customer->address }}</span></label>
                     </div>
                     <div>
@@ -54,6 +60,11 @@
                     </div>
                     <br>
                 @endif
+                <div class="col-md-9 form-group" style="padding-left: 0; padding-bottom: 30px">
+                    <label class="text-black" style="font-size: 1.1rem">Ghi chú:</label>
+                    <textarea name="note" class="form-control"></textarea>
+                </div>
+                <h5 class="text-black">Thông tin sản phẩm</h5>
                 <table class="table table-bordered">
                     <thead>
                     <tr>
@@ -83,18 +94,14 @@
                     </tbody>
                 </table>
                 <input type="hidden" value="{{ $totalMoney }}" name="total_money">
-                <h4 class="text-black">Tổng tiền: <span class="text-danger">{{ App\Helper\Helper::formatMoney($totalMoney) }} VNĐ</span></h4>
-                <div class="col-md-9 form-group" style="padding-left: 0">
-                    <label class="text-black" style="font-size: 1.1rem">Ghi chú:</label>
-                    <textarea name="note" class="form-control"></textarea>
-                </div>
+                <h4 class="text-black text-right">Tổng tiền: <span class="text-danger">{{ App\Helper\Helper::formatMoney($totalMoney) }} VNĐ</span></h4>
                 <h5 class="text-black">Phương thức thanh toán: </h5>
                 <div>
-                    <input type="radio" name="select_pay" value="0" checked="checked"><label class="text-black" style="font-size: 1.1rem; padding-left: 15px; padding-right: 20px">Chuyển khoản</label>
-                    <input type="radio" name="select_pay" value="1"><label class="text-black" style="font-size: 1.1rem; padding-left: 15px">Thanh toán khi nhận hàng</label>
+                    <input class="select-pay" type="radio" name="payment_method" id="pay-transfer" value="1" @if (old('select_pay') == 1) checked="checked" @endif><label class="text-black" style="font-size: 1.1rem; padding-left: 15px; padding-right: 20px">Chuyển khoản</label>
+                    <input class="select-pay" type="radio" name="payment_method" value="2" @if (old('select_pay') == 2) checked="checked" @endif><label class="text-black" style="font-size: 1.1rem; padding-left: 15px">Thanh toán khi nhận hàng</label>
                 </div>
                 <div>
-                    <label class="text-black" style="font-size: 1.2rem; margin-bottom: 25px">Số tài khoản: <span class="text-danger">123456789</span></label>
+                    <label class="text-black" id="account" style="font-size: 1.2rem; margin-bottom: 25px">Số tài khoản: <span class="text-danger">123456789</span></label>
                 </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary">Đặt hàng</button>
@@ -116,6 +123,18 @@
                 $(".address-other").show()
             } else {
                 $(".address-other").hide()
+            }
+        }
+
+        selectPay();
+        $(".select-pay").change(function () {
+            selectPay();
+        });
+        function selectPay() {
+            if ($("#pay-transfer").is(':checked')) {
+                $("#account").show()
+            } else {
+                $("#account").hide()
             }
         }
     </script>
