@@ -36,16 +36,19 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        $request['customer_id'] = Auth::user()->id;
-        $cart = Cart::where('customer_id', '=', $request['customer_id'])->where('product_id', '=', $request['product_id'])->first();
-        if (!($cart)) {
-            Cart::create($request->all());
-        } else {
-            $cart->update([
-                'quantity' => $cart->quantity + $request['quantity']
-            ]);
+        $product = Product::find($request['product_id']);
+        if ($product->inventory > 0) {
+            $request['customer_id'] = Auth::user()->id;
+            $cart = Cart::where('customer_id', '=', $request['customer_id'])->where('product_id', '=', $request['product_id'])->first();
+            if (!($cart)) {
+                Cart::create($request->all());
+            } else {
+                $cart->update([
+                    'quantity' => $cart->quantity + $request['quantity']
+                ]);
+            }
+            Alert::success('Thành công', 'Sản phẩm đã được thêm vào giỏ hàng!');
         }
-        Alert::success('Thành công', 'Sản phẩm đã được thêm vào giỏ hàng!');
 
         return redirect()->back();
     }

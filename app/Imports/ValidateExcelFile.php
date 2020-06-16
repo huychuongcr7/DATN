@@ -43,21 +43,19 @@ class ValidateExcelFile implements ToCollection, WithStartRow
             foreach ($rows as $key => $row) {
                 $validator = Validator::make($row->toArray(), [
                     '0' => 'required|unique:products,product_code|string|max:10',
-                    '1' => 'nullable|string|max:64',
-                    '2' => 'required|unique:products,name|string|max:64',
-                    '3' => 'nullable|max:1024',
-                    '4' => 'required|in:' . Category::pluck('id')->implode(','),
-                    '5' => 'nullable|in:' . Trademark::pluck('id')->implode(','),
+                    '1' => 'required|unique:products,name|string|max:64',
+                    '2' => 'nullable|max:1024',
+                    '3' => 'required|in:' . Category::pluck('id')->implode(','),
+                    '4' => 'nullable|in:' . Trademark::pluck('id')->implode(','),
+                    '5' => 'required|digits_between:4,10',
                     '6' => 'required|digits_between:4,10',
-                    '7' => 'required|digits_between:4,10',
-                    '8' => 'required|integer|max:999',
-                    '9' => 'nullable|string|max:64',
+                    '7' => 'required|integer|max:999',
+                    '8' => 'nullable|string|max:64',
+                    '9' => 'required|integer|between:0,999',
                     '10' => 'required|integer|between:0,999',
-                    '11' => 'required|integer|between:0,999',
-                    '12' => 'required|in:' . implode(',', array_keys(Product::$statuses)),
-                    '13' => 'required|in:' . implode(',', array_keys(Product::$types)),
-                    '14' => 'nullable|string|max:255',
-                    '15' => 'nullable|string|max:65535'
+                    '11' => 'required|in:' . implode(',', array_keys(Product::$statuses)),
+                    '12' => 'nullable|string|max:255',
+                    '13' => 'nullable|string|max:65535'
                 ]);
 
                 if ($validator->fails()) {

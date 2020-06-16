@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Customer;
 
+use App\Models\Customer;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,7 +58,8 @@ class LoginController extends Controller
 
         $input = [
             'email' => $request->email,
-            'password' => $request->password
+            'password' => $request->password,
+            'status' => Customer::STATUS_ACTIVE
         ];
 
         if (Auth::guard('web')->check()) {
@@ -69,7 +71,7 @@ class LoginController extends Controller
         }
 
         return redirect()->back()->withInput($request->only('email','remember'))
-            ->withErrors(['email' => 'Thông tin tài khoản không tìm thấy trong hệ thống!']);;
+            ->withErrors(['email' => 'Thông tin tài khoản không tìm thấy trong hệ thống!']);
     }
 
     public function logout(Request $request)

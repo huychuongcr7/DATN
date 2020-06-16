@@ -19,6 +19,12 @@ class BillProduct extends Model
         'bill_id',
         'product_id',
         'quantity',
+        'created_at',
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
     ];
 
     /**

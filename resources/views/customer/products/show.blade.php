@@ -2,88 +2,111 @@
 @section('title', 'Chi tiết sản phẩm')
 
 @section('content')
-    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(/frontend/images/slider-1.jpg);" data-aos="fade">
-        <div class="container">
-            <div class="row align-items-center justify-content-center">
-                <div class="col-md-5 mx-auto mt-lg-5 text-center">
-                    <h1>Chi tiết sản phẩm</h1>
-                </div>
-            </div>
-        </div>
-
-        <a href="#product-details" class="smoothscroll arrow-down"><span class="icon-arrow_downward"></span></a>
-    </div>
-
-    <div class="site-section" id="product-details">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-5">
-                    <div class="owl-carousel slide-one-item with-dots">
-                        <div><img src="{{ asset('storage'.$product->image_url) }}" alt="Image" class="img-fluid" style="max-width: 100%"></div>
-                    </div>
-                </div>
-                <div class="col-lg-7 pl-lg-5 ml-auto">
-                    <div class="mb-5">
-                        <form method="post" action="{{ route('carts.store') }}">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <h3 class="text-black mb-4">{{ $product->name }}</h3>
-                            <p>Giá sản phẩm: <span class="text-danger">{{ App\Helper\Helper::formatMoney($product->sale_price) }} VNĐ</span></p>
-                            <p>Mô tả: {{ $product->description }}</p>
-                            <div class="col-lg-7" style="padding-left: 0">
-                                <div class="input-group">
-                                    <p>Số lượng: </p>
-                                    <span class="input-group-btn" style="margin-left: 20px">
-                                        <button type="button" class="quantity-left-minus btn btn-outline-dark btn-number"  data-type="minus" data-field="" style="padding-left: 20px; padding-right: 20px; padding-bottom:8px">
-                                            <i class="icon-minus"></i>
-                                        </button>
-                                    </span>
-                                    <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
-                                    <span class="input-group-btn">
-                                        <button type="button" class="quantity-right-plus btn btn-outline-dark btn-number" data-type="plus" data-field="" style="padding-left: 20px; padding-right: 20px; padding-bottom:8px">
-                                            <i class="icon-plus"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                            <br>
-                            <p><button type="submit" class="btn btn-primary" id="add-to-cart"><i class="icon icon-cart-plus"></i> Thêm Vào Giỏ Hàng</button></p>
-                        </form>
+    <div id="app">
+        <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(/frontend/images/slider-1.jpg);" data-aos="fade">
+            <div class="container">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-5 mx-auto mt-lg-5 text-center">
+                        <h1>Chi tiết sản phẩm</h1>
                     </div>
                 </div>
             </div>
+
+            <a href="#product-details" class="smoothscroll arrow-down"><span class="icon-arrow_downward"></span></a>
         </div>
-    </div>
 
-    <div class="site-section" id="properties-section">
-        <div class="container">
-            <div class="row mb-5">
-                <div class="col-md-12 text-left">
-                    <h2 class="section-title mb-3">Sản phẩm liên quan</h2>
-                </div>
-            </div>
-            <div class="row large-gutters">
-                @foreach($productOthers as $productOther)
-                    <div class="col-md-6 col-lg-3 mb-5 mb-lg-5 ">
-                        <div class="ftco-media-1">
-                            <div class="ftco-media-1-inner">
-                                <a href="{{ route('products.show', $productOther->id) }}" class="d-inline-block mb-4"><img src="{{ asset('storage'.$productOther->image_url) }}" class="img-fluid"></a>
-                                <div class="ftco-media-details">
-                                    <h3>{{ $productOther->name }}</h3>
-                                    <p>New York - USA</p>
-                                    <strong>{{ App\Helper\Helper::formatMoney($productOther->sale_price) }} VNĐ</strong>
-                                </div>
-
-                            </div>
+        <div class="site-section" id="product-details">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="owl-carousel slide-one-item with-dots">
+                            <div><img src="{{ asset('storage'.$product->image_url) }}" alt="Image" class="img-fluid" style="max-width: 100%"></div>
                         </div>
                     </div>
-                @endforeach
+                    <div class="col-lg-7 pl-lg-5 ml-auto">
+                        <div class="mb-5">
+                            <form method="post" action="{{ route('carts.store') }}">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <h3 class="text-black mb-4">{{ $product->name }}</h3>
+                                <p>Giá sản phẩm: <span class="text-danger">{{ App\Helper\Helper::formatMoney($product->sale_price) }} VNĐ</span></p>
+                                <p>Mô tả: {{ $product->description }}</p>
+                                <p>Đánh giá:</p>
+                                <rate-avg
+                                    avg="{{ json_encode($avg) }}"
+                                ></rate-avg>
+                                <div class="col-lg-7" style="padding-left: 0">
+                                    <div class="input-group">
+                                        <p>Số lượng: </p>
+                                        <span class="input-group-btn" style="margin-left: 20px">
+                                            <button type="button" class="quantity-left-minus btn btn-outline-dark btn-number"  data-type="minus" data-field="" style="padding-left: 20px; padding-right: 20px; padding-bottom:8px">
+                                                <i class="icon-minus"></i>
+                                            </button>
+                                        </span>
+                                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="quantity-right-plus btn btn-outline-dark btn-number" data-type="plus" data-field="" style="padding-left: 20px; padding-right: 20px; padding-bottom:8px">
+                                                <i class="icon-plus"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <br>
+                                @if ($product->inventory > 0)
+                                    <button type="submit" class="btn btn-primary" id="add-to-cart"><i class="icon icon-cart-plus"></i> Thêm Vào Giỏ Hàng</button>
+                                @else
+                                    <p class="text-danger">Hết hàng</p>
+                                    <button class="btn btn-primary" id="add-to-cart" disabled><i class="icon icon-cart-plus"></i> Thêm Vào Giỏ Hàng</button>
+                                @endif
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg" style="padding-top:50px">
+                        <rating-form
+                            product-id="{{ json_encode($product->id) }}"
+                            is-buyed="{{ in_array($product->id, $productIds) }}"
+                            create-rate="{{ route('rates.store') }}"
+                            rates="{{ json_encode($rates) }}"
+                        ></rating-form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="site-section" id="properties-section">
+            <div class="container">
+                <div class="row mb-5">
+                    <div class="col-md-12 text-left">
+                        <h2 class="section-title mb-3">Sản phẩm liên quan</h2>
+                    </div>
+                </div>
+                <div class="row large-gutters">
+                    @foreach($productOthers as $productOther)
+                        @php($rateOthers = App\Models\Rate::where('product_id', $productOther->id)->get())
+                        @php($avgOther = $rateOthers->avg('rating'))
+                        <div class="col-md-6 col-lg-3 mb-5 mb-lg-5 ">
+                            <div class="ftco-media-1">
+                                <div class="ftco-media-1-inner">
+                                    <a href="{{ route('products.show', $productOther->id) }}" class="d-inline-block mb-4"><img src="{{ asset('storage'.$productOther->image_url) }}" class="img-fluid"></a>
+                                    <div class="ftco-media-details">
+                                        <h3>{{ $productOther->name }}</h3>
+                                        <rate-avg
+                                            avg="{{ json_encode($avgOther) }}"
+                                        ></rate-avg>
+                                        <strong>{{ App\Helper\Helper::formatMoney($productOther->sale_price) }} VNĐ</strong>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
-
 @endsection
 @section('inline_scripts')
+    <script src="/js/app.js"></script>
     <script>
         $(document).ready(function(){
             var quantitiy=0;
@@ -100,6 +123,9 @@
                     $('#quantity').val(quantity - 1);
                 }
             });
+            $('#rating').click(function () {
+                console.log($(this).val())
+            })
         });
     </script>
 @endsection

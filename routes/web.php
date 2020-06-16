@@ -53,6 +53,8 @@ Route::namespace('Admin')->group(function () {
             Route::put('contacts/{id}/feedback', 'ContactController@feedback')->name('contacts.feedback');
 
             Route::resource('notifications', 'NotificationController')->only(['index', 'show']);
+
+            Route::get('charts/product', 'ChartController@chartProduct')->name('charts.product');
         });
 
     });
@@ -61,6 +63,8 @@ Route::namespace('Admin')->group(function () {
 Route::namespace('Customer')->group(function () {
     Route::get('', 'HomeController@index')->name('welcome');
     Route::resource('products', 'ProductController');
+    Route::get('/products/search/name', 'ProductController@searchByName');
+    Route::get('/products/search/product_code', 'ProductController@searchByProductCode');
     Route::resource('posts', 'PostController');
     Route::get('contacts', 'ContactController@create')->name('contacts.create');
     Route::post('contacts', 'ContactController@store')->name('contacts.store');
@@ -74,8 +78,10 @@ Route::namespace('Customer')->group(function () {
             Route::put('customers/{id}/put_reset', 'CustomerController@putReset')->name('customers.put_reset');
             Route::get('customers/bills', 'CustomerController@getBill')->name('customers.get_bill');
             Route::post('customers/bills', 'CustomerController@storeBill')->name('customers.store_bill');
+            Route::delete('customers/bills', 'CustomerController@cancelBill')->name('customers.cancelBill');
             Route::get('customers/bills/create', 'CustomerController@createBill')->name('customers.create_bill');
             Route::resource('customers/carts', 'CartController')->only(['index', 'store', 'destroy', 'update']);
+            Route::post('rates', 'ProductController@storeRate')->name('rates.store');
         });
     });
 });

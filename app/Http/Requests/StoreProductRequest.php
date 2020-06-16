@@ -30,7 +30,6 @@ class StoreProductRequest extends FormRequest
             'product_code' => sprintf('%s|unique:products,product_code,%s,id|string|max:10',
                 $this->id? 'required' : 'nullable',
                 $this->id ?? NULL),
-            'qr_code' => 'nullable|string|max:64',
             'name' => sprintf('required|unique:products,name,%s,id|string|max:64', $this->id ?? NULL),
             'image_url' => 'nullable|image|mimes:jpeg,png,jpg|max:1024',
             'category_id' => 'required|in:' . Category::pluck('id')->implode(','),
@@ -41,7 +40,6 @@ class StoreProductRequest extends FormRequest
             'location' => 'nullable|string|max:64',
             'inventory_level_max' => 'required|integer|between:0,999',
             'inventory_level_min' => 'required|integer|between:0,999|lte:inventory_level_max',
-            'type' => 'required|in:' . implode(',', array_keys(Product::$types)),
             'description' => 'nullable|string|max:255',
             'note' => 'nullable|string|max:65535'
         ];
@@ -65,7 +63,6 @@ class StoreProductRequest extends FormRequest
             'location' => 'địa điểm',
             'inventory_level_min' => 'định mức tồn kho bé nhất',
             'inventory_level_max' => 'định mức tồn kho lớn nhất',
-            'type' => 'loại sản phẩm',
             'description' => 'mô tả',
             'note' => 'ghi chú'
         ];

@@ -7,6 +7,9 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import StarRating from 'vue-star-rating'
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 /**
  * The following block of code may be used to automatically register your
@@ -25,6 +28,10 @@ Vue.component('payment-supplier-component', require('./components/PaymentSupplie
 Vue.component('bill-form', require('./components/BillForm.vue').default);
 Vue.component('payment-customer-component', require('./components/PaymentCustomerComponent.vue').default);
 Vue.component('cart-form', require('./components/CartForm.vue').default);
+Vue.component('star-rating', StarRating);
+Vue.component('rating-form', require('./components/RatingForm.vue').default);
+Vue.use(VueSweetalert2);
+Vue.component('rate-avg', require('./components/RateAvg.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

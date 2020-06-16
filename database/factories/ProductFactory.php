@@ -22,7 +22,6 @@ $factory->define(Product::class, function (Faker $faker) use ($autoIncrement) {
         'inventory_level_min' => $faker->numberBetween($min = 0, $max = 10),
         'inventory_level_max' => $faker->numberBetween($min = 10, $max = 100),
         'status' => array_rand(Product::$statuses),
-        'type' => array_rand(Product::$types),
         'description' => $faker->realText(),
         'note' => $faker->realText(),
     ];

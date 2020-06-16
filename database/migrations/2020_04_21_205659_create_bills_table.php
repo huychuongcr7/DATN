@@ -25,6 +25,8 @@ class CreateBillsTable extends Migration
             $table->dateTime('time_of_sale');
             $table->unsignedTinyInteger('status');
             $table->string('address_receive');
+            $table->string('phone_receive', 15);
+            $table->tinyInteger('payment_method');
             $table->text('note')->nullable();
             $table->timestamps();
             $table->softDeletes();

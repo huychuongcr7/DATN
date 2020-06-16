@@ -25,7 +25,7 @@
                                 <i class="fas fa-bell"></i>
                                 <div class="email-list-detail">
                                     <span class="date float-right"><i class="fa fa-paperclip paperclip"></i> {{ $notification->created_at->diffForHumans(now()) }}</span><span class="from">{{ $notification->title }}</span>
-                                    <p class="msg">{{ $notification->content }}</p>
+                                    <p class="msg">{!! $notification->content !!}</p>
                                 </div>
                             </div>
                         </div>

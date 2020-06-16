@@ -41,10 +41,6 @@
                                     <td>{{ $product->product_code }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Mã QR</th>
-                                    <td>{{ $product->qr_code }}</td>
-                                </tr>
-                                <tr>
                                     <th>Tên sản phẩm</th>
                                     <td>{{ $product->name }}</td>
                                 </tr>
@@ -91,10 +87,6 @@
                                 <tr>
                                     <th>Trạng thái</th>
                                     <td>{{ \App\Models\product::$statuses[$product->status] }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Loại sản phẩm</th>
-                                    <td>{{ \App\Models\product::$types[$product->type] }}</td>
                                 </tr>
                                 <tr>
                                     <th>Mô tả</th>

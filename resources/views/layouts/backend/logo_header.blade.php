@@ -1,7 +1,7 @@
 <div class="logo-header">
 
-    <a href="{{ asset(route('admin.dashboard')) }}" class="logo">
-        <img src="{{ asset('backend/img/logoazzara.svg') }}" alt="navbar brand" class="navbar-brand">
+    <a href="{{ asset(route('admin.dashboard')) }}" class="logo" style="color: #ffffff">
+        CR7 Store
     </a>
     <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon">
