@@ -1,15 +1,6 @@
 @extends('layouts.frontend.client')
 @section('inline_css')
     <style>
-        h3 {
-            text-align: center;
-            margin: 30px auto;
-        }
-
-        .content {
-            text-align: center;
-        }
-
         a {
             color: #333;
         }

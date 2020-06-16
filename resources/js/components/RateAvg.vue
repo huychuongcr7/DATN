@@ -1,5 +1,5 @@
 <template>
-    <div style="padding-bottom:20px">
+    <div>
         <div>
             <star-rating read-only v-model="rateAvg" :increment="0.1" :starSize="30" :show-rating="false"></star-rating>
         </div>

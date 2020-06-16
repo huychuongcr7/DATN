@@ -31,10 +31,16 @@
                                 <h3 class="text-black mb-4">{{ $product->name }}</h3>
                                 <p>Giá sản phẩm: <span class="text-danger">{{ App\Helper\Helper::formatMoney($product->sale_price) }} VNĐ</span></p>
                                 <p>Mô tả: {{ $product->description }}</p>
-                                <p>Đánh giá:</p>
-                                <rate-avg
-                                    avg="{{ json_encode($avg) }}"
-                                ></rate-avg>
+                                @if($avg == null)
+                                    <p>Đánh giá: <span>Sản phẩm chưa có đánh giá</span></p>
+                                @else
+                                    <p>Đánh giá:</p>
+                                    <div style="padding-bottom: 30px">
+                                        <rate-avg
+                                            avg="{{ json_encode($avg) }}"
+                                        ></rate-avg>
+                                    </div>
+                                @endif
                                 <div class="col-lg-7" style="padding-left: 0">
                                     <div class="input-group">
                                         <p>Số lượng: </p>

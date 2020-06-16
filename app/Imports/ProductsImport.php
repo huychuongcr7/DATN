@@ -5,7 +5,6 @@ namespace App\Imports;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Trademark;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +13,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class ProductsImport implements ToModel, ShouldQueue, WithChunkReading, WithStartRow
+class ProductsImport implements ToModel, WithChunkReading, WithStartRow
 {
     use Importable;
 

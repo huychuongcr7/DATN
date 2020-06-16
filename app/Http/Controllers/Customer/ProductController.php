@@ -85,14 +85,14 @@ class ProductController extends Controller
 
     public function searchByName(Request $request)
     {
-        $students = Product::where('name', 'like', '%' . $request->value . '%')->get();
+        $students = Product::where('status', Product::STATUS_ACTIVE)->where('name', 'like', '%' . $request->value . '%')->get();
 
         return response()->json($students);
     }
 
     public function searchByProductCode(Request $request)
     {
-        $students = Product::where('product_code', 'like', '%' . $request->value . '%')->get();
+        $students = Product::where('status', Product::STATUS_ACTIVE)->where('product_code', 'like', '%' . $request->value . '%')->get();
 
         return response()->json($students);
     }

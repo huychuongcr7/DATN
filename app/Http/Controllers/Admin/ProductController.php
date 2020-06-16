@@ -143,7 +143,7 @@ class ProductController extends Controller
             return redirect()->back();
         }
 
-        (new ProductsImport())->queue($request->file('excel_file'));
+        Excel::import(new ProductsImport(), $request->file('excel_file'));
         flash('Import sản phẩm thành công!')->success();
         return redirect()->back();
     }
