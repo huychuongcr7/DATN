@@ -26,7 +26,7 @@
 
     <a href="javascript:void(0);" class="gototop" style="top: 350px"><span class="icon-angle-double-up"></span></a>
 
-    <script src="{{ asset('frontend/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery-ui.js') }}"></script>
     <script src="{{ asset('frontend/js/popper.min.js') }}"></script>
     <script src="{{ asset('frontend/js/bootstrap.min.js') }}"></script>
@@ -39,6 +39,71 @@
     <script src="{{ asset('frontend/js/jquery.sticky.js') }}"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
     <script src="{{ asset('backend/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function($) {
+            var engine1 = new Bloodhound({
+                remote: {
+                    url: '/products/search/name?value=%QUERY%',
+                    wildcard: '%QUERY%'
+                },
+                datumTokenizer: Bloodhound.tokenizers.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace
+            });
+
+            var engine2 = new Bloodhound({
+                remote: {
+                    url: '/products/search/product_code?value=%QUERY%',
+                    wildcard: '%QUERY%'
+                },
+                datumTokenizer: Bloodhound.tokenizers.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace
+            });
+
+            $(".search-input").typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            }, [
+                {
+                    source: engine1.ttAdapter(),
+                    name: 'students-name',
+                    display: function(data) {
+                        return data.name;
+                    },
+                    templates: {
+                        empty: [
+                            '<div class="header-title">Tên sản phẩm</div><div class="list-group search-results-dropdown"><div class="list-group-item">Không tìm thấy.</div></div>'
+                        ],
+                        header: [
+                            '<div class="header-title">Tên sản phẩm</div><div class="list-group search-results-dropdown"></div>'
+                        ],
+                        suggestion: function (data) {
+                            return '<a href="/products/' + data.id + '" class="list-group-item" style="">' + data.name + '</a>';
+                        }
+                    }
+                },
+                {
+                    source: engine2.ttAdapter(),
+                    name: 'students-email',
+                    display: function(data) {
+                        return data.email;
+                    },
+                    templates: {
+                        empty: [
+                            '<div class="header-title">Mã sản phẩm</div><div class="list-group search-results-dropdown"><div class="list-group-item">Không tìm thấy.</div></div>'
+                        ],
+                        header: [
+                            '<div class="header-title">Mã sản phẩm</div><div class="list-group search-results-dropdown"></div>'
+                        ],
+                        suggestion: function (data) {
+                            return '<a href="/products/' + data.id + '" class="list-group-item">' + data.product_code + '</a>';
+                        }
+                    }
+                }
+            ]);
+        });
+    </script>
 
     @yield('inline_scripts')
 </body>

@@ -16,23 +16,26 @@
         <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
             @php($notifications = \App\Models\Notification::where('status', \App\Models\Notification::STATUS_UNREAD)->orderByDESC('created_at')->get())
             @php($count = $notifications->count())
-            <li class="nav-item dropdown hidden-caret">
+            <li class="nav-item dropdown hidden-caret dropdown-notifications">
                 <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-bell"></i>
-                    @if($count)
-                        <span class="notification">{{ $count }}</span>
-                    @endif
+                        <span class="notification" id="notification">{{ $count ?? 0 }}</span>
                 </a>
                 <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
                     <li>
-                        <div class="dropdown-title">Bạn có {{ $count }} thông báo mới</div>
+                        <div class="dropdown-title">Bạn có <span id="count">{{ $count ?? 0 }}</span> thông báo mới</div>
                     </li>
-                    <li>
+                    <li class="pusher">
                         <div class="notif-scroll scrollbar-outer">
                             <div class="notif-center">
                                 @foreach($notifications as $notification)
                                     <a href="{{ route('admin.notifications.show', $notification->id) }}">
-                                        <div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div>
+                                        <div class="notif-icon notif-primary">
+                                            <i class="fa @if($notification->type == \App\Models\Notification::TYPE_CREATE_ORDER) fa-cart-plus
+                                                         @elseif($notification->type == \App\Models\Notification::TYPE_CANCEL_ORDER) fa-times-circle
+                                                         @elseif($notification->type == \App\Models\Notification::TYPE_SMALLER_INVENTORY) fa-less-than
+                                                         @else fa-greater-than @endif"></i>
+                                        </div>
                                         <div class="notif-content">
                                             <span class="block">
                                                 {{ $notification->title }}

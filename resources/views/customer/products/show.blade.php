@@ -31,13 +31,13 @@
                                 <h3 class="text-black mb-4">{{ $product->name }}</h3>
                                 <p>Giá sản phẩm: <span class="text-danger">{{ App\Helper\Helper::formatMoney($product->sale_price) }} VNĐ</span></p>
                                 <p>Mô tả: {{ $product->description }}</p>
-                                @if($avg == null)
+                                @if($product->rating == null)
                                     <p>Đánh giá: <span>Sản phẩm chưa có đánh giá</span></p>
                                 @else
                                     <p>Đánh giá:</p>
                                     <div style="padding-bottom: 30px">
                                         <rate-avg
-                                            avg="{{ json_encode($avg) }}"
+                                            avg="{{ json_encode($product->rating) }}"
                                         ></rate-avg>
                                     </div>
                                 @endif
@@ -81,30 +81,31 @@
 
         <div class="site-section" id="properties-section">
             <div class="container">
-                <div class="row mb-5">
-                    <div class="col-md-12 text-left">
-                        <h2 class="section-title mb-3">Sản phẩm liên quan</h2>
+                <div class="row mb-5 align-items-center">
+                    <div class="col-md-7 text-left">
+                        <h2 class="section-title mb-3">Sản phẩm gợi ý</h2>
+                    </div>
+                    <div class="col-md-5 text-left text-md-right">
+                        <div class="custom-nav1">
+                            <a href="#" class="custom-prev1">Trước</a><span class="mx-3">/</span><a href="#" class="custom-next1">Tiếp</a>
+                        </div>
                     </div>
                 </div>
-                <div class="row large-gutters">
-                    @foreach($productOthers as $productOther)
-                        @php($rateOthers = App\Models\Rate::where('product_id', $productOther->id)->get())
-                        @php($avgOther = $rateOthers->avg('rating'))
-                        <div class="col-md-6 col-lg-3 mb-5 mb-lg-5 ">
+                <div class="owl-carousel nonloop-block-13 mb-5">
+                    @foreach($productRecommends as $productRecommend)
                             <div class="ftco-media-1">
                                 <div class="ftco-media-1-inner">
-                                    <a href="{{ route('products.show', $productOther->id) }}" class="d-inline-block mb-4"><img src="{{ asset('storage'.$productOther->image_url) }}" class="img-fluid"></a>
+                                    <a href="{{ route('products.show', $productRecommend->id) }}" class="d-inline-block mb-4"><img src="{{ asset('storage'.$productRecommend->image_url) }}" class="img-fluid"></a>
                                     <div class="ftco-media-details">
-                                        <h3>{{ $productOther->name }}</h3>
+                                        <h3>{{ $productRecommend->name }}</h3>
                                         <rate-avg
-                                            avg="{{ json_encode($avgOther) }}"
+                                            avg="{{ json_encode($productRecommend->rating) }}"
                                         ></rate-avg>
-                                        <strong>{{ App\Helper\Helper::formatMoney($productOther->sale_price) }} VNĐ</strong>
+                                        <strong>{{ App\Helper\Helper::formatMoney($productRecommend->sale_price) }} VNĐ</strong>
+                                        <p>Độ phù hợp: {{ round($productRecommend->similarity * 100, 1) }}%</p>
                                     </div>
-
                                 </div>
                             </div>
-                        </div>
                     @endforeach
                 </div>
             </div>
@@ -112,7 +113,6 @@
     </div>
 @endsection
 @section('inline_scripts')
-    <script src="/js/app.js"></script>
     <script>
         $(document).ready(function(){
             var quantitiy=0;

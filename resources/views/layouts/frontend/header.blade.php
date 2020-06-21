@@ -13,7 +13,6 @@
                     <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
                         <li><a href="{{ route('welcome') }}" class="nav-link">Trang chủ</a></li>
                         <li><a href="{{ route('products.index') }}" class="nav-link">Sản phẩm</a></li>
-                        <li><a href="#" class="nav-link">Dịch vụ</a></li>
                         <li><a href="{{ route('posts.index') }}" class="nav-link">Tin tức</a></li>
                         <li><a href="{{ route('contacts.create') }}" class="nav-link">Liên hệ</a></li>
                     </ul>
@@ -57,6 +56,11 @@
                         @endif
                     </ul>
                 </nav>
+            </div>
+            <div class="col-12 col-md-12 text-center">
+                <form class="typeahead" role="search" style="position: sticky">
+                    <input style="width: 500px" type="search" name="q" class="form-control search-input" placeholder="Tìm kiếm..." autocomplete="off">
+                </form>
             </div>
 
 

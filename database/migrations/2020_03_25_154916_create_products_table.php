@@ -31,6 +31,7 @@ class CreateProductsTable extends Migration
             $table->unsignedTinyInteger('status');
             $table->string('description')->nullable();
             $table->text('note')->nullable();
+            $table->double('rating', 2, 1)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -10,9 +10,15 @@ class Notification extends Model
     use SoftDeletes;
 
     protected $table = 'notifications';
+    protected $perPage = 10;
 
     const STATUS_READ = 1;
     const STATUS_UNREAD = 2;
+
+    const TYPE_CREATE_ORDER = 3;
+    const TYPE_CANCEL_ORDER = 4;
+    const TYPE_SMALLER_INVENTORY = 5;
+    const TYPE_BIGGER_INVENTORY = 6;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +29,7 @@ class Notification extends Model
         'title',
         'content',
         'status',
+        'type'
     ];
 
     protected $dates = [

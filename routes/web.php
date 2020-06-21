@@ -55,6 +55,10 @@ Route::namespace('Admin')->group(function () {
             Route::resource('notifications', 'NotificationController')->only(['index', 'show']);
 
             Route::get('charts/product', 'ChartController@chartProduct')->name('charts.product');
+
+            Route::get('/pusher', function() {
+                return view('admin/test');
+            });
         });
 
     });

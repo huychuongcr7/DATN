@@ -9,7 +9,7 @@
     <title>@yield('title', 'CR7 STORE')</title>
 
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
-    <link rel="icon" href="{{ asset('backend/img/icon.ico') }}" type="image/x-icon"/>
+    <link rel="icon" href="{{ asset('frontend/images/cr7.jpg') }}" type="image/x-icon"/>
 
     <!-- Fonts and icons -->
     <script src="{{ asset('backend/js/plugin/webfont/webfont.min.js') }}"></script>
@@ -138,6 +138,54 @@
 
 <!-- Azzara DEMO methods, don't include it in your project! -->
 <script src="{{ asset('backend/js/setting-demo.js') }}"></script>
+<script src="https://js.pusher.com/6.0/pusher.min.js"></script>
+<script>
+    var notificationsWrapper = $('.dropdown-notifications');
+    var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
+    var notifications          = notificationsWrapper.find('li.pusher');
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('1a44a1a4be523b666aaa', {
+        cluster: 'ap1'
+    });
+
+    var channel = pusher.subscribe('my-channel');
+    channel.bind('my-event', function(data) {
+        let $notification =$('#notification');
+        $notification.html(parseInt($notification.html()) + 1);
+        $('#count').html(parseInt($('#count').html()) + 1);
+        var existingNotifications = notifications.html();
+        var url = '/admin/notifications/'+data.message.id;
+        var icon = '';
+        if(data.message.type == 3) {
+            icon = 'fa fa-cart-plus'
+        } else if(data.message.type == 4){
+            icon = ' fa fa-times-circle'
+        }
+        else if(data.message.type == 5){
+            icon = 'fa fa-less-than'
+        } else icon = 'fa fa-greater-than';
+
+        var newNotificationHtml = `
+        <div class="notif-scroll scrollbar-outer">
+            <div class="notif-center">
+            <a href="`+url+`">
+            <div class="notif-icon notif-primary"> <i class="`+icon+`"></i> </div>
+        <div class="notif-content">
+            <span class="block">
+            `+data.message.title+`
+            </span>
+            <span class="time">`+data.message.created_at+`</span>
+            </div>
+            </a>
+            </div>
+            </div>
+    `;
+        notifications.html(newNotificationHtml + existingNotifications);
+    });
+</script>
 
 @yield('inline_scripts')
 </body>

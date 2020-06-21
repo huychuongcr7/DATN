@@ -1,6 +1,6 @@
 @extends('layouts.backend.admin')
 
-@section('title', 'Quản lý sản phẩm')
+@section('title', 'QUẢN LÝ SẢN PHẨM')
 
 @section('breadcrumb')
     @include('layouts.backend.breadcrumb', [

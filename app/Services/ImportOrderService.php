@@ -49,11 +49,20 @@ class ImportOrderService implements ImportOrderServiceInterface
             ]);
             $url = route('admin.products.show', $product->id);
             if ($product->inventory > $product->inventory_level_min) {
-                Notification::create([
+                $notification = Notification::create([
                     'title' => 'Cảnh báo vượt tồn kho',
                     'content' => 'Tồn kho của sản phẩm ' . '<a href="'.$url.'">'.$product->name.'</a>' . ' lớn hơn định mức tồn kho lớn nhất!',
                     'status' => Notification::STATUS_UNREAD,
+                    'type' => Notification::TYPE_BIGGER_INVENTORY
                 ]);
+
+                // pusher
+                $data['id'] = $notification->id;
+                $data['title'] = $notification->title;
+                $data['content'] = $notification->content;
+                $data['type'] = $notification->type;
+                $data['created_at'] = $notification->created_at->diffForHumans();
+                event(new \App\Events\NotificationEvent($data));
             }
         }
 

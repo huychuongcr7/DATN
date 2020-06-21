@@ -50,6 +50,24 @@ class BillService implements BillServiceInterface
             $product->update([
                 'inventory' => $product->inventory - $value['quantity'],
             ]);
+
+            $url = route('admin.products.show', $product->id);
+            if ($product->inventory < $product->inventory_level_min) {
+                $notification = Notification::create([
+                    'title' => 'Cảnh báo hết hàng',
+                    'content' => 'Tồn kho của sản phẩm ' . '<a href="' . $url . '">' . $product->name . '</a>' . ' nhỏ hơn định mức tồn kho bé nhất. Vui lòng nhập thêm hàng!',
+                    'status' => Notification::STATUS_UNREAD,
+                    'type' => Notification::TYPE_CREATE_ORDER
+                ]);
+
+                // pusher
+                $data['id'] = $notification->id;
+                $data['title'] = $notification->title;
+                $data['content'] = $notification->content;
+                $data['type'] = $notification->type;
+                $data['created_at'] = $notification->created_at->diffForHumans();
+                event(new \App\Events\NotificationEvent($data));
+            }
         }
 
         $customer = Customer::findOrFail($params['customer_id']);
@@ -187,11 +205,20 @@ class BillService implements BillServiceInterface
         $bill = Bill::create($params);
         dispatch(new SendOrderMail($bill));
         $url = route('admin.bills.show', $bill->id);
-        Notification::create([
+        $notification = Notification::create([
             'title' => 'Đơn hàng mới',
-            'content' => 'Đơn hàng ' . '<a href="'.$url.'">'.$bill->bill_code.'</a>' . ' vừa được tạo. Vui lòng kiểm tra để xử lý!',
+            'content' => 'Đơn hàng ' . '<a href="' . $url . '">' . $bill->bill_code . '</a>' . ' vừa được tạo. Vui lòng kiểm tra để xử lý!',
             'status' => Notification::STATUS_UNREAD,
+            'type' => Notification::TYPE_CREATE_ORDER
         ]);
+
+        // pusher
+        $data['id'] = $notification->id;
+        $data['title'] = $notification->title;
+        $data['content'] = $notification->content;
+        $data['type'] = $notification->type;
+        $data['created_at'] = $notification->created_at->diffForHumans();
+        event(new \App\Events\NotificationEvent($data));
 
         $carts = Cart::where('customer_id', $params['customer_id'])->get();
         foreach ($carts as $cart) {
@@ -225,11 +252,20 @@ class BillService implements BillServiceInterface
             ]);
             $url = route('admin.products.show', $product->id);
             if ($product->inventory < $product->inventory_level_min) {
-                Notification::create([
+                $notification = Notification::create([
                     'title' => 'Cảnh báo hết hàng',
-                    'content' => 'Tồn kho của sản phẩm ' . '<a href="'.$url.'">'.$product->name.'</a>' . ' nhỏ hơn định mức tồn kho bé nhất. Vui lòng nhập thêm hàng!',
+                    'content' => 'Tồn kho của sản phẩm ' . '<a href="' . $url . '">' . $product->name . '</a>' . ' nhỏ hơn định mức tồn kho bé nhất. Vui lòng nhập thêm hàng!',
                     'status' => Notification::STATUS_UNREAD,
+                    'type' => Notification::TYPE_SMALLER_INVENTORY
                 ]);
+
+                // pusher
+                $data['id'] = $notification->id;
+                $data['title'] = $notification->title;
+                $data['content'] = $notification->content;
+                $data['type'] = $notification->type;
+                $data['created_at'] = $notification->created_at->diffForHumans();
+                event(new \App\Events\NotificationEvent($data));
             }
         }
 
