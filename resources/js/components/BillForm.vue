@@ -73,7 +73,7 @@
                             <div v-for="product in filteredProduct" :key="product.data.id" class="col-3 p-2 position-relative">
                                 <div class="img-thumbnail" :class="`img-thumbnail ${product.selected ? 'border-success bg-success' : ''}`" @click="select(product.data)">
                                     <div  class="photo-box w-100 position-relative">
-                                        <img :src="product.data.image_url ? `/storage${product.data.image_url}` : 'http://placehold.it/100x100'" class="img-upload-preview" width="100" height="100" alt="preview"/>
+                                        <img :src="product.data.image_url ? `${product.data.image_url}` : 'http://placehold.it/100x100'" class="img-upload-preview" width="100" height="100" alt="preview"/>
                                     </div>
                                     <div class="col text-left">
                                         <a :class="`${product.selected ? 'text-white' : ''}`" target="_blank" rel="noopener noreferrer" :href="href.replace('%id%', product.data.id)" class="text-center my-3">{{ product.data.name }}</a>

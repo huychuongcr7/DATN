@@ -62,7 +62,7 @@
                                         </td>
                                         <td>
                                             @if(isset($allProduct['image_url']))
-                                                <img src="{{ asset('storage'.$allProduct['image_url']) }}"
+                                                <img src="{{ asset($allProduct['image_url']) }}"
                                                      class="img-upload-preview" width="100" height="100" alt="preview">
                                             @endif
                                         </td>

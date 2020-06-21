@@ -25,7 +25,7 @@
         <label class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right">Hình ảnh</label>
         <div class="col-lg-6 col-md-9 col-sm-8">
             <div class="input-file input-file-image">
-                <img class="img-upload-preview" width="150" height="150" src="{{ isset($product->image_url) ? asset('storage'.$product->image_url) : 'http://placehold.it/150x150' }}" alt="preview">
+                <img class="img-upload-preview" width="150" height="150" src="{{ isset($product->image_url) ? asset($product->image_url) : 'http://placehold.it/150x150' }}" alt="preview">
                 <input type="file" class="form-control form-control-file" id="image_url" name="image_url" accept="image/*">
                 @error('image_url')
                 <label class="error">{{ $message }}</label>

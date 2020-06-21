@@ -45,7 +45,7 @@
                     @foreach($posts as $post)
                         <div class="h-entry" style="padding-bottom: 80px">
                             <a href="{{ route('posts.show', $post->id) }}">
-                                <img src="{{ asset('storage'.$post->img_url) }}" class="img-fluid">
+                                <img src="{{ asset($post->img_url) }}" class="img-fluid">
                             </a>
                             <h5 class=" text-black"><b>{{ $post->title }}</b></h5>
                             <div class="meta mb-4">{{ $post->user->name }}

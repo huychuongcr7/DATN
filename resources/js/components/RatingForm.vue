@@ -15,7 +15,7 @@
             <ul class="comment-list">
                 <li class="comment">
                     <div class="vcard bio">
-                        <img :src="rateProduct.avatar ? `/storage${rateProduct.avatar}` : 'http://placehold.it/100x100'" alt="Image placeholder">
+                        <img :src="rateProduct.avatar ? `${rateProduct.avatar}` : 'http://placehold.it/100x100'" alt="Image placeholder">
                     </div>
                     <div class="comment-body">
                         <h3>{{ rateProduct.name }}</h3>

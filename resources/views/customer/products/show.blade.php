@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-lg-5">
                         <div class="owl-carousel slide-one-item with-dots">
-                            <div><img src="{{ asset('storage'.$product->image_url) }}" alt="Image" class="img-fluid" style="max-width: 100%"></div>
+                            <div><img src="{{ asset($product->image_url) }}" alt="Image" class="img-fluid" style="max-width: 100%"></div>
                         </div>
                     </div>
                     <div class="col-lg-7 pl-lg-5 ml-auto">

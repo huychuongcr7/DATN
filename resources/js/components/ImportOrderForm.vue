@@ -86,7 +86,7 @@
                                 <td>{{ product.id }}</td>
                                 <td>{{ product.product_code}}</td>
                                 <td>{{ product.name}}</td>
-                                <td v-if="product.image_url"><img :src="`/storage${product.image_url}`" class="img-upload-preview" width="100" height="100" alt="preview"></td>
+                                <td v-if="product.image_url"><img :src="`${product.image_url}`" class="img-upload-preview" width="100" height="100" alt="preview"></td>
                                 <td v-else></td>
                                 <td>{{ product.inventory}}</td>
                                 <td>{{ product.created_at }}</td>

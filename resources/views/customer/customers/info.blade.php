@@ -73,7 +73,7 @@
                             <div class="form-group">
                                 <label for="avatar" @error('avatar') class="text-danger" @enderror>Avatar</label>
                                 <div class="input-file input-file-image">
-                                    <img id="preview" class="img-upload-preview" width="150" height="150" src="{{ isset($customer->avatar) ? asset('storage'.$customer->avatar) : 'http://placehold.it/150x150' }}" alt="preview">
+                                    <img id="preview" class="img-upload-preview" width="150" height="150" src="{{ isset($customer->avatar) ? asset($customer->avatar) : 'http://placehold.it/150x150' }}" alt="preview">
                                     <input type="file" class="form-control form-control-file" id="avatar" name="avatar" accept="image/*" style="display: none">
                                     @error('avatar')
                                     <label class="error">{{ $message }}</label>

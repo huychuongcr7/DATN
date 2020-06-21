@@ -21,7 +21,7 @@
                 <td>
                     <a :href="href.replace('%id%', product.id)" class="text-center my-3">{{ product.name }}</a>
                 </td>
-                <td v-if="product.image_url"><img :src="`/storage${product.image_url}`" class="img-upload-preview" width="100" height="100" alt="preview"></td>
+                <td v-if="product.image_url"><img :src="`${product.image_url}`" class="img-upload-preview" width="100" height="100" alt="preview"></td>
                 <td>{{ formatMoney(product.sale_price) }} VNĐ</td>
                 <td>
                     <div class="input-group">

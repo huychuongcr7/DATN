@@ -48,7 +48,7 @@
                                     <th>Avatar</th>
                                     <td>
                                         @if(isset($customer->avatar))
-                                            <img src="{{ asset('storage'.$customer->avatar) }}" class="img-upload-preview" width="100" height="100" alt="preview">
+                                            <img src="{{ asset($customer->avatar) }}" class="img-upload-preview" width="100" height="100" alt="preview">
                                         @endif
                                     </td>
                                 </tr>

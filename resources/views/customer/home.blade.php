@@ -51,7 +51,7 @@
                 @foreach($productNews as $productNew)
                     <div class="ftco-media-1">
                         <div class="ftco-media-1-inner">
-                            <a href="{{ route('products.show', $productNew->id) }}" class="d-inline-block mb-4"><img src="{{ asset('storage'.$productNew->image_url) }}" class="img-fluid"></a>
+                            <a href="{{ route('products.show', $productNew->id) }}" class="d-inline-block mb-4"><img src="{{ asset($productNew->image_url) }}" class="img-fluid"></a>
                             <div class="ftco-media-details">
                                 <h3>{{ $productNew->name }}</h3>
                                 <rate-avg
@@ -83,7 +83,7 @@
                 @foreach($productBestSales as $productBestSale)
                     <div class="ftco-media-1">
                         <div class="ftco-media-1-inner">
-                            <a href="{{ route('products.show', $productBestSale['id']) }}" class="d-inline-block mb-4"><img src="{{ asset('storage'.$productBestSale['image_url']) }}" class="img-fluid"></a>
+                            <a href="{{ route('products.show', $productBestSale['id']) }}" class="d-inline-block mb-4"><img src="{{ asset($productBestSale['image_url']) }}" class="img-fluid"></a>
                             <div class="ftco-media-details">
                                 <h3>{{ $productBestSale['name'] }}</h3>
                                 <rate-avg
@@ -114,7 +114,7 @@
                 @foreach($posts as $post)
                     <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
                         <div class="h-entry">
-                            <a href="{{ route('posts.show', $post->id) }}"><img src="{{ asset('storage'.$post->img_url) }}" class="img-fluid"></a>
+                            <a href="{{ route('posts.show', $post->id) }}"><img src="{{ asset($post->img_url) }}" class="img-fluid"></a>
                             <h2 class="font-size-regular"><a href="#" class="text-dark">{{ $post->title }}</a></h2>
                             <div class="meta mb-4">{{ $post->user->name }}
                                 <span class="mx-2">&bullet;</span> {{ $post->created_at->format('Y m d') }}

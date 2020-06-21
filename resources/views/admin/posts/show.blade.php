@@ -68,7 +68,7 @@
                                     <th>Hình ảnh</th>
                                     <td>
                                         @if(isset($post->img_url))
-                                            <img src="{{ asset('storage'.$post->img_url) }}" class="img-upload-preview" width="100" height="100" alt="preview">
+                                            <img src="{{ asset($post->img_url) }}" class="img-upload-preview" width="100" height="100" alt="preview">
                                         @endif
                                     </td>
                                 </tr>

@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="col-md-8 blog-content">
-                    <img src="{{ asset('storage'.$post->img_url) }}" class="img-fluid">
+                    <img src="{{ asset($post->img_url) }}" class="img-fluid">
                     <h4 class=" text-black" style="padding-top: 40px"><b>{{ $post->title }}</b></h4>
                     <p>{!! $post->content !!}</p>
                     <div class="pt-5">

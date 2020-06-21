@@ -81,7 +81,7 @@
         <label class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right">Avatar</label>
         <div class="col-lg-6 col-md-9 col-sm-8">
             <div class="input-file input-file-image">
-                <img class="img-upload-preview" width="150" height="150" src="{{ isset($customer->avatar) ? asset('storage'.$customer->avatar) : 'http://placehold.it/150x150' }}" alt="preview">
+                <img class="img-upload-preview" width="150" height="150" src="{{ isset($customer->avatar) ? asset($customer->avatar) : 'http://placehold.it/150x150' }}" alt="preview">
                 <input type="file" class="form-control form-control-file" id="avatar" name="avatar" accept="image/*">
                 @error('avatar')
                 <label class="error">{{ $message }}</label>

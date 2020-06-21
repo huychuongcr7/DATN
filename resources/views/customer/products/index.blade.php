@@ -62,7 +62,7 @@
                         <div class="col-md-6 col-lg-4 mb-5 mb-lg-5 " style="position: relative">
                             <div class="ftco-media-1">
                                 <div class="ftco-media-1-inner">
-                                    <a href="{{ route('products.show', $product->id) }}" class="d-inline-block mb-4"><img src="{{ asset('storage'.$product->image_url) }}" alt="Image" class="img-fluid"></a>
+                                    <a href="{{ route('products.show', $product->id) }}" class="d-inline-block mb-4"><img src="{{ asset($product->image_url) }}" alt="Image" class="img-fluid"></a>
                                     <div class="ftco-media-details">
                                         <h3>{{ $product->name }}</h3>
                                         <rate-avg
