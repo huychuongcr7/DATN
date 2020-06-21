@@ -20,7 +20,7 @@ class CustomersTableSeeder extends Seeder
             'name' => 'Customer',
             'email' => 'customer@gmail.com',
             'password' => bcrypt('123456'),
-            'status' => array_rand(Customer::$statuses),
+            'status' => Customer::STATUS_ACTIVE,
             'gender' => array_rand(Customer::$genders),
         ]);
         factory(Customer::class, 50)->create();
