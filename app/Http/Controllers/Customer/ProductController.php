@@ -99,7 +99,7 @@ class ProductController extends Controller
 
     public function searchByName(Request $request)
     {
-        $students = Product::where('status', Product::STATUS_ACTIVE)->whereRaw("UPPER('{'name'}') LIKE '%'". strtoupper($request->value)."'%'")->get();
+        $students = Product::where('status', Product::STATUS_ACTIVE)->where('LOWER(title)', 'LIKE', '%' . strtolower($request->value) . '%')->get();
 
         return response()->json($students);
     }
