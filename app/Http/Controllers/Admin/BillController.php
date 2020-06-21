@@ -39,7 +39,7 @@ class BillController extends Controller
      */
     public function create()
     {
-        $products = Product::where('type', Product::TYPE_SALE)->get();
+        $products = Product::where('status', Product::STATUS_ACTIVE)->get();
         $customers = Customer::pluck('name', 'id');
         return view('admin.bills.create', compact('products', 'customers'));
     }
@@ -83,7 +83,7 @@ class BillController extends Controller
      */
     public function edit($id)
     {
-        $products = Product::where('type', Product::TYPE_SALE)->get();
+        $products = Product::where('status', Product::STATUS_ACTIVE)->get();
         $customers = Customer::pluck('name', 'id');
         $bill = Bill::findOrFail($id);
         $billProducts = $bill->billProducts()->select('product_id', 'quantity', 'id')->get();

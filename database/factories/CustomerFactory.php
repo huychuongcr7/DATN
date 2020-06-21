@@ -14,7 +14,7 @@ $factory->define(Customer::class, function (Faker $faker) {
         'address' => $faker->address,
         'date_of_birth' => $faker->date(),
         'phone' => $faker->numerify('0#########'),
-        'status' => array_rand(Customer::$statuses),
+        'status' => Customer::STATUS_ACTIVE,
         'customer_type' => array_rand(Customer::$types),
         'gender' => array_rand(Customer::$genders),
     ];

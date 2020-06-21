@@ -133,11 +133,21 @@ class CustomerController extends Controller
             'status' => Bill::STATUS_CANCEL
         ]);
         $url = route('admin.bills.show', $bill->id);
-        Notification::create([
+        $notification = Notification::create([
             'title' => 'Hủy đơn hàng',
             'content' => 'Đơn hàng ' . '<a href="'.$url.'">'.$bill->bill_code.'</a>' . ' đã bị hủy. Vui lòng kiểm tra để xử lý!',
             'status' => Notification::STATUS_UNREAD,
+            'type' => Notification::TYPE_CANCEL_ORDER
         ]);
+
+        // pusher
+        $data['id'] = $notification->id;
+        $data['title'] = $notification->title;
+        $data['content'] = $notification->content;
+        $data['type'] = $notification->type;
+        $data['created_at'] = $notification->created_at->diffForHumans();
+        event(new \App\Events\NotificationEvent($data));
+
         return response([], 200);
     }
 }

@@ -10,7 +10,7 @@ use Faker\Generator as Faker;
 $autoIncrement = autoIncrementProduct();
 $factory->define(Product::class, function (Faker $faker) use ($autoIncrement) {
     $autoIncrement->next();
-    $sale_price = $faker->numberBetween($min = 1000, $max = 10000000);
+    $sale_price = $faker->bothify('##000');
     return [
         'product_code' => $autoIncrement->current(),
         'name' => $faker->unique()->name,

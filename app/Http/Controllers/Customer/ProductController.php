@@ -37,8 +37,9 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function show($id)
     {
@@ -57,8 +58,18 @@ class ProductController extends Controller
             }
         }
         $rates = Rate::where('product_id', $product->id)->get();
-        $avg = $rates->avg('rating');
-        return view('customer.products.show', compact('product', 'productOthers', 'rates', 'avg', 'productIds'));
+
+        // test
+        $products = json_decode(json_encode(Product::where('status', Product::STATUS_ACTIVE)->get()));
+
+        $productSimilarity = new \App\ProductSimilarity($products);
+
+        $similarityMatrix  = $productSimilarity->calculateSimilarityMatrix();
+
+        $productRecommends          = $productSimilarity->getProductsSortedBySimularity($id, $similarityMatrix);
+        array_splice($productRecommends, 5);
+
+        return view('customer.products.show', compact('product', 'productOthers', 'rates', 'productIds', 'productRecommends'));
     }
 
     public function storeRate(Request $request)
@@ -80,6 +91,9 @@ class ProductController extends Controller
                 'comment' => $request['comment']
             ]);
         }
+        Product::findOrFail($request['product_id'])->update([
+            'rating' => Rate::where('product_id', $request['product_id'])->avg('rating')
+        ]);
         return response([], 204);
     }
 

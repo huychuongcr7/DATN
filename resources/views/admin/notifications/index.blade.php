@@ -8,11 +8,9 @@
         <div class="page-navs bg-white">
             <div class="nav-scroller">
                 <div class="nav nav-tabs nav-line nav-color-primary">
-                    <a class="nav-link active show" data-toggle="tab" href="#tab1">All
+                    <a class="nav-link active show" data-toggle="tab">Tất cả
                         <span class="count ml-1">{{ $notifications->count() }}</span>
                     </a>
-                    <a class="nav-link" data-toggle="tab" href="#tab2">Starred</a>
-                    <a class="nav-link" data-toggle="tab" href="#tab3">Trash</a>
                 </div>
             </div>
             <div class="page-with-aside mail-wrapper bg-white">
@@ -32,6 +30,7 @@
                         @endforeach
 
                     </div>
+                    <div>{{ $notifications->appends(request()->input())->links() }}</div>
                 </div>
             </div>
         </div>

@@ -36,23 +36,28 @@
     </div>
 
     <section class="site-section" id="properties-section">
-        <div class="container">
+        <div class="container" id="app">
             <div class="row mb-5">
-                <div class="col-md-12 text-center">
-                    <h2 class="section-title mb-3">Top sản phẩm bán chạy</h2>
+                <div class="col-md-7 text-left">
+                    <h2 class="section-title mb-3">Sản phẩm mới</h2>
+                </div>
+                <div class="col-md-5 text-left text-md-right">
+                    <div class="custom-nav1">
+                        <a href="#" class="custom-prev1">Trước</a><span class="mx-3">/</span><a href="#" class="custom-next1">Tiếp</a>
+                    </div>
                 </div>
             </div>
-            <div class="row large-gutters">
-                @foreach($productBestSales as $productBestSale)
-                    <div class="col-md-6 col-lg-3 mb-5 mb-lg-5 ">
-                        <div class="ftco-media-1">
-                            <div class="ftco-media-1-inner">
-                                <a href="{{ route('products.show', $productBestSale['id']) }}" class="d-inline-block mb-4"><img src="{{ asset('storage'.$productBestSale['image_url']) }}" class="img-fluid"></a>
-                                <div class="ftco-media-details">
-                                    <h3>{{ $productBestSale['name'] }}</h3>
-                                    <strong>{{ App\Helper\Helper::formatMoney($productBestSale['sale_price']) }} VNĐ</strong>
-                                    <p>Đã bán {{ $productBestSale['sum'] }}</p>
-                                </div>
+            <div class="owl-carousel nonloop-block-13 mb-5">
+                @foreach($productNews as $productNew)
+                    <div class="ftco-media-1">
+                        <div class="ftco-media-1-inner">
+                            <a href="{{ route('products.show', $productNew->id) }}" class="d-inline-block mb-4"><img src="{{ asset('storage'.$productNew->image_url) }}" class="img-fluid"></a>
+                            <div class="ftco-media-details">
+                                <h3>{{ $productNew->name }}</h3>
+                                <rate-avg
+                                    avg="{{ json_encode($productNew->rating) }}"
+                                ></rate-avg>
+                                <strong>{{ App\Helper\Helper::formatMoney($productNew->sale_price) }} VNĐ</strong>
                             </div>
                         </div>
                     </div>
@@ -65,20 +70,27 @@
             <hr>
             <br>
             <div class="row mb-5">
-                <div class="col-md-12 text-center">
-                    <h2 class="section-title mb-3">Sản phẩm mới</h2>
+                <div class="col-md-7 text-left">
+                    <h2 class="section-title mb-3">Top sản phẩm bán chạy</h2>
+                </div>
+                <div class="col-md-5 text-left text-md-right">
+                    <div class="custom-nav1">
+                        <a href="#" class="custom-prev1">Trước</a><span class="mx-3">/</span><a href="#" class="custom-next1">Tiếp</a>
+                    </div>
                 </div>
             </div>
-            <div class="row large-gutters">
-                @foreach($productNews as $productNew)
-                    <div class="col-md-6 col-lg-3 mb-5 mb-lg-5 ">
-                        <div class="ftco-media-1">
-                            <div class="ftco-media-1-inner">
-                                <a href="{{ route('products.show', $productNew->id) }}" class="d-inline-block mb-4"><img src="{{ asset('storage'.$productNew->image_url) }}" class="img-fluid"></a>
-                                <div class="ftco-media-details">
-                                    <h3>{{ $productNew->name }}</h3>
-                                    <strong>{{ App\Helper\Helper::formatMoney($productNew->sale_price) }} VNĐ</strong>
-                                </div>
+            <div class="owl-carousel nonloop-block-13 mb-5">
+                @foreach($productBestSales as $productBestSale)
+                    <div class="ftco-media-1">
+                        <div class="ftco-media-1-inner">
+                            <a href="{{ route('products.show', $productBestSale['id']) }}" class="d-inline-block mb-4"><img src="{{ asset('storage'.$productBestSale['image_url']) }}" class="img-fluid"></a>
+                            <div class="ftco-media-details">
+                                <h3>{{ $productBestSale['name'] }}</h3>
+                                <rate-avg
+                                    avg="{{ json_encode($productBestSale['rating']) }}"
+                                ></rate-avg>
+                                <strong>{{ App\Helper\Helper::formatMoney($productBestSale['sale_price']) }} VNĐ</strong>
+                                <p>Đã bán {{ $productBestSale['sum'] }}</p>
                             </div>
                         </div>
                     </div>

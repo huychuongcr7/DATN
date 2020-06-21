@@ -10,7 +10,7 @@ class Product extends Model
     use SoftDeletes;
 
     protected $table = 'products';
-    protected $perPage = 6;
+    protected $perPage = 3;
 
     const STATUS_ACTIVE = 1;
     const STATUS_STOP = 2;
@@ -37,6 +37,7 @@ class Product extends Model
         'status',
         'description',
         'note',
+        'rating',
     ];
 
     protected $dates = [
@@ -44,9 +45,6 @@ class Product extends Model
         'updated_at',
         'deleted_at'
     ];
-
-    public $appends = ['rating'];
-    public $hidden = ['rates'];
 
     public static $statuses = [
         self::STATUS_ACTIVE => 'Kinh doanh',
@@ -63,19 +61,9 @@ class Product extends Model
         return $this->belongsTo('App\Models\Trademark');
     }
 
-    public function rates()
-    {
-        return $this->hasMany('\App\Models\Rate');
-    }
-
-    public function getRatingAttribute()
-    {
-        return $this->rates->avg('rating') ?? null;
-    }
-
     public function getProducts(array $request)
     {
-        $builder = $this->where('status', self::STATUS_ACTIVE);
+        $builder = $this->where('status', self::STATUS_ACTIVE)->orderByDesc('rating');
         if (isset($request['order_by_price'])) {
             if ($request['order_by_price'] == 'asc') {
                 $builder->orderBy('sale_price');

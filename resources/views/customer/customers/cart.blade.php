@@ -34,7 +34,6 @@
                         welcome="{{ route('welcome') }}"
                     ></cart-form>
                 </div>
-                <script src="/js/app.js"></script>
             @else
                 <div class="text-center">
                     <h3 class="text-black">Không có sản phẩm nào trong giỏ hàng</h3>
