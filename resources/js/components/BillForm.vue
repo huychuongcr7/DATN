@@ -45,7 +45,7 @@
                 </table>
             </div>
         </div>
-        <div class="form-group form-show-validation row" v-if="totalMoney">
+        <div class="form-group form-show-validation row" v-if="totalMoney >= 0">
             <label class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right">Tổng tiền</label>
             <div class="col-lg-6 col-md-9 col-sm-6">
                 <input name="total_money" class="form-control" type="text" :value="totalMoney" readonly>

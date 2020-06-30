@@ -84,7 +84,7 @@
                                             <i class="fa fa-arrow-left"></i>
                                         </span>Quay lại
                                     </a>
-                                    <a class="btn btn-success" href="{{ route('admin.import_orders.edit', $importOrder->id) }}">
+                                    <a class="btn btn-primary" href="{{ route('admin.import_orders.edit', $importOrder->id) }}">
                                         <span class="btn-label">
                                             <i class="fas fa-edit"></i>
                                         </span>Cập nhật

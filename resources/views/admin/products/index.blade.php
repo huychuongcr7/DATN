@@ -86,6 +86,9 @@
                                                     <button type="button" data-toggle="modal" data-target="{{ '#saleModal' . $key }}" class="btn btn-link @if ($product->status == 1)btn-danger @else btn-primary @endif">
                                                         <i class="fas @if ($product->status == 1)fa-lock @else fa-lock-open @endif"></i>
                                                     </button>
+                                                    <a href="{{ route('admin.products.export_import', $product->id) }}" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Lịch sử xuất nhập kho">
+                                                        <i class="fa fa-history"></i>
+                                                    </a>
                                                     <!-- Modal sale -->
                                                     <div class="modal fade" id="{{ 'saleModal' . $key }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog" role="document">

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BillProduct extends Model
 {
-    public $timestamps = false;
     protected $table = 'bill_product';
 
     /**
@@ -19,7 +18,7 @@ class BillProduct extends Model
         'bill_id',
         'product_id',
         'quantity',
-        'created_at',
+        'end_inventory'
     ];
 
     protected $dates = [
@@ -35,5 +34,10 @@ class BillProduct extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function bill()
+    {
+        return $this->belongsTo('\App\Models\Bill');
     }
 }

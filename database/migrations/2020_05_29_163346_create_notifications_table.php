@@ -19,6 +19,8 @@ class CreateNotificationsTable extends Migration
             $table->string('content');
             $table->unsignedTinyInteger('status')->default(\App\Models\Notification::STATUS_UNREAD);
             $table->unsignedTinyInteger('type');
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

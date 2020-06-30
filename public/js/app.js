@@ -2228,6 +2228,222 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CheckInventoryForm.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CheckInventoryForm.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["allProducts", "checkInventoryDetail", "svErrors", "href"],
+  created: function created() {
+    var _this = this;
+
+    this.products = JSON.parse(this.allProducts) || [];
+    this.rowDataProduct = JSON.parse(this.checkInventoryDetail) ? JSON.parse(this.checkInventoryDetail) : [];
+    var productIds = this.rowDataProduct.map(function (r) {
+      return parseInt(r.product_id);
+    });
+    var currentProducts = this.products.filter(function (product) {
+      return productIds.includes(product.id);
+    });
+    this.selectedProduct = currentProducts.map(function (r) {
+      var currentProduct = _this.rowDataProduct.find(function (b) {
+        return b.product_id == r.id;
+      });
+
+      return _objectSpread({}, r, {
+        inventory_reality: currentProduct.inventory_reality,
+        check_inventory_product_id: currentProduct.id
+      });
+    });
+    this.errors = JSON.parse(this.svErrors) || [];
+    this.productsData = this.selectedProduct ? this.selectedProduct : [];
+  },
+  data: function data() {
+    return {
+      products: [],
+      productsData: null,
+      selectedProduct: [],
+      rowDataProduct: [],
+      product_code_search: '',
+      name_search: '',
+      check_inventory_products: [],
+      errors: []
+    };
+  },
+  computed: {
+    filteredProduct: function filteredProduct() {
+      var _this2 = this;
+
+      var product_code_search = this.product_code_search,
+          name_search = this.name_search,
+          products = this.products;
+      var searchProducts = products;
+
+      if (product_code_search) {
+        searchProducts = searchProducts.filter(function (product) {
+          return product.product_code.includes(product_code_search);
+        });
+      }
+
+      if (name_search) {
+        searchProducts = searchProducts.filter(function (product) {
+          return product.name.includes(name_search);
+        });
+      }
+
+      return searchProducts.map(function (r) {
+        return {
+          selected: _this2.selectedProduct.includes(r),
+          data: r
+        };
+      });
+    },
+    totalDifference: function totalDifference() {
+      var sum = 0;
+      this.productsData.forEach(function (product) {
+        sum += parseFloat(product.inventory_reality) - parseFloat(product.inventory);
+      });
+      return sum;
+    }
+  },
+  methods: {
+    addProduct: function addProduct() {
+      return this.productsData = this.selectedProduct;
+    },
+    delRowProduct: function delRowProduct(index) {
+      this.productsData.splice(index, 1);
+    },
+    formatMoney: function formatMoney(value) {
+      var val = (value / 1).toFixed(0).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
+    select: function select(product) {
+      if (this.selectedProduct.includes(product)) {
+        this.selectedProduct = this.selectedProduct.filter(function (r) {
+          return r !== product;
+        });
+      } else {
+        this.selectedProduct.push(product);
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -42462,7 +42678,7 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm.totalMoney
+    _vm.totalMoney >= 0
       ? _c("div", { staticClass: "form-group form-show-validation row" }, [
           _c(
             "label",
@@ -42597,7 +42813,7 @@ var render = function() {
                                     staticClass: "img-upload-preview",
                                     attrs: {
                                       src: product.data.image_url
-                                        ? "/storage" + product.data.image_url
+                                        ? "" + product.data.image_url
                                         : "http://placehold.it/100x100",
                                       width: "100",
                                       height: "100",
@@ -42798,7 +43014,7 @@ var render = function() {
                         _c("img", {
                           staticClass: "img-upload-preview",
                           attrs: {
-                            src: "/storage" + product.image_url,
+                            src: "" + product.image_url,
                             width: "100",
                             height: "100",
                             alt: "preview"
@@ -42974,6 +43190,549 @@ var staticRenderFns = [
           ])
         ])
       ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CheckInventoryForm.vue?vue&type=template&id=7cf13c7a&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CheckInventoryForm.vue?vue&type=template&id=7cf13c7a& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "form-group form-show-validation row" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-lg-8 col-md-9 col-sm-8" }, [
+        _c(
+          "button",
+          {
+            class: "btn btn-success",
+            attrs: {
+              "data-toggle": "modal",
+              "data-target": "#productModal",
+              type: "button"
+            }
+          },
+          [_vm._v("Lựa chọn")]
+        ),
+        _vm._v(" "),
+        _vm.errors.check_inventory_products
+          ? _c("div", [
+              _c("div", { staticClass: "text-danger" }, [
+                _vm._v(_vm._s(_vm.errors.check_inventory_products[0]))
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.productsData.length > 0
+          ? _c(
+              "table",
+              { staticClass: "display table table-striped table-hover" },
+              [
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", [_vm._v("STT")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Mã SP")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Tên SP")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Tồn kho")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Thực tế")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Số lượng lệch")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Giá trị lệch")]),
+                    _vm._v(" "),
+                    _vm.productsData.length > 1
+                      ? _c("th", [_vm._v("Hành động")])
+                      : _vm._e()
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.productsData, function(product, index) {
+                    return _c("tr", { key: index }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: product.id,
+                            expression: "product.id"
+                          }
+                        ],
+                        attrs: {
+                          type: "hidden",
+                          name:
+                            "check_inventory_products[" +
+                            index +
+                            "][product_id]"
+                        },
+                        domProps: { value: product.id },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(product, "id", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: product.check_inventory_product_id,
+                            expression: "product.check_inventory_product_id"
+                          }
+                        ],
+                        attrs: {
+                          type: "hidden",
+                          name: "check_inventory_products[" + index + "][id]"
+                        },
+                        domProps: { value: product.check_inventory_product_id },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              product,
+                              "check_inventory_product_id",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(index + 1))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(product.product_code))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(product.name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(product.inventory))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: product.inventory_reality,
+                              expression: "product.inventory_reality"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            name:
+                              "check_inventory_products[" +
+                              index +
+                              "][inventory_reality]"
+                          },
+                          domProps: { value: product.inventory_reality },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                product,
+                                "inventory_reality",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors[
+                          "check_inventory_products." +
+                            index +
+                            ".inventory_reality"
+                        ]
+                          ? _c("div", { staticClass: "text-danger" }, [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.errors[
+                                    "check_inventory_products." +
+                                      index +
+                                      ".inventory_reality"
+                                  ][0]
+                                )
+                              )
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      product.inventory_reality
+                        ? _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value:
+                                    product.inventory_reality -
+                                    product.inventory,
+                                  expression:
+                                    "product.inventory_reality - product.inventory"
+                                }
+                              ],
+                              attrs: {
+                                type: "hidden",
+                                name:
+                                  "check_inventory_products[" +
+                                  index +
+                                  "][difference]"
+                              },
+                              domProps: {
+                                value:
+                                  product.inventory_reality - product.inventory
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    product.inventory_reality - product,
+                                    "inventory",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(
+                                  product.inventory_reality - product.inventory
+                                ) +
+                                "\n                    "
+                            )
+                          ])
+                        : _c("td"),
+                      _vm._v(" "),
+                      product.inventory_reality
+                        ? _c("td", [
+                            _vm._v(
+                              _vm._s(
+                                _vm.formatMoney(
+                                  (product.inventory_reality -
+                                    product.inventory) *
+                                    product.entry_price
+                                )
+                              ) + " VNĐ"
+                            )
+                          ])
+                        : _c("td"),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm.productsData.length > 1
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-danger",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.delRowProduct(index)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-trash" })]
+                            )
+                          : _vm._e()
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              ]
+            )
+          : _vm._e()
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.totalDifference >= 0
+      ? _c("div", { staticClass: "form-group form-show-validation row" }, [
+          _c(
+            "label",
+            { staticClass: "col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right" },
+            [_vm._v("Tổng chênh lệch")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-lg-6 col-md-9 col-sm-6" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { name: "total_difference", type: "text", readonly: "" },
+              domProps: { value: _vm.totalDifference }
+            })
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "productModal",
+          tabindex: "-1",
+          role: "diaglog",
+          "aria-labelledby": "myModalLacel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-success",
+            staticStyle: { "max-width": "50%" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", { attrs: { id: "app" } }, [
+                  _c("div", { staticClass: "form-check form-check-inline" }, [
+                    _c("label", { staticClass: "form-check-label" }, [
+                      _vm._v("Mã sản phẩm")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.product_code_search,
+                          expression: "product_code_search"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "product_code_search" },
+                      domProps: { value: _vm.product_code_search },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.product_code_search = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { staticClass: "form-check-label ml-3" }, [
+                      _vm._v("Tên sản phẩm")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.name_search,
+                          expression: "name_search"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "name_search" },
+                      domProps: { value: _vm.name_search },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.name_search = $event.target.value
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "d-flex flex-wrap overflow-auto" },
+                    _vm._l(_vm.filteredProduct, function(product) {
+                      return _c(
+                        "div",
+                        {
+                          key: product.data.id,
+                          staticClass: "col-3 p-2 position-relative"
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "img-thumbnail",
+                              class:
+                                "img-thumbnail " +
+                                (product.selected
+                                  ? "border-success bg-success"
+                                  : ""),
+                              on: {
+                                click: function($event) {
+                                  return _vm.select(product.data)
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "photo-box w-100 position-relative"
+                                },
+                                [
+                                  _c("img", {
+                                    staticClass: "img-upload-preview",
+                                    attrs: {
+                                      src: product.data.image_url
+                                        ? "" + product.data.image_url
+                                        : "http://placehold.it/100x100",
+                                      width: "100",
+                                      height: "100",
+                                      alt: "preview"
+                                    }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col text-left" }, [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "text-center my-3",
+                                    class:
+                                      "" +
+                                      (product.selected ? "text-white" : ""),
+                                    attrs: {
+                                      target: "_blank",
+                                      rel: "noopener noreferrer",
+                                      href: _vm.href.replace(
+                                        "%id%",
+                                        product.data.id
+                                      )
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(product.data.name))]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "p",
+                                  {
+                                    class:
+                                      "" +
+                                      (product.selected ? "text-white" : "")
+                                  },
+                                  [
+                                    _vm._v(
+                                      "Tồn kho: " +
+                                        _vm._s(
+                                          _vm.formatMoney(
+                                            product.data.inventory
+                                          )
+                                        )
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]
+                          )
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-success",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        return _vm.addProduct()
+                      }
+                    }
+                  },
+                  [_vm._v("Chấp nhận")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Đóng")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right" },
+      [
+        _vm._v("Sản phẩm\n            "),
+        _c("span", { staticClass: "required-label" }, [_vm._v("*")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title" }, [_vm._v("Lựa chọn sản phẩm")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hiden": "true" } }, [_vm._v("x")])]
+      )
     ])
   }
 ]
@@ -43431,7 +44190,7 @@ var render = function() {
                                 _c("img", {
                                   staticClass: "img-upload-preview",
                                   attrs: {
-                                    src: "/storage" + product.image_url,
+                                    src: "" + product.image_url,
                                     width: "100",
                                     height: "100",
                                     alt: "preview"
@@ -44238,7 +44997,7 @@ var render = function() {
                 _c("img", {
                   attrs: {
                     src: rateProduct.avatar
-                      ? "/storage" + rateProduct.avatar
+                      ? "" + rateProduct.avatar
                       : "http://placehold.it/100x100",
                     alt: "Image placeholder"
                   }
@@ -56550,6 +57309,7 @@ Vue.component('star-rating', vue_star_rating__WEBPACK_IMPORTED_MODULE_0___defaul
 Vue.component('rating-form', __webpack_require__(/*! ./components/RatingForm.vue */ "./resources/js/components/RatingForm.vue")["default"]);
 Vue.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_1__["default"]);
 Vue.component('rate-avg', __webpack_require__(/*! ./components/RateAvg.vue */ "./resources/js/components/RateAvg.vue")["default"]);
+Vue.component('check-inventory-form', __webpack_require__(/*! ./components/CheckInventoryForm.vue */ "./resources/js/components/CheckInventoryForm.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -56740,6 +57500,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CartForm_vue_vue_type_template_id_d3524122___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CartForm_vue_vue_type_template_id_d3524122___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/CheckInventoryForm.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/CheckInventoryForm.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CheckInventoryForm_vue_vue_type_template_id_7cf13c7a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CheckInventoryForm.vue?vue&type=template&id=7cf13c7a& */ "./resources/js/components/CheckInventoryForm.vue?vue&type=template&id=7cf13c7a&");
+/* harmony import */ var _CheckInventoryForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CheckInventoryForm.vue?vue&type=script&lang=js& */ "./resources/js/components/CheckInventoryForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _CheckInventoryForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CheckInventoryForm_vue_vue_type_template_id_7cf13c7a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CheckInventoryForm_vue_vue_type_template_id_7cf13c7a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/CheckInventoryForm.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/CheckInventoryForm.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/CheckInventoryForm.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CheckInventoryForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./CheckInventoryForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CheckInventoryForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CheckInventoryForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/CheckInventoryForm.vue?vue&type=template&id=7cf13c7a&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/CheckInventoryForm.vue?vue&type=template&id=7cf13c7a& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CheckInventoryForm_vue_vue_type_template_id_7cf13c7a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./CheckInventoryForm.vue?vue&type=template&id=7cf13c7a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CheckInventoryForm.vue?vue&type=template&id=7cf13c7a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CheckInventoryForm_vue_vue_type_template_id_7cf13c7a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CheckInventoryForm_vue_vue_type_template_id_7cf13c7a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

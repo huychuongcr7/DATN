@@ -1,6 +1,6 @@
 @extends('layouts.backend.admin')
 
-@section('title', 'Quản lý Hóa đơn')
+@section('title', 'Quản lý Đơn hàng')
 
 @section('breadcrumb')
     @include('layouts.backend.breadcrumb', [
@@ -10,7 +10,7 @@
                 'url' => route('admin.dashboard')
             ],
             [
-                'text' => 'Quản lý Hóa đơn',
+                'text' => 'Quản lý Đơn hàng',
             ],
         ]
     ])
@@ -37,8 +37,7 @@
                                     <thead>
                                     <tr>
                                         <th>STT</th>
-                                        <th>Mã hóa đơn</th>
-                                        <th>Thời gian bán</th>
+                                        <th>Mã đơn hàng</th>
                                         <th>Khách hàng</th>
                                         <th>Tổng tiền hàng</th>
                                         <th>Khách đã trả</th>
@@ -51,16 +50,17 @@
                                         <tr>
                                             <td>{{ $loop->index + 1 }}</td>
                                             <td><a href="{{ route('admin.bills.show', $bill->id) }}">{{ $bill->bill_code }}</a></td>
-                                            <td>{{ $bill->time_of_sale->format('Y-m-d H:i') }}</td>
                                             <td>{{ $bill->customer->name }}</td>
                                             <td>{{ App\Helper\Helper::formatMoney($bill->total_money) }} VNĐ</td>
                                             <td>{{ App\Helper\Helper::formatMoney($bill->paid_by_customer) }} VNĐ</td>
                                             <td>{{ \App\Models\Bill::$statuses[$bill->status] }}</td>
                                             <td>
                                                 <div class="form-button-action">
-                                                    <a href="{{ route('admin.bills.edit', $bill->id) }}" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Cập nhật">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
+                                                    @if($bill->status < \App\Models\Bill::STATUS_COMPLETE)
+                                                        <a href="{{ route('admin.bills.edit', $bill->id) }}" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Cập nhật">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                    @endif
                                                     <button type="button" data-toggle="modal" data-target="{{ '#deleteModal' . $key }}" class="btn btn-link btn-danger" data-original-title="Xóa">
                                                         <i class="fa fa-times"></i>
                                                     </button>
@@ -70,13 +70,13 @@
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Xóa hóa đơn</h5>
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Xóa đơn hàng</h5>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    Bạn có chắc muốn xóa hóa đơn không?
+                                                                    Bạn có chắc muốn xóa đơn hàng không?
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>

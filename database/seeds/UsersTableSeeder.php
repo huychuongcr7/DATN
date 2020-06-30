@@ -20,10 +20,30 @@ class UsersTableSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('123456'),
-            'status' => array_rand(User::$statuses),
+            'status' => User::STATUS_ACTIVE,
             'gender' => array_rand(User::$genders),
+            'role' => User::ROLE_ADMIN
         ]);
-        factory(User::class, 50)->create();
+
+        User::create([
+            'name' => 'Shipper',
+            'email' => 'shipper@gmail.com',
+            'password' => bcrypt('123456'),
+            'status' => User::STATUS_ACTIVE,
+            'gender' => array_rand(User::$genders),
+            'role' => User::ROLE_SHIPPER
+        ]);
+
+        User::create([
+            'name' => 'Stocker',
+            'email' => 'stocker@gmail.com',
+            'password' => bcrypt('123456'),
+            'status' => User::STATUS_ACTIVE,
+            'gender' => array_rand(User::$genders),
+            'role' => User::ROLE_STOCKER
+        ]);
+
+        factory(User::class, 10)->create();
 
         Schema::enableForeignKeyConstraints();
     }

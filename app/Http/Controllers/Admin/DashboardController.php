@@ -20,7 +20,7 @@ class DashboardController extends Controller
     {
         $countProduct = Product::where('status', Product::STATUS_ACTIVE)->count();
         $countCategory = Category::count();
-        $totalSale = Bill::whereMonth('time_of_sale', date('m'))->sum('total_money');
+        $totalSale = Bill::where('status', Bill::STATUS_COMPLETE)->whereMonth('time_of_sale', date('m'))->sum('total_money');
         $countOrder = Bill::count();
 
         // Top 10 best sale

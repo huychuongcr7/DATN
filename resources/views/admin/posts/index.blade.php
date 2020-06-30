@@ -126,9 +126,6 @@
                     headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                     data: { "post_id" : post_id },
                     success: function(data){
-                        if(data.data.success){
-                            //do something
-                        }
                     }
                 });
             });

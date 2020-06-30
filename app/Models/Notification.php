@@ -29,7 +29,8 @@ class Notification extends Model
         'title',
         'content',
         'status',
-        'type'
+        'type',
+        'user_id'
     ];
 
     protected $dates = [

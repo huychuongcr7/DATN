@@ -42,6 +42,14 @@ class AppServiceProvider extends ServiceProvider
         if (env('REDIRECT_HTTPS')) {
             $this->app['request']->server->set('HTTPS', true);
         }
+        $this->app->singleton(
+            \App\Services\CheckInventoryServiceInterface::class,
+            \App\Services\CheckInventoryService::class
+        );
+        $this->app->singleton(
+            \App\Services\UserServiceInterface::class,
+            \App\Services\UserService::class
+        );
     }
 
     /**

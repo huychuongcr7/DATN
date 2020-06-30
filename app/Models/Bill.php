@@ -12,9 +12,13 @@ class Bill extends Model
     protected $table = 'bills';
 
     const STATUS_WAIT_CONFIRM = 1;
-    const STATUS_DELIVERY = 2;
-    const STATUS_COMPLETE = 3;
-    const STATUS_CANCEL = 4;
+    const STATUS_CONFIRM = 2;
+    const STATUS_ASSIGNED = 3;
+    const STATUS_EXPORT = 4;
+    const STATUS_DELIVERY = 5;
+    const STATUS_DELIVERED = 6;
+    const STATUS_COMPLETE = 7;
+    const STATUS_CANCEL = 8;
 
     const METHOD_TRANSFER = 1;
     const METHOD_CASH = 2;
@@ -45,9 +49,17 @@ class Bill extends Model
         'deleted_at'
     ];
 
+    protected $appends = [
+        'name_customer'
+    ];
+
     public static $statuses = [
         self::STATUS_WAIT_CONFIRM => 'Chờ xác nhận',
+        self::STATUS_CONFIRM => 'Xác nhận',
+        self::STATUS_ASSIGNED => 'Đã phân công',
+        self::STATUS_EXPORT => 'Đã xuất hàng',
         self::STATUS_DELIVERY => 'Đang giao hàng',
+        self::STATUS_DELIVERED => 'Đã giao hàng',
         self::STATUS_COMPLETE => 'Hoàn tất',
         self::STATUS_CANCEL => 'Hủy bỏ'
     ];
@@ -88,5 +100,10 @@ class Bill extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function getNameCustomerAttribute()
+    {
+        return $this->customer->name ?? null;
     }
 }

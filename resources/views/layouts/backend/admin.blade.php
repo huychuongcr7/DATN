@@ -153,7 +153,7 @@
 
     var channel = pusher.subscribe('my-channel');
     channel.bind('my-event', function(data) {
-        let $notification =$('#notification');
+        let $notification = $('#notification');
         $notification.html(parseInt($notification.html()) + 1);
         $('#count').html(parseInt($('#count').html()) + 1);
         var existingNotifications = notifications.html();

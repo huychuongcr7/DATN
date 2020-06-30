@@ -21,6 +21,7 @@ class CreateImportOrderProductTable extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('quantity');
             $table->integer('unit_price');
+            $table->integer('end_inventory')->nullable();
         });
     }
 

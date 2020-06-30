@@ -13,5 +13,6 @@ $factory->define(User::class, function (Faker $faker) {
         'password' => bcrypt('123456'),
         'status' => array_rand(User::$statuses),
         'gender' => array_rand(User::$genders),
+        'role' => array_rand(User::$roles),
     ];
 });

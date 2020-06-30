@@ -108,7 +108,7 @@
                                             <i class="fa fa-arrow-left"></i>
                                         </span>Quay lại
                                     </a>
-                                    <a class="btn btn-success" href="{{ route('admin.customers.edit', $customer->id) }}">
+                                    <a class="btn btn-primary" href="{{ route('admin.customers.edit', $customer->id) }}">
                                         <span class="btn-label">
                                             <i class="fas fa-edit"></i>
                                         </span>Cập nhật
@@ -118,7 +118,7 @@
                                             <i class="fas @if ($customer->status == 1)fa-lock @else fa-lock-open @endif"></i>
                                         </span>@if ($customer->status == 1)Ngừng hoạt động @else Hoạt động @endif
                                     </button>
-                                    <a class="btn btn-primary" href="{{ route('admin.customers.payment', $customer->id) }}">
+                                    <a class="btn btn-success" href="{{ route('admin.customers.payment', $customer->id) }}">
                                         <span class="btn-label">
                                             <i class="far fa-credit-card"></i>
                                         </span>Thanh toán

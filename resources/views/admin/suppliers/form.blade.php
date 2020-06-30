@@ -87,7 +87,7 @@
                     <i class="fas fa-times"></i>
                 </span>Hủy
             </a>
-            <button class="btn btn-success" type="submit">
+            <button class="btn btn-primary" type="submit">
                 <span class="btn-label">
                     <i class="fas fa-check"></i>
                 </span>Xác nhận

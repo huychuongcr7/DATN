@@ -36,7 +36,7 @@ class ImportOrderService implements ImportOrderServiceInterface
         $importOrder = ImportOrder::create($params);
 
         foreach ($params['import_order_products'] as $value) {
-            $importOrder->importOrderProducts()->create([
+            $importOrderProduct = $importOrder->importOrderProducts()->create([
                 'import_order_id' => $importOrder['id'],
                 'product_id' => $value['product_id'],
                 'quantity' => $value['quantity'],
@@ -47,13 +47,17 @@ class ImportOrderService implements ImportOrderServiceInterface
                 'entry_price' => (($product->entry_price * $product->inventory) + ($value['quantity'] * $value['unit_price'])) / ($product->inventory + $value['quantity']),
                 'inventory' => $product->inventory + $value['quantity'],
             ]);
+            $importOrderProduct->update([
+                'end_inventory' => $product->inventory
+            ]);
             $url = route('admin.products.show', $product->id);
             if ($product->inventory > $product->inventory_level_min) {
                 $notification = Notification::create([
                     'title' => 'Cảnh báo vượt tồn kho',
                     'content' => 'Tồn kho của sản phẩm ' . '<a href="'.$url.'">'.$product->name.'</a>' . ' lớn hơn định mức tồn kho lớn nhất!',
                     'status' => Notification::STATUS_UNREAD,
-                    'type' => Notification::TYPE_BIGGER_INVENTORY
+                    'type' => Notification::TYPE_BIGGER_INVENTORY,
+                    'user_id' => 1
                 ]);
 
                 // pusher

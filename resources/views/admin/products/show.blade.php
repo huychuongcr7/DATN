@@ -116,7 +116,7 @@
                                             <i class="fa fa-arrow-left"></i>
                                         </span>Quay lại
                                     </a>
-                                    <a class="btn btn-success" href="{{ route('admin.products.edit', $product->id) }}">
+                                    <a class="btn btn-primary" href="{{ route('admin.products.edit', $product->id) }}">
                                         <span class="btn-label">
                                             <i class="fas fa-edit"></i>
                                         </span>Cập nhật
@@ -126,6 +126,11 @@
                                             <i class="fas @if ($product->status == 1)fa-lock @else fa-lock-open @endif"></i>
                                         </span>@if ($product->status == 1)Ngừng kinh doanh @else Kinh doanh @endif
                                     </button>
+                                    <a class="btn btn-success" href="{{ route('admin.products.export_import', $product->id) }}">
+                                        <span class="btn-label">
+                                            <i class="fas fa-history"></i>
+                                        </span>Lịch sử xuất nhập
+                                    </a>
                                     <!-- Modal sale -->
                                     <div class="modal fade" id="saleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">

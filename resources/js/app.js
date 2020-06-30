@@ -32,6 +32,7 @@ Vue.component('star-rating', StarRating);
 Vue.component('rating-form', require('./components/RatingForm.vue').default);
 Vue.use(VueSweetalert2);
 Vue.component('rate-avg', require('./components/RateAvg.vue').default);
+Vue.component('check-inventory-form', require('./components/CheckInventoryForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

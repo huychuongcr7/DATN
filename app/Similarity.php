@@ -13,6 +13,7 @@ class Similarity
         if ($returnDistance) {
             return $distance;
         }
+
         return (strlen($a) - $distance) / strlen($a);
     }
 

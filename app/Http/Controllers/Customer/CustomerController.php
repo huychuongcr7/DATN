@@ -137,7 +137,8 @@ class CustomerController extends Controller
             'title' => 'Hủy đơn hàng',
             'content' => 'Đơn hàng ' . '<a href="'.$url.'">'.$bill->bill_code.'</a>' . ' đã bị hủy. Vui lòng kiểm tra để xử lý!',
             'status' => Notification::STATUS_UNREAD,
-            'type' => Notification::TYPE_CANCEL_ORDER
+            'type' => Notification::TYPE_CANCEL_ORDER,
+            'user_id' => 1
         ]);
 
         // pusher

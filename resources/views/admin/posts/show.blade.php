@@ -96,7 +96,7 @@
                                             <i class="fa fa-arrow-left"></i>
                                         </span>Quay lại
                                     </a>
-                                    <a class="btn btn-success" href="{{ route('admin.posts.edit', $post->id) }}">
+                                    <a class="btn btn-primary" href="{{ route('admin.posts.edit', $post->id) }}">
                                         <span class="btn-label">
                                             <i class="fas fa-edit"></i>
                                         </span>Cập nhật

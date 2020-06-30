@@ -32,7 +32,6 @@ class StoreBillRequest extends FormRequest
                 $this->id ?? NULL),
             'customer_id' => 'required|in:' . Customer::pluck('id')->implode(','),
             'paid_by_customer' => 'required|digits_between:1,10',
-            'time_of_sale' => 'required|date_format:Y-m-d H:i',
             'note' => 'nullable|string|max:65535',
         ];
     }
@@ -50,7 +49,6 @@ class StoreBillRequest extends FormRequest
             'bill_code' => 'mã hóa đơn',
             'customer_id' => 'khách hàng',
             'paid_by_customer' => 'khách đã trả',
-            'time_of_sale' => 'thời gian bán',
             'note' => 'ghi chú',
         ];
     }

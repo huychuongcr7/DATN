@@ -6,7 +6,11 @@ use App\Http\Requests\ImportExcelFileRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Imports\ProductsImport;
 use App\Imports\ValidateExcelFile;
+use App\Models\Bill;
+use App\Models\BillProduct;
 use App\Models\Category;
+use App\Models\ImportOrder;
+use App\Models\ImportOrderProduct;
 use App\Models\Product;
 use App\Models\Trademark;
 use App\Services\ProductServiceInterface;
@@ -174,5 +178,38 @@ class ProductController extends Controller
         $product->status = 1;
         $product->save();
         return redirect()->back();
+    }
+
+    public function exportImportHistory($id)
+    {
+        $product = Product::findOrFail($id);
+        $exportImports = [];
+        $importOrderProducts = ImportOrderProduct::where('product_id', $product->id)->get();
+        $billProducts = BillProduct::where('product_id', $product->id)->get();
+        foreach ($importOrderProducts as $importOrderProduct) {
+            $importOrder = $importOrderProduct->importOrder()->first()->toArray();
+            $importOrder['quantity'] = $importOrderProduct['quantity'];
+            $importOrder['end_inventory'] = $importOrderProduct['end_inventory'];
+            $importOrder['time_transaction'] = $importOrder['time_of_import'];
+            unset($importOrder['time_of_import']);
+            array_push($exportImports, $importOrder);
+        }
+        foreach ($billProducts as $billProduct) {
+            $bill = $billProduct->bill()->where('status', Bill::STATUS_COMPLETE)->first();
+            if (isset($bill)) {
+                $billExist = $bill->toArray();
+                $billExist['quantity'] = $billProduct['quantity'];
+                $billExist['end_inventory'] = $billProduct['end_inventory'];
+                $billExist['time_transaction'] = $billExist['time_of_sale'];
+                unset($billExist['time_of_sale']);
+                array_push($exportImports, $billExist);
+            }
+        }
+
+        usort($exportImports, function ($a, $b) {
+            return $a['time_transaction'] < $b['time_transaction'];
+        });
+
+        return view('admin.products.export_import', compact('product', 'exportImports'));
     }
 }

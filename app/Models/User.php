@@ -12,11 +12,16 @@ class User extends Authenticatable
     protected $table = 'users';
 
     const STATUS_ACTIVE = 1;
-    const STATUS_DEACTIVE = 2;
-    const STATUS_STOP = 3;
+    const STATUS_STOP = 2;
 
     const MALE = 1;
     const FEMALE = 2;
+
+    const ROLE_ADMIN = 1;
+    const ROLE_SHIPPER = 2;
+    const ROLE_STOCKER = 3;
+
+    const FOLDER = '/images/users/';
 
     /**
      * The attributes that are mass assignable.
@@ -29,7 +34,10 @@ class User extends Authenticatable
         'password',
         'status',
         'gender',
-        'avatar'
+        'role',
+        'avatar',
+        'address',
+        'phone'
     ];
 
     /**
@@ -42,14 +50,31 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $appends = ['count_bill'];
+
     public static $statuses = [
         self::STATUS_ACTIVE => 'Hoạt động',
-        self::STATUS_DEACTIVE => 'Vô hiệu hóa',
-        self::STATUS_STOP => 'Dừng lại'
+        self::STATUS_STOP => 'Ngừng hoạt động',
     ];
 
     public static $genders = [
-        self::MALE => 'Name',
+        self::MALE => 'Nam',
         self::FEMALE => 'Nữ'
     ];
+
+    public static $roles = [
+        self::ROLE_ADMIN => 'Admin',
+        self::ROLE_SHIPPER => 'Shipper',
+        self::ROLE_STOCKER => 'Quản lý kho'
+    ];
+
+    public function bills()
+    {
+        return $this->hasMany('\App\Models\Bill')->where('status', Bill::STATUS_COMPLETE);
+    }
+
+    public function getCountBillAttribute()
+    {
+        return $this->bills->count() ?? null;
+    }
 }

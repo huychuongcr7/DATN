@@ -9,7 +9,7 @@
     </div>
     <script src="/js/app.js"></script>
     <div class="form-group form-show-validation row @error('bill_code') has-error @enderror">
-        <label for="bill_code" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right">Mã hóa đơn
+        <label for="bill_code" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right">Mã đơn hàng
             <span class="required-label">*</span>
         </label>
         <div class="col-lg-6 col-md-9 col-sm-8">
@@ -55,24 +55,6 @@
             @enderror
         </div>
     </div>
-    <div class="form-group form-show-validation row @error('time_of_sale') has-error @enderror">
-        <label for="time_of_sale" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right">Thời gian bán
-            <span class="required-label">*</span>
-        </label>
-        <div class="col-lg-6 col-md-9 col-sm-8">
-            <div class="input-group">
-                <input type="text" class="form-control" id="time_of_sale" name="time_of_sale" value="{{ old('time_of_sale', isset($bill->time_of_sale) ? $bill->time_of_sale : now()->format('Y-m-d H:i')) }}">
-                @error('time_of_sale')
-                <label class="error">{{ $message }}</label>
-                @enderror
-                <div class="input-group-append">
-                    <span class="input-group-text">
-                        <i class="fa fa-calendar"></i>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="form-group form-show-validation row @error('note') has-error @enderror">
         <label class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right">Ghi chú</label>
         <div class="col-lg-6 col-md-9 col-sm-8">
@@ -94,7 +76,7 @@
                     <i class="fas fa-times"></i>
                 </span>Hủy
             </a>
-            <button class="btn btn-success" type="submit">
+            <button class="btn btn-primary" type="submit">
                 <span class="btn-label">
                     <i class="fas fa-check"></i>
                 </span>Xác nhận

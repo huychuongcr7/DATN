@@ -28,10 +28,19 @@
                         <div class="card-body">
                             <div style="padding-bottom: 30px">
                                 <div id="chart-container">
+                                    <canvas id="barChartRevenue"></canvas>
+                                </div>
+                                <div class="text-center" style="padding-top: 20px">
+                                    <h3><b>Top 10 sản phẩm doanh thu cao nhất trong tháng</b></h3>
+                                </div>
+                            </div>
+                            <hr>
+                            <div style="padding-bottom: 30px">
+                                <div id="chart-container">
                                     <canvas id="barChart"></canvas>
                                 </div>
                                 <div class="text-center" style="padding-top: 20px">
-                                    <h3><b>Top 10 sản phẩm bán chạy trong tháng</b></h3>
+                                    <h3><b>Top 10 sản phẩm bán chạy theo số lượng trong tháng</b></h3>
                                 </div>
                             </div>
                             <hr>
@@ -62,25 +71,26 @@
 
 @section('inline_scripts')
     <script>
-        var nameProducts = <?php echo ($productNames)?>;
-        var sumProducts = <?php echo $productSums?>;
-        var countCategories = <?php echo $countCategories?>;
+        var productNameQuantities = <?php echo ($productNameQuantities)?>;
+        var productSumQuantities = <?php echo $productSumQuantities?>;
+        var productNameRevenues = <?php echo ($productNameRevenues)?>;
+        var productSumRevenues = <?php echo $productSumRevenues?>;
         var productNameInventories = <?php echo ($productNameInventories)?>;
         var productInventories = <?php echo ($productInventories)?>;
 
+        var barChartRevenue = document.getElementById('barChartRevenue').getContext('2d');
         var barChart = document.getElementById('barChart').getContext('2d');
         var barChartInventory = document.getElementById('barChartInventory').getContext('2d');
-        var categoryChart = document.getElementById('categoryChart').getContext('2d');
 
-        var myBarChart = new Chart(barChart, {
+        var myBarChartRevenue = new Chart(barChartRevenue, {
             type: 'bar',
             data: {
-                labels: nameProducts,
+                labels: productNameRevenues,
                 datasets: [{
-                    label: "Số lượng",
+                    label: "Doanh thu",
                     backgroundColor: 'rgb(23, 125, 255)',
                     borderColor: 'rgb(23, 125, 255)',
-                    data: sumProducts,
+                    data: productSumRevenues,
                 }],
             },
             options: {
@@ -90,9 +100,55 @@
                     yAxes: [{
                         ticks: {
                             beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Số tiền'
+
                         }
                     }]
                 },
+                tooltips:{
+                    callbacks: {
+                        label: (item) => `${item.yLabel} VNĐ`,
+                    },
+
+                }
+            }
+        });
+
+        var myBarChart = new Chart(barChart, {
+            type: 'bar',
+            data: {
+                labels: productNameQuantities,
+                datasets: [{
+                    label: "Số lượng",
+                    backgroundColor: 'rgb(23, 125, 255)',
+                    borderColor: 'rgb(23, 125, 255)',
+                    data: productSumQuantities,
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Số lượng'
+
+                        }
+                    }]
+                },
+                tooltips:{
+                    callbacks: {
+                        label: (item) => `${item.yLabel} Sản phẩm`,
+                    },
+
+                }
             }
         });
 
@@ -114,51 +170,22 @@
                     yAxes: [{
                         ticks: {
                             beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Số lượng'
+
                         }
                     }]
                 },
-            }
-        });
+                tooltips:{
+                    callbacks: {
+                        label: (item) => `${item.yLabel} Sản phẩm`,
+                    },
 
-
-        var myCategoryChart = new Chart(categoryChart, {
-            type: 'pie',
-            data: {
-                datasets: [{
-                    data: countCategories,
-                    backgroundColor: ["#1d74f3", "#7ba45d", "#f4afcb", "#a3a4cd", "#c6545d", "#3f5b9d"],
-                    borderWidth: 0
-                }],
-                labels: <?php echo $categories?>
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        fontColor: 'rgb(154, 154, 154)',
-                        fontSize: 11,
-                        usePointStyle: true,
-                        padding: 20
-                    }
-                },
-                pieceLabel: {
-                    render: 'percentage',
-                    fontColor: 'white',
-                    fontSize: 14,
-                },
-                tooltips: false,
-                layout: {
-                    padding: {
-                        left: 20,
-                        right: 20,
-                        top: 20,
-                        bottom: 20
-                    }
                 }
             }
-        })
+        });
 
     </script>
 

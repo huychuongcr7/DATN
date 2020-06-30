@@ -19,5 +19,11 @@ class ImportOrderProduct extends Model
         'product_id',
         'quantity',
         'unit_price',
+        'end_inventory'
     ];
+
+    public function importOrder()
+    {
+        return $this->belongsTo('\App\Models\ImportOrder');
+    }
 }

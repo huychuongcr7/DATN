@@ -22,6 +22,7 @@ class CustomersTableSeeder extends Seeder
             'password' => bcrypt('123456'),
             'status' => Customer::STATUS_ACTIVE,
             'gender' => array_rand(Customer::$genders),
+            'phone' => '0326175823'
         ]);
         factory(Customer::class, 50)->create();
 

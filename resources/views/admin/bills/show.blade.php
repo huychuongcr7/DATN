@@ -1,6 +1,6 @@
 @extends('layouts.backend.admin')
 
-@section('title', 'Thông tin Hóa đơn')
+@section('title', 'Thông tin Đơn hàng')
 
 @section('breadcrumb')
     @include('layouts.backend.breadcrumb', [
@@ -10,11 +10,11 @@
                 'url' => route('admin.dashboard')
             ],
             [
-            'text' => 'Quản lý Hóa đơn',
+            'text' => 'Quản lý Đơn hàng',
             'url' => route('admin.bills.index')
             ],
             [
-                'text' => 'Thông tin Hóa đơn',
+                'text' => 'Thông tin Đơn hàng',
             ],
         ]
     ])
@@ -37,7 +37,7 @@
                                     <td>{{ $bill->id }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Mã hóa đơn</th>
+                                    <th>Mã đơn hàng</th>
                                     <td>{{ $bill->bill_code }}</td>
                                 </tr>
                                 <tr>
@@ -49,7 +49,7 @@
                                     <td>{{ $bill->customer->name }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Người bán hàng</th>
+                                    <th>Phân công cho</th>
                                     <td>@if (isset($bill->user_id)){{ $bill->user->name }} @endif</td>
                                 </tr>
                                 <tr>
@@ -61,12 +61,16 @@
                                     <td>{{ App\Helper\Helper::formatMoney($bill->paid_by_customer) }} VNĐ</td>
                                 </tr>
                                 <tr>
-                                    <th>Thời gian bán</th>
-                                    <td>{{ $bill->time_of_sale->format('Y-m-d H:i') }}</td>
+                                    <th>Thời gian hoàn thành</th>
+                                    <td>{{ $bill->time_of_sale ? $bill->time_of_sale->format('Y-m-d H:i') : null }}</td>
                                 </tr>
                                 <tr>
                                     <th>Địa chỉ nhận hàng</th>
                                     <td>{{ $bill->address_receive }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Số điện thoại</th>
+                                    <td>{{ $bill->phone_receive }}</td>
                                 </tr>
                                 <tr>
                                     <th>Ghi chú</th>
@@ -129,45 +133,46 @@
                                             <i class="fa fa-arrow-left"></i>
                                         </span>Quay lại
                                     </a>
-                                    <a class="btn btn-primary" href="{{ route('admin.bills.edit', $bill->id) }}">
+                                    <a class="btn btn-primary" href="{{ route('admin.bills.edit', $bill->id) }}" @if ($bill->status >= \App\Models\Bill::STATUS_COMPLETE) style="display: none" @endif>
                                         <span class="btn-label">
                                             <i class="fas fa-edit"></i>
                                         </span>Cập nhật
                                     </a>
-                                    @if($bill->status == 1)
-                                        <button type="button" data-toggle="modal" data-target="{{ '#deliveryModal' }}" class="btn btn-warning">
-                                            <span><i class="fa fa-car-side"></i></span>Vận chuyển
-                                        </button>
-                                        <button type="button" data-toggle="modal" data-target="{{ '#cancelModal' }}" class="btn btn-danger">
-                                            <span><i class="fa fa-times"></i></span>Hủy bỏ
-                                        </button>
-                                    @elseif($bill->status == 2)
-                                        <button type="button" data-toggle="modal" data-target="{{ '#completeModal' }}" class="btn btn-success">
-                                            <span><i class="fa fa-check"></i></span>Hoàn thành
-                                        </button>
-                                        <button type="button" data-toggle="modal" data-target="{{ '#cancelModal' }}" class="btn btn-danger">
-                                            <span><i class="fa fa-times"></i></span>Hủy bỏ
-                                        </button>
-                                    @endif
+                                        @if($bill->status == 1)
+                                            <button type="button" data-toggle="modal" data-target="{{ '#confirmModal' }}" class="btn btn-success">
+                                                <span><i class="fa fa-check"></i></span>Xác nhận
+                                            </button>
+                                        @elseif($bill->status == 2)
+                                            <button type="button" data-toggle="modal" data-target="{{ '#assignedModal' }}" class="btn btn-success">
+                                                <span><i class="fas fa-user-tag"></i></span>Phân công
+                                            </button>
+                                        @elseif($bill->status == \App\Models\Bill::STATUS_DELIVERED)
+                                            <button type="button" data-toggle="modal" data-target="{{ '#completeModal' }}" class="btn btn-success">
+                                                <span><i class="fa fa-check"></i></span>Hoàn thành
+                                            </button>
+                                        @endif
+                                    <button type="button" data-toggle="modal" data-target="{{ '#cancelModal' }}" class="btn btn-danger" @if ($bill->status == \App\Models\Bill::STATUS_COMPLETE || $bill->status == \App\Models\Bill::STATUS_CANCEL) style="display: none" @endif>
+                                        <span><i class="fa fa-times"></i></span>Hủy bỏ
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <!-- Modal delivery -->
-                        <div class="modal fade" id="{{ 'deliveryModal' }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <!-- Modal confirm -->
+                        <div class="modal fade" id="{{ 'confirmModal' }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Vận chuyển đơn hàng</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Xác nhận đơn hàng</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        Bạn có chắc muốn vận chuyển đơn hàng không?
+                                        Bạn có chắc muốn xác nhận đơn hàng không?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                        <form class="form-group" method="POST" action="{{ route('admin.bills.delivery', $bill->id) }}">
+                                        <form class="form-group" method="POST" action="{{ route('admin.bills.confirm', $bill->id) }}">
                                             @csrf
                                             @method('PUT')
                                             <button class="btn btn-success" type="submit">Xác nhận</button>
@@ -176,6 +181,66 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Modal assigned -->
+                        <div class="modal fade" id="{{ 'assignedModal' }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Phân công đơn hàng</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="d-flex flex-wrap overflow-auto">
+                                            @foreach($users as $user)
+                                                <div class="col-3 p-2 position-relative">
+                                                    <input type="hidden" id="user_id" value="{{ $user->id }}">
+                                                    <div class="img-thumbnail shipper">
+                                                        <div class="photo-box w-100 position-relative">
+                                                            <img src="{{ $user->avatar ? $user->avatar : 'http://placehold.it/100x100' }}" class="img-upload-preview" width="100" height="100" alt="preview"/>
+                                                        </div>
+                                                        <div class="col text-left">
+                                                            <a class="text-center my-3" id="name">{{ $user->name }}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                        <button class="btn btn-success" type="submit" id="submit">Xác nhận</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal export -->
+{{--                        <div class="modal fade" id="{{ 'exportModal' }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
+{{--                            <div class="modal-dialog" role="document">--}}
+{{--                                <div class="modal-content">--}}
+{{--                                    <div class="modal-header">--}}
+{{--                                        <h5 class="modal-title" id="exampleModalLabel">Xuất hàng</h5>--}}
+{{--                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+{{--                                            <span aria-hidden="true">&times;</span>--}}
+{{--                                        </button>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="modal-body">--}}
+{{--                                        Bạn có chắc muốn xuất hàng không?--}}
+{{--                                    </div>--}}
+{{--                                    <div class="modal-footer">--}}
+{{--                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>--}}
+{{--                                        <form class="form-group" method="POST" action="{{ route('admin.bills.export', $bill->id) }}">--}}
+{{--                                            @csrf--}}
+{{--                                            @method('PUT')--}}
+{{--                                            <button class="btn btn-success" type="submit">Xác nhận</button>--}}
+{{--                                        </form>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
                         <!-- Modal complete -->
                         <div class="modal fade" id="{{ 'completeModal' }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -236,4 +301,41 @@
         </div>
     </div>
 
+@endsection
+
+@section('inline_scripts')
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var bill_id = <?php echo $bill->id ?>;
+            $('.shipper').click(function () {
+                var user_id = $(this).parent().find('#user_id').val();
+                $(this).addClass('border-success bg-success');
+                $('#name').addClass('text-white');
+
+                $('#submit').click(function () {
+                    $.ajax({
+                        type:'POST',
+                        url:'/admin/bills/assigned',
+                        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                        data: { "bill_id" : bill_id, "user_id" : user_id },
+                        success: function(data){
+                        }
+                    });
+                    swal({
+                        title: 'Đã phân công!',
+                        text: 'Đơn hàng của bạn đã được phân công',
+                        icon: 'success',
+                        buttons : {
+                            confirm: {
+                                className : 'btn btn-primary'
+                            }
+                        }
+                    });
+                    setTimeout(function () {
+                        location.reload(true);
+                    }, 2000);
+                });
+            })
+        })
+    </script>
 @endsection

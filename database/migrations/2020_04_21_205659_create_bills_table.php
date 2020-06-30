@@ -21,8 +21,8 @@ class CreateBillsTable extends Migration
             $table->unsignedInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('total_money');
-            $table->integer('paid_by_customer');
-            $table->dateTime('time_of_sale');
+            $table->integer('paid_by_customer')->nullable();
+            $table->dateTime('time_of_sale')->nullable();
             $table->unsignedTinyInteger('status');
             $table->string('address_receive');
             $table->string('phone_receive', 15);

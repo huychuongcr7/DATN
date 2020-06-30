@@ -7,7 +7,9 @@ use App\Jobs\SendOrderMail;
 use App\Models\Bill;
 use App\Models\BillProduct;
 use App\Models\Customer;
+use App\Models\Notification;
 use App\Models\Product;
+use App\Models\User;
 use App\Services\BillServiceInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -72,7 +74,8 @@ class BillController extends Controller
             $product['quantity'] = $billProducts[$product['id']];
             return $product;
         }, $products);
-        return view('admin.bills.show', compact('bill', 'products'));
+        $users = User::where('role', User::ROLE_SHIPPER)->get();
+        return view('admin.bills.show', compact('bill', 'products', 'users'));
     }
 
     /**
@@ -117,16 +120,38 @@ class BillController extends Controller
         return redirect()->route('admin.bills.index');
     }
 
-    public function delivery($id)
+    public function confirm($id)
     {
         $bill = Bill::findOrFail($id);
         $bill->update([
-            'status' => Bill::STATUS_DELIVERY
+            'status' => Bill::STATUS_CONFIRM
         ]);
         dispatch(new SendOrderMail($bill));
 
-        flash('Đơn hàng đã được vận chuyển!')->success();
+        flash('Đơn hàng đã được xác nhận!')->success();
         return redirect()->back();
+    }
+
+    public function assigned(Request $request)
+    {
+        $bill = Bill::findOrFail($request['bill_id']);
+        $bill->status = Bill::STATUS_ASSIGNED;
+        $bill->user_id = $request['user_id'];
+
+        $url = route('shipper.bills.show', $bill->id);
+        Notification::create([
+            'title' => 'Phân công đơn hàng',
+            'content' => 'Đơn hàng ' . '<a href="' . $url . '">' . $bill->bill_code . '</a>' . ' vừa được giao cho bạn. Vui lòng kiểm tra để xử lý!',
+            'status' => Notification::STATUS_UNREAD,
+            'type' => Notification::TYPE_CREATE_ORDER,
+            'user_id' => 2
+        ]);
+
+        return response()->json([
+            'data' => [
+                'success' => $bill->save(),
+            ]
+        ]);
     }
 
     public function complete($id)

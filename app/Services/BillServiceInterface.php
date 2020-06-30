@@ -9,4 +9,6 @@ interface BillServiceInterface
     public function deleteBill(int $id);
     public function createBillCustomer(array $param);
     public function completeBill(int $id);
+    public function exportProduct(int $id);
+    public function updateBillStocker(array $param, int $id);
 }

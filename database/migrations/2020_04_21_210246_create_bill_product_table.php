@@ -20,6 +20,7 @@ class CreateBillProductTable extends Migration
             $table->unsignedInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('quantity');
+            $table->integer('end_inventory')->nullable();
             $table->timestamps();
         });
     }

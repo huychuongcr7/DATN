@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -56,7 +57,11 @@ class LoginController extends Controller
         }
 
         if (Auth::guard('web')->attempt($input, $request->remember)) {
-            return redirect()->intended(Route('admin.dashboard'));
+            if (Auth::user()->role == User::ROLE_ADMIN) {
+                return redirect()->intended(Route('admin.dashboard'));
+            } elseif (Auth::user()->role == User::ROLE_STOCKER) {
+                return redirect()->intended(Route('stocker.bills.index'));
+            } else return redirect()->intended(Route('shipper.bills.index'));
         }
 
         return redirect()->back()->withInput($request->only('email','remember'))

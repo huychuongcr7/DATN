@@ -14,7 +14,7 @@
             </form>
         </div>
         <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-            @php($notifications = \App\Models\Notification::where('status', \App\Models\Notification::STATUS_UNREAD)->orderByDESC('created_at')->get())
+            @php($notifications = \App\Models\Notification::where('status', \App\Models\Notification::STATUS_UNREAD)->where('user_id', Auth::id())->orderByDESC('created_at')->get())
             @php($count = $notifications->count())
             <li class="nav-item dropdown hidden-caret dropdown-notifications">
                 <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -29,7 +29,9 @@
                         <div class="notif-scroll scrollbar-outer">
                             <div class="notif-center">
                                 @foreach($notifications as $notification)
-                                    <a href="{{ route('admin.notifications.show', $notification->id) }}">
+                                    <a @if (Auth::id() == 1) href="{{ route('admin.notifications.show', $notification->id) }}"
+                                       @elseif (Auth::id() == 2) href="{{ route('shipper.notifications.show', $notification->id) }}"
+                                       @elseif (Auth::id() == 3) href="{{ route('stocker.notifications.show', $notification->id) }}" @endif>
                                         <div class="notif-icon notif-primary">
                                             <i class="fa @if($notification->type == \App\Models\Notification::TYPE_CREATE_ORDER) fa-cart-plus
                                                          @elseif($notification->type == \App\Models\Notification::TYPE_CANCEL_ORDER) fa-times-circle
@@ -48,14 +50,17 @@
                         </div>
                     </li>
                     <li>
-                        <a class="see-all" href="{{ route('admin.notifications.index') }}">Xem tất cả thông báo<i class="fa fa-angle-right"></i> </a>
+                        <a class="see-all" @if (Auth::id() == 1) href="{{ route('admin.notifications.index') }}"
+                           @elseif (Auth::id() == 2) href="{{ route('shipper.notifications.index') }}"
+                           @elseif (Auth::id() == 3) href="{{ route('stocker.notifications.index') }}" @endif>
+                            Xem tất cả thông báo<i class="fa fa-angle-right"></i> </a>
                     </li>
                 </ul>
             </li>
             <li class="nav-item dropdown hidden-caret">
                 <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
                     <div class="avatar-sm">
-                        <img src="{{ asset('backend/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle">
+                        <img src="{{ asset(\App\Models\User::findOrFail(Auth::id())->avatar) }}" alt="..." class="avatar-img rounded-circle">
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -64,13 +69,12 @@
                             <div class="avatar-lg"><img src="{{ asset('backend/img/profile.jpg') }}" alt="image profile" class="avatar-img rounded"></div>
                             <div class="u-text">
                                 <h4>{{ Auth::user()->name }}</h4>
-                                <p class="text-muted">{{ Auth::user()->email }}</p><a href="#" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
+                                <p class="text-muted">{{ Auth::user()->email }}</p><a href="{{ route('admin.users.show', Auth::id()) }}" class="btn btn-rounded btn-danger btn-sm">Xem thông tin</a>
                             </div>
                         </div>
                     </li>
                     <li>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Thông tin</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

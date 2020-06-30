@@ -19,48 +19,96 @@ Route::namespace('Admin')->group(function () {
         Auth::routes(['reset' => false, 'register' => false]);
 
         Route::group(['middleware' => 'auth', 'as' => 'admin.'], function () {
-            Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+            Route::group(['middleware' => 'can:admin'], function () {
+                Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
-            Route::resource('customers', 'CustomerController');
-            Route::put('customers/{id}/stop_customers', 'CustomerController@stop')->name('customers.stop_customers');
-            Route::put('customers/{id}/active_customers', 'CustomerController@active')->name('customers.active_customers');
-            Route::get('customers/{id}/payment', 'CustomerController@getPayment')->name('customers.payment');
-            Route::put('customers/{id}/put_payment', 'CustomerController@putPayment')->name('customers.put_payment');
+                Route::resource('customers', 'CustomerController');
+                Route::put('customers/{id}/stop_customers', 'CustomerController@stop')->name('customers.stop_customers');
+                Route::put('customers/{id}/active_customers', 'CustomerController@active')->name('customers.active_customers');
+                Route::get('customers/{id}/payment', 'CustomerController@getPayment')->name('customers.payment');
+                Route::put('customers/{id}/put_payment', 'CustomerController@putPayment')->name('customers.put_payment');
 
-            Route::resource('products', 'ProductController');
-            Route::get('export', 'ProductController@export')->name('products.export');
-            Route::post('import', 'ProductController@import')->name('products.import');
-            Route::post('products/{id}/stop_products', 'ProductController@stop')->name('products.stop');
-            Route::post('products/{id}/active_products', 'ProductController@active')->name('products.active');
+                Route::resource('products', 'ProductController');
+                Route::get('export', 'ProductController@export')->name('products.export');
+                Route::post('import', 'ProductController@import')->name('products.import');
+                Route::post('products/{id}/stop_products', 'ProductController@stop')->name('products.stop');
+                Route::post('products/{id}/active_products', 'ProductController@active')->name('products.active');
+                Route::get('products/{id}/export_import', 'ProductController@exportImportHistory')->name('products.export_import');
 
-            Route::resource('suppliers', 'SupplierController');
-            Route::post('suppliers/{id}/stop_suppliers', 'SupplierController@stop')->name('suppliers.stop_suppliers');
-            Route::post('suppliers/{id}/active_suppliers', 'SupplierController@active')->name('suppliers.active_suppliers');
-            Route::get('suppliers/{id}/payment', 'SupplierController@getPayment')->name('suppliers.payment');
-            Route::put('suppliers/{id}/put_payment', 'SupplierController@putPayment')->name('suppliers.put_payment');
+                Route::resource('suppliers', 'SupplierController');
+                Route::post('suppliers/{id}/stop_suppliers', 'SupplierController@stop')->name('suppliers.stop_suppliers');
+                Route::post('suppliers/{id}/active_suppliers', 'SupplierController@active')->name('suppliers.active_suppliers');
+                Route::get('suppliers/{id}/payment', 'SupplierController@getPayment')->name('suppliers.payment');
+                Route::put('suppliers/{id}/put_payment', 'SupplierController@putPayment')->name('suppliers.put_payment');
 
-            Route::resource('import_orders', 'ImportOrderController');
+                Route::resource('import_orders', 'ImportOrderController');
 
-            Route::resource('bills', 'BillController');
-            Route::put('bills/{id}/delivery', 'BillController@delivery')->name('bills.delivery');
-            Route::put('bills/{id}/complete', 'BillController@complete')->name('bills.complete');
-            Route::put('bills/{id}/cancel', 'BillController@cancel')->name('bills.cancel');
+                Route::resource('bills', 'BillController');
+                Route::put('bills/{id}/confirm', 'BillController@confirm')->name('bills.confirm');
+                Route::post('bills/assigned', 'BillController@assigned')->name('bills.assigned');
+                Route::put('bills/{id}/complete', 'BillController@complete')->name('bills.complete');
+                Route::put('bills/{id}/cancel', 'BillController@cancel')->name('bills.cancel');
 
-            Route::resource('posts', 'PostController');
-            Route::post('posts/change_status', 'PostController@changeStatus');
+                Route::resource('posts', 'PostController');
+                Route::post('posts/change_status', 'PostController@changeStatus');
 
-            Route::resource('contacts', 'ContactController');
-            Route::put('contacts/{id}/feedback', 'ContactController@feedback')->name('contacts.feedback');
+                Route::resource('contacts', 'ContactController');
+                Route::put('contacts/{id}/feedback', 'ContactController@feedback')->name('contacts.feedback');
 
-            Route::resource('notifications', 'NotificationController')->only(['index', 'show']);
+                Route::resource('notifications', 'NotificationController')->only(['index', 'show']);
 
-            Route::get('charts/product', 'ChartController@chartProduct')->name('charts.product');
+                Route::get('charts/product', 'ChartController@chartProduct')->name('charts.product');
+                Route::get('charts/customer', 'ChartController@chartCustomer')->name('charts.customer');
+                Route::get('charts/supplier', 'ChartController@chartSupplier')->name('charts.supplier');
+                Route::get('charts/finance', 'ChartController@chartFinance')->name('charts.finance');
 
-            Route::get('/pusher', function() {
-                return view('admin/test');
+                Route::resource('check_inventories', 'CheckInventoryController');
+                Route::put('check_inventories/{id}/balance', 'CheckInventoryController@balance')->name('check_inventories.balance');
+
+                Route::resource('users', 'UserController');
+                Route::put('users/{id}/stop_users', 'UserController@stop')->name('users.stop_users');
+                Route::put('users/{id}/active_users', 'UserController@active')->name('users.active_users');
             });
         });
 
+    });
+});
+Route::namespace('Stocker')->group(function () {
+    Route::group(['prefix' => 'stocker'], function () {
+        Route::group(['middleware' => 'auth', 'as' => 'stocker.'], function () {
+            Route::group(['middleware' => 'can:stocker'], function () {
+                Route::resource('bills', 'BillController');
+                Route::put('bills/{id}/export', 'BillController@export')->name('bills.export');
+
+                Route::resource('import_orders', 'ImportOrderController');
+
+                Route::resource('check_inventories', 'CheckInventoryController');
+                Route::put('check_inventories/{id}/balance', 'CheckInventoryController@balance')->name('check_inventories.balance');
+
+                Route::resource('products', 'ProductController');
+                Route::get('export', 'ProductController@export')->name('products.export');
+                Route::post('import', 'ProductController@import')->name('products.import');
+                Route::post('products/{id}/stop_products', 'ProductController@stop')->name('products.stop');
+                Route::post('products/{id}/active_products', 'ProductController@active')->name('products.active');
+                Route::get('products/{id}/export_import', 'ProductController@exportImportHistory')->name('products.export_import');
+
+                Route::resource('notifications', 'NotificationController')->only(['index', 'show']);
+            });
+        });
+    });
+});
+Route::namespace('Shipper')->group(function () {
+    Route::group(['prefix' => 'shipper'], function () {
+        Route::group(['middleware' => 'auth', 'as' => 'shipper.'], function () {
+            Route::group(['middleware' => 'can:shipper'], function () {
+                Route::resource('bills', 'BillController');
+                Route::put('bills/{id}/delivery', 'BillController@delivery')->name('bills.delivery');
+                Route::put('bills/{id}/delivered', 'BillController@delivered')->name('bills.delivered');
+
+                Route::resource('notifications', 'NotificationController')->only(['index', 'show']);
+
+            });
+        });
     });
 });
 
