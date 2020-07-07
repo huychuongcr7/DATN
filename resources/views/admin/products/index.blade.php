@@ -1,6 +1,6 @@
 @extends('layouts.backend.admin')
 
-@section('title', 'QUẢN LÝ SẢN PHẨM')
+@section('title', 'Quản lý Sản phẩm')
 
 @section('breadcrumb')
     @include('layouts.backend.breadcrumb', [
@@ -10,7 +10,7 @@
                 'url' => route('admin.dashboard')
             ],
             [
-                'text' => 'Quản lý sản phẩm',
+                'text' => 'Quản lý Sản phẩm',
             ],
         ]
     ])

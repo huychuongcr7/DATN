@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="site-blocks-cover inner-page-cover overlay"
-         style="background-image: url(/frontend/images/slider-1.jpg);" data-aos="fade">
+         style="background-image: url(/frontend/images/grocery.png);" data-aos="fade">
         <div class="container">
             <div class="row align-items-center justify-content-center">
                 <div class="col-md-5 mx-auto mt-lg-5 text-center">

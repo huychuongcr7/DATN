@@ -68,6 +68,8 @@ Route::namespace('Admin')->group(function () {
                 Route::resource('users', 'UserController');
                 Route::put('users/{id}/stop_users', 'UserController@stop')->name('users.stop_users');
                 Route::put('users/{id}/active_users', 'UserController@active')->name('users.active_users');
+
+                Route::resource('categories', 'CategoryController');
             });
         });
 

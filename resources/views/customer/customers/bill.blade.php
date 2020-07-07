@@ -10,7 +10,7 @@
 @section('title', 'Đơn hàng')
 
 @section('content')
-    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(/frontend/images/slider-1.jpg);"
+    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(/frontend/images/grocery.png);"
          data-aos="fade">
         <div class="container">
             <div class="row align-items-center justify-content-center">

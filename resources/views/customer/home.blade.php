@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="owl-carousel with-dots">
-        <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(frontend/images/slider-1.jpg);" data-aos="fade" id="home-section">
+        <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(frontend/images/grocery.png);" data-aos="fade" id="home-section">
             <div class="container">
                 <div class="row align-items-center justify-content-center">
                     <div class="col-md-6 mt-lg-5 text-center">
@@ -13,17 +13,7 @@
                 </div>
             </div>
         </div>
-        <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(frontend/images/slider-2.jpg);" data-aos="fade" id="home-section">
-            <div class="container">
-                <div class="row align-items-center justify-content-center">
-                    <div class="col-md-6 mt-lg-5 text-center">
-                        <h1 class="text-shadow">CR7 STORE</h1>
-                        <p class="mb-5 text-shadow">Chào mừng bạn đến với cửa hàng của chúng tôi!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(frontend/images/slider-3.jpg);" data-aos="fade" id="home-section">
+        <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(frontend/images/bg_1.jpg);" data-aos="fade" id="home-section">
             <div class="container">
                 <div class="row align-items-center justify-content-center">
                     <div class="col-md-6 mt-lg-5 text-center">

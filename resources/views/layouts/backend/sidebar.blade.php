@@ -40,15 +40,35 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('admin.products.index') }}">
+                        <a data-toggle="collapse" href="#products">
                             <i class="fas fa-cube"></i>
-                            <p>Quản lý hàng hóa</p>
+                            <p>Quản lý sản phẩm</p>
+                            <span class="caret"></span>
                         </a>
+                        <div class="collapse" id="products">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="{{ route('admin.products.index') }}">
+                                        <span class="sub-item">Sản phẩm</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.check_inventories.index') }}">
+                                        <span class="sub-item">Kiểm kho</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.categories.index') }}">
+                                        <span class="sub-item">Danh mục</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a data-toggle="collapse" href="#sidebarLayouts">
                             <i class="fas fa-exchange-alt"></i>
-                            <p>Quản lý kho</p>
+                            <p>Giao dịch</p>
                             <span class="caret"></span>
                         </a>
                         <div class="collapse" id="sidebarLayouts">
@@ -61,11 +81,6 @@
                                 <li>
                                     <a href="{{ route('admin.import_orders.index') }}">
                                         <span class="sub-item">Nhập hàng</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('admin.check_inventories.index') }}">
-                                        <span class="sub-item">Kiểm kho</span>
                                     </a>
                                 </li>
                             </ul>

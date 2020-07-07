@@ -24,7 +24,7 @@ class CreatePostsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('category_id');
             $table->foreign('category_id')->references('id')->on('category_posts')->onDelete('cascade');
-            $table->string('img_url',255)->default('/images/posts/blog-01.jpg');
+            $table->string('img_url',255)->nullable();
             $table->integer('view')->default(0);
             $table->timestamps();
             $table->softDeletes();
