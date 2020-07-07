@@ -466,11 +466,13 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                        @elseif($order->status == 2)
-                                            <p>Đơn hàng của bạn đã được xác nhận và đang trong quá trình vận chuyển. Bạn sẽ nhận được hàng trong vòng 2 ngày tới.</p>
-                                        @elseif($order->status == 3)
+                                        @elseif($order->status == App\Models\Bill::STATUS_CONFIRM)
+                                            <p>Đơn hàng của bạn đã được xác nhận và sẽ được chuyển cho người giao hàng. Vui lòng chờ đợi.</p>
+                                        @elseif($order->status == App\Models\Bill::STATUS_DELIVERY)
+                                            <p>Đơn hàng của bạn đang trong quá trình vận chuyển. Bạn sẽ nhận được hàng trong vòng 2 ngày tới.</p>
+                                        @elseif($order->status == App\Models\Bill::STATUS_COMPLETE)
                                             <p>Đơn hàng của bạn đã hoàn tất. Cảm ơn bạn đã mua hàng tại CR7 Store. Rất mong bạn luôn ủng hộ của hàng.</p>
-                                        @elseif($order->status == 4)
+                                        @elseif($order->status == App\Models\Bill::STATUS_CANCEL)
                                             <div id="over" style="text-align: left; width: 100%">
                                                 <h4 style="color: red;"><b>Đơn hàng của bạn đã bị hủy</b></h4>
                                                 <p><b style="color: red;">Lí do: </b><u>{{ $reason }}</u></p>

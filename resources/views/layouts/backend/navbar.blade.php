@@ -66,7 +66,7 @@
                 <ul class="dropdown-menu dropdown-user animated fadeIn">
                     <li>
                         <div class="user-box">
-                            <div class="avatar-lg"><img src="{{ asset('backend/img/profile.jpg') }}" alt="image profile" class="avatar-img rounded"></div>
+                            <div class="avatar-lg"><img src="{{ asset(\App\Models\User::findOrFail(Auth::id())->avatar) }}" alt="image profile" class="avatar-img rounded"></div>
                             <div class="u-text">
                                 <h4>{{ Auth::user()->name }}</h4>
                                 <p class="text-muted">{{ Auth::user()->email }}</p><a href="{{ route('admin.users.show', Auth::id()) }}" class="btn btn-rounded btn-danger btn-sm">Xem thông tin</a>
