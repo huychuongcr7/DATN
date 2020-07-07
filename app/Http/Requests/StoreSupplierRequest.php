@@ -24,9 +24,9 @@ class StoreSupplierRequest extends FormRequest
     public function rules()
     {
         return [
-            'supplier_code' => sprintf('%s|unique:suppliers,supplier_code,%s,id|string|max:10',
+            'supplier_code' => sprintf('%s|unique:suppliers,supplier_code%s|string|max:10',
                 $this->id? 'required' : 'nullable',
-                $this->id ?? NULL),
+                $this->id ? ','.$this->id.',id' : NULL),
             'name' => sprintf('required|unique:suppliers,name,%s,id|string|max:64', $this->id ?? NULL),
             'email' => sprintf('nullable|unique:customers,email,%s,id|email|max:64', $this->id ?? NULL),
             'address' => 'nullable|string|max:255',

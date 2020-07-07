@@ -25,8 +25,10 @@ class StoreCustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => sprintf('required|unique:customers,name,%s,id|string|max:64', $this->id ?? NULL),
-            'email' => sprintf('required|unique:customers,email,%s,id|unique:users,email|email|max:64', $this->id ?? NULL),
+            'name' => sprintf('required|unique:customers,name%s|string|max:64',
+                $this->id ? ','.$this->id.',id' : NULL),
+            'email' => sprintf('required|unique:customers,email%s|unique:users,email|email|max:64',
+                $this->id ? ','.$this->id.',id' : NULL),
             'password' => sprintf('%s|string|min:6|max:64', $this->id ? 'nullable' : 'required'),
             'password_confirmation' => 'required_with:password|same:password|max:64',
             'address' => 'nullable|string|max:255',

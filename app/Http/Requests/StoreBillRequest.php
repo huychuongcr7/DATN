@@ -27,9 +27,9 @@ class StoreBillRequest extends FormRequest
         return [
             'bill_products' => 'required',
             'bill_products.*.quantity' => 'required|digits_between:1,5',
-            'bill_code' => sprintf('%s|unique:bills,bill_code,%s,id|string|max:10',
+            'bill_code' => sprintf('%s|unique:bills,bill_code%s|string|max:10',
                 $this->id? 'required' : 'nullable',
-                $this->id ?? NULL),
+                $this->id ? ','.$this->id.',id' : NULL),
             'customer_id' => 'required|in:' . Customer::pluck('id')->implode(','),
             'paid_by_customer' => 'required|digits_between:1,10',
             'note' => 'nullable|string|max:65535',

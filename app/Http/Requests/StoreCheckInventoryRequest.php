@@ -26,9 +26,9 @@ class StoreCheckInventoryRequest extends FormRequest
         return [
             'check_inventory_products' => 'required',
             'check_inventory_products.*.inventory_reality' => 'required|digits_between:1,5',
-            'check_inventory_code' => sprintf('%s|unique:check_inventories,check_inventory_code,%s,id|string|max:10',
+            'check_inventory_code' => sprintf('%s|unique:check_inventories,check_inventory_code%s|string|max:10',
                 $this->id? 'required' : 'nullable',
-                $this->id ?? NULL),
+                $this->id ? ','.$this->id.',id' : NULL),
             'time_check' => 'required|date_format:Y-m-d H:i',
             'note' => 'nullable|string|max:65535',
         ];

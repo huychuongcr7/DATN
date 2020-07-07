@@ -27,9 +27,9 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_code' => sprintf('%s|unique:products,product_code,%s,id|string|max:10',
+            'product_code' => sprintf('%s|unique:products,product_code%s|string|max:10',
                 $this->id? 'required' : 'nullable',
-                $this->id ?? NULL),
+                $this->id ? ','.$this->id.',id' : NULL),
             'name' => sprintf('required|unique:products,name,%s,id|string|max:64', $this->id ?? NULL),
             'image_url' => 'nullable|image|mimes:jpeg,png,jpg|max:1024',
             'category_id' => 'required|in:' . Category::pluck('id')->implode(','),
