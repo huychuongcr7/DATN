@@ -15,7 +15,7 @@ class TrademarksTableSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
 
         Trademark::truncate();
-        factory(Trademark::class, 10)->create();
+        factory(Trademark::class, 5)->create();
 
         Schema::enableForeignKeyConstraints();
     }

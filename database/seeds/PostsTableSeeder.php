@@ -15,7 +15,7 @@ class PostsTableSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
 
         Post::truncate();
-        factory(Post::class, 10)->create();
+        factory(Post::class, 5)->create();
 
         Schema::enableForeignKeyConstraints();
     }

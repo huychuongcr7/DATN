@@ -24,7 +24,7 @@ class CustomersTableSeeder extends Seeder
             'gender' => array_rand(Customer::$genders),
             'phone' => '0326175823'
         ]);
-        factory(Customer::class, 50)->create();
+        factory(Customer::class, 10)->create();
 
         Schema::enableForeignKeyConstraints();
     }
