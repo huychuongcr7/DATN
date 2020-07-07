@@ -24,7 +24,7 @@ class StoreCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => sprintf('required|unique:categories,name,%s,id|string|max:64', $this->id ?? NULL),
+            'name' => 'required|string|max:64'
         ];
     }
 }
