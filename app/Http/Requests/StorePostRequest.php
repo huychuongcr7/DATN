@@ -28,7 +28,7 @@ class StorePostRequest extends FormRequest
         return [
             'post_code' => sprintf('nullable|unique:posts,post_code,%s,id|string|max:10',
 //                $this->id ? 'required' : 'nullable',
-                isset($this->id) ? $this->id : NULL),
+                NULL),
             'title' => 'required|string|max:64',
             'content' => 'required|string|max:65535',
             'description' => 'nullable|string|max:255',
