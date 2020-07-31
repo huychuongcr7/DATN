@@ -95,7 +95,7 @@
                     @foreach($productRecommends as $productRecommend)
                             <div class="ftco-media-1">
                                 <div class="ftco-media-1-inner">
-                                    <a href="{{ route('products.show', $productRecommend->id) }}" class="d-inline-block mb-4"><img src="{{ asset('storage'.$productRecommend->image_url) }}" class="img-fluid"></a>
+                                    <a href="{{ route('products.show', $productRecommend->id) }}" class="d-inline-block mb-4"><img src="{{ asset($productRecommend->image_url) }}" class="img-fluid"></a>
                                     <div class="ftco-media-details">
                                         <h3>{{ $productRecommend->name }}</h3>
                                         <rate-avg

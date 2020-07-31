@@ -10,7 +10,7 @@ class Product extends Model
     use SoftDeletes;
 
     protected $table = 'products';
-    protected $perPage = 3;
+    protected $perPage = 6;
 
     const STATUS_ACTIVE = 1;
     const STATUS_STOP = 2;

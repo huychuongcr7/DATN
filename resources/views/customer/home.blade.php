@@ -28,13 +28,8 @@
     <section class="site-section" id="properties-section">
         <div class="container" id="app">
             <div class="row mb-5">
-                <div class="col-md-7 text-left">
+                <div class="col-md-12 text-center">
                     <h2 class="section-title mb-3">Sản phẩm mới</h2>
-                </div>
-                <div class="col-md-5 text-left text-md-right">
-                    <div class="custom-nav1">
-                        <a href="#" class="custom-prev1">Trước</a><span class="mx-3">/</span><a href="#" class="custom-next1">Tiếp</a>
-                    </div>
                 </div>
             </div>
             <div class="owl-carousel nonloop-block-13 mb-5">
@@ -54,19 +49,14 @@
                 @endforeach
             </div>
             <div class="text-center">
-                <button class="btn btn-primary">Xem thêm</button>
+                <a class="btn btn-primary" href="{{ route('products.index') }}">Xem thêm</a>
             </div>
             <br>
             <hr>
             <br>
             <div class="row mb-5">
-                <div class="col-md-7 text-left">
+                <div class="col-md-12 text-center">
                     <h2 class="section-title mb-3">Top sản phẩm bán chạy</h2>
-                </div>
-                <div class="col-md-5 text-left text-md-right">
-                    <div class="custom-nav1">
-                        <a href="#" class="custom-prev1">Trước</a><span class="mx-3">/</span><a href="#" class="custom-next1">Tiếp</a>
-                    </div>
                 </div>
             </div>
             <div class="owl-carousel nonloop-block-13 mb-5">
@@ -87,7 +77,7 @@
                 @endforeach
             </div>
             <div class="text-center">
-                <button class="btn btn-primary">Xem thêm</button>
+                <a class="btn btn-primary" href="{{ route('products.index') }}">Xem thêm</a>
             </div>
         </div>
     </section>

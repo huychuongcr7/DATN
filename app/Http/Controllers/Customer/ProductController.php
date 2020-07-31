@@ -67,7 +67,7 @@ class ProductController extends Controller
         $similarityMatrix  = $productSimilarity->calculateSimilarityMatrix();
 
         $productRecommends          = $productSimilarity->getProductsSortedBySimularity($id, $similarityMatrix);
-        array_splice($productRecommends, 5);
+        array_splice($productRecommends, 4);
 
         return view('customer.products.show', compact('product', 'productOthers', 'rates', 'productIds', 'productRecommends'));
     }
